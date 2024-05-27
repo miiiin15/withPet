@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "717642106621",
+    "project_id": "withpet-eb515",
+    "storage_bucket": "withpet-eb515.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717642106621:android:34a2268b6b9e4b8dcba094",
+        "android_client_info": {
+          "package_name": "com.withpet.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFSzoChP9wPi-PWbq-63YSX5ogRwDk_Xc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
