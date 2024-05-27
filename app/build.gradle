@@ -18,9 +18,30 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+            debuggable true
+//            signingConfig signingConfigs.debug
+            // 다른 디버그 전용 설정 추가 가능
+        }
+        staging {
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-STAGING"
+            debuggable true
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.debug
+            // 다른 스테이징 전용 설정 추가 가능
+        }
+        release {
+            applicationIdSuffix ".release"
+            versionNameSuffix "-RELEASE"
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+            // 릴리즈 전용 설정 추가 가능
         }
     }
     compileOptions {
