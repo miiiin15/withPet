@@ -1,15 +1,76 @@
+# Kotlin/Java 관련
+*.class
+*.jar
+*.war
+*.ear
+
+# Gradle 관련
+.gradle/
+build/
+!gradle-wrapper.jar
+**/build/
+**/bin/
+**/out/
+
+# Android Studio 관련
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
+*.hprof
+
+# 로컬 설정 파일
+local.properties
+
+# 로그 파일 및 데이터베이스
+*.log
+*.sql
+*.sqlite
+
+# Android SDK 디렉토리 (특정 설정)
+/.idea/caches/
+/.idea/libraries/
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+
+# 의존성
+/.gradle/
+build/
+/app/build/
+
+# API 키 등 민감 정보
+*.jks
+*.keystore
+crashlytics.properties
+fabric.properties
+
+# 응용 프로그램 로컬 저장소
+*.stacktrace
+*.hprof
+
+# 프로파일링 관련
+*.hprof
+
+# 작업 디렉토리
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+
+# 동시 작업
+.idea/misc.xml
+.idea/modules.xml
+.idea/.name
+
+# 다른 .idea 폴더
+.idea/gradle.xml
+.idea/libraries
+.idea/tasks.xml
+
+# 기타 불필요한 파일들
+*.sublime-workspace
+*.sublime-project
+*.iws
+*.swp
+*.swo
+*.idea/*
