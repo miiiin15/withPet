@@ -74,3 +74,4 @@ fabric.properties
 *.swp
 *.swo
 *.idea/*
+app/.DS_Store
