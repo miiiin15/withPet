@@ -43,6 +43,7 @@ build/
 *.keystore
 crashlytics.properties
 fabric.properties
+/keystore/*
 
 # 응용 프로그램 로컬 저장소
 *.stacktrace
@@ -74,4 +75,9 @@ fabric.properties
 *.swp
 *.swo
 *.idea/*
+
+## 프로젝트
 app/.DS_Store
+app/debug/*
+app/staging/*
+app/release/*
