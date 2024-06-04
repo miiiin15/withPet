@@ -114,11 +114,11 @@ object NetworkService {
 
             // 요청 빌더 생성 및 설정
             val builder = request().newBuilder()
-            val preferences = pref?.getStringSet("cookie", HashSet())
-            builder.removeHeader("Cookie")
-            for (cookie in preferences!!) {
-                builder.addHeader("Cookie", cookie)
-            }
+//            val preferences = pref?.getStringSet("cookie", HashSet())
+//            builder.removeHeader("Cookie")
+//            for (cookie in preferences!!) {
+//                builder.addHeader("Cookie", cookie)
+//            }
 
             // 로그인 상태인 경우 Bearer Token을 요청 헤더에 추가
 //            if (DataProvider.isLogin) {
