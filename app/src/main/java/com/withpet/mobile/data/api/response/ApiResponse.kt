@@ -2,11 +2,17 @@ package com.withpet.mobile.data.api.response
 
 data class ApiResponse<T>(
     // 응답 상태
-    var status: String,
+    var result: Result,
 
     // 오류
-    var error: ApiError,
+    var error: ApiError?,
 
     // 응답 데이터
-    var data: T
+    var payload: T
+)
+
+// 응답 상태를 나타내는 Result 클래스
+data class Result(
+    val code: Int,
+    val message: String
 )
