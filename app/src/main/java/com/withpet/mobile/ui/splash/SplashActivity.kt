@@ -1,10 +1,13 @@
-package com.withpet.mobile
+package com.withpet.mobile.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import com.withpet.mobile.R
+import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
