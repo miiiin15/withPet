@@ -63,15 +63,35 @@ class SignupActivity : AppCompatActivity() {
             sexType = sexType,
             success = {
                 if (it.result.code == 200) {
-                    saveCredentials(loginId, password)
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    signIn(loginId, password)
                 } else {
                     Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
                 }
             },
             networkFail = {
                 Toast.makeText(this, "네트워크 실패: $it", Toast.LENGTH_SHORT).show()
+            },
+            failure = {
+                Toast.makeText(this, "에러: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    private fun signIn(loginId: String, password: String) {
+        SignInRepo.signIn(
+            loginId = loginId,
+            password = password,
+            networkFail = {
+                Toast.makeText(this, "네트워크 실패: $it", Toast.LENGTH_SHORT).show()
+            },
+            success = {
+                if (it.result.code == 200) {
+                    saveCredentials(loginId, password)
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
+                }
             },
             failure = {
                 Toast.makeText(this, "에러: ${it.message}", Toast.LENGTH_SHORT).show()
