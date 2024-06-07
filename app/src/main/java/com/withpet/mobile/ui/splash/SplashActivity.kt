@@ -17,6 +17,7 @@ import com.withpet.mobile.R
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.ui.login.LoginActivity
+import com.withpet.mobile.utils.DataProvider
 
 class SplashActivity : AppCompatActivity() {
     companion object {
@@ -126,6 +127,7 @@ class SplashActivity : AppCompatActivity() {
             },
             success = {
                 if (it.result.code == 200) {
+                    DataProvider.isLogin = true
                     navigateToMainActivity()
                 } else {
                     Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
