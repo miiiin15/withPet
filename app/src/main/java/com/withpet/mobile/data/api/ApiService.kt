@@ -17,11 +17,11 @@ interface ApiService {
     fun getVersion(): Call<ApiResponse<Any>>
 
     // 로그인
-    @POST("api/auth/sign-in")
+    @POST("api/v1/auth/sign-in")
     fun requestSignIn(@Body params: RequestBody): Call<ApiResponse<String>>
 
     // 회원가입
-    @POST("api/auth/sign-up")
+    @POST("api/v1/auth/sign-up")
     fun requestSignUp(@Body params: RequestBody): Call<ApiResponse<Any>>
 
     // 내정보 조회
