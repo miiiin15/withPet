@@ -87,8 +87,14 @@ class SignupActivity : AppCompatActivity() {
             success = {
                 if (it.result.code == 200) {
                     saveCredentials(loginId, password)
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    Toast.makeText(this, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        // 새로운 Activity가 시작되면서 기존의 Activity를 모두 종료하고 새 Activity를 최상단에 위치시킵니다.
+                        flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    startActivity(intent)
+                    finish() // 현재 Activity 종료
                 } else {
                     Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
                 }

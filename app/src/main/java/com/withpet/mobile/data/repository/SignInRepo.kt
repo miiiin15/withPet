@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.withpet.mobile.data.api.NetworkService
 import com.withpet.mobile.data.api.response.ApiResponse
+import com.withpet.mobile.data.api.response.SignInPayload
 import com.withpet.mobile.utils.Logcat
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -61,36 +62,35 @@ object SignInRepo {
         loginId: String,
         password: String,
         networkFail: (String) -> Unit,
-        success: (ApiResponse<String>) -> Unit,
+        success: (ApiResponse<SignInPayload>) -> Unit,
         failure: (Throwable) -> Unit
     ) {
-
-        Logcat.d("$loginId $password")
-
-        // JSON 형식의 요청 데이터 생성
         val jsonBody = "{\"loginId\": \"$loginId\", \"password\": \"$password\"}"
         val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
-        // NetworkService에서 Retrofit 인터페이스를 통해 로그인 요청을 보냄
         NetworkService.getService().requestSignIn(requestBody)
-            .enqueue(object : Callback<ApiResponse<String>> {
+            .enqueue(object : Callback<ApiResponse<SignInPayload>> {
                 override fun onResponse(
-                    call: Call<ApiResponse<String>>,
-                    response: Response<ApiResponse<String>>
+                    call: Call<ApiResponse<SignInPayload>>,
+                    response: Response<ApiResponse<SignInPayload>>
                 ) {
                     if (response.isSuccessful) {
-                        val data = response.body() ?: return
-                        success(data)
+                        val data = response.body()
+                        if (data != null) {
+                            success(data)
+                        } else {
+                            networkFail("Empty response body")
+                        }
                     } else {
-                        // 통신 실패 처리
-                        networkFail(response.code().toString())
+                        val data = response.errorBody()?.string() ?: return
+                        networkFail(data)
                     }
                 }
 
-                override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
-                    // 실패한 응답 처리
+                override fun onFailure(call: Call<ApiResponse<SignInPayload>>, t: Throwable) {
                     failure(t)
                 }
             })
     }
+
 }

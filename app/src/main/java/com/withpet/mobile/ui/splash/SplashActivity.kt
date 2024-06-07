@@ -42,6 +42,8 @@ class SplashActivity : AppCompatActivity() {
             success = {
                 if (it.result.code == 200) {
                     // sharedPreferences를 검사하고 이후 로직을 진행
+                    Toast.makeText(this, it.payload.toString(), Toast.LENGTH_SHORT)
+                        .show()
                     checkSharedPreferences()
                 } else {
                     Toast.makeText(this, "${it.error?.message.toString()}", Toast.LENGTH_SHORT)
@@ -128,6 +130,7 @@ class SplashActivity : AppCompatActivity() {
             success = {
                 if (it.result.code == 200) {
                     DataProvider.isLogin = true
+                    Toast.makeText(this, "자동 로그인 성공", Toast.LENGTH_SHORT).show()
                     navigateToMainActivity()
                 } else {
                     Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()

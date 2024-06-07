@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.withpet.mobile.utils.Constants
 import com.withpet.mobile.utils.Constants.SERVER_URL
+import com.withpet.mobile.utils.DataProvider
 import com.withpet.mobile.utils.Logcat
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -50,7 +51,6 @@ object NetworkService {
             // SharedPreferences에서 데이터를 가져옴
             var pref =
                 Constants.context?.getSharedPreferences("dataPreferences", Context.MODE_PRIVATE)
-            Logcat.d("ReceiveInterceptor pref:::" + pref.toString())
 
             // 요청을 실행하고 응답을 받음
             val original = chain.proceed(chain.request())
@@ -108,22 +108,28 @@ object NetworkService {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
             // SharedPreferences에서 Access Token을 가져옴
-            var pref =
+            val pref =
                 Constants.context?.getSharedPreferences("dataPreferences", Context.MODE_PRIVATE)
             val accessToken = pref?.getString("access-token", "")
 
             // 요청 빌더 생성 및 설정
             val builder = request().newBuilder()
-//            val preferences = pref?.getStringSet("cookie", HashSet())
-//            builder.removeHeader("Cookie")
-//            for (cookie in preferences!!) {
-//                builder.addHeader("Cookie", cookie)
-//            }
+            val preferences = pref?.getStringSet("cookie", HashSet())
+
+            builder.removeHeader("Cookie")
+
+            if (preferences != null) {
+                for (cookie in preferences) {
+                    builder.addHeader("Cookie", cookie)
+                }
+            } else {
+                Logcat.d("Preferences is null or empty")
+            }
 
             // 로그인 상태인 경우 Bearer Token을 요청 헤더에 추가
-//            if (DataProvider.isLogin) {
-//                builder.addHeader("Authorization", "Bearer $accessToken")
-//            }
+            if (DataProvider.isLogin) {
+                builder.addHeader("Authorization", "Bearer $accessToken")
+            }
             builder.addHeader("User-Agent", "aos")
 
             proceed(builder.build()) // 수정된 요청 실행 및 반환

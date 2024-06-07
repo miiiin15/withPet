@@ -1,6 +1,7 @@
 package com.withpet.mobile.data.api
 
 import com.withpet.mobile.data.api.response.ApiResponse
+import com.withpet.mobile.data.api.response.SignInPayload
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -18,7 +19,7 @@ interface ApiService {
 
     // 로그인
     @POST("api/v1/auth/sign-in")
-    fun requestSignIn(@Body params: RequestBody): Call<ApiResponse<String>>
+    fun requestSignIn(@Body params: RequestBody): Call<ApiResponse<SignInPayload>>
 
     // 회원가입
     @POST("api/v1/auth/sign-up")
