@@ -1,7 +1,8 @@
 package com.withpet.mobile.data.api
 
 import com.withpet.mobile.data.api.response.ApiResponse
-import com.withpet.mobile.data.api.response.SignInPayload
+import com.withpet.mobile.data.api.response.MemberInfo
+import com.withpet.mobile.data.api.response.VersionPayload
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -15,11 +16,15 @@ interface ApiService {
 
     // 버전 조회
     @GET("api/v1/version")
-    fun getVersion(): Call<ApiResponse<Any>>
+    fun getVersion(): Call<ApiResponse<VersionPayload>>
+
+    // 내정보 조회
+    @GET("api/v1/member")
+    fun getMemberInfo(): Call<ApiResponse<MemberInfo>>
 
     // 로그인
     @POST("api/v1/auth/sign-in")
-    fun requestSignIn(@Body params: RequestBody): Call<ApiResponse<SignInPayload>>
+    fun requestSignIn(@Body params: RequestBody): Call<ApiResponse<Any>>
 
     // 회원가입
     @POST("api/v1/auth/sign-up")
