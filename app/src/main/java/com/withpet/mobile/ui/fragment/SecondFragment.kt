@@ -1,4 +1,4 @@
-package com.withpet.mobile
+package com.withpet.mobile.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.withpet.mobile.R
 import com.withpet.mobile.databinding.FragmentSecondBinding
 
 /**
