@@ -11,7 +11,7 @@ import java.util.*
 class Logcat {
     companion object {
         // 로그의 태그로 사용될 상수
-        private const val TAG: String = "위드팻 로그캣"
+        private const val TAG: String = "#####[위드팻 로그캣]#####"
 
         // 디버그 로그 출력
         fun d(message: String) {
