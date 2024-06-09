@@ -2,7 +2,7 @@
 <resources>
     <color name="primary">#F4A834</color>
     <color name="purple_700">#FF3700B3</color>
-    <color name="secondary">#FF03DAC5</color>
+    <color name="secondary">#F4A834</color>
     <color name="error">#FF0000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="disable">#C7C8C9</color>
