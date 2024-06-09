@@ -83,20 +83,29 @@ object NetworkService {
                 var editor = pref?.edit()
                 editor?.putStringSet("cookie", cookies)
                 editor?.apply()
+            } else {
+                Logcat.d("쿠키 없음")
             }
 
             // 응답 헤더에서 토큰을 추출하여 SharedPreferences에 저장
-            val jwtAccessToken = original.headers("access-token")
-            val jwtRefreshToken = original.headers("refresh-token")
-            if (jwtAccessToken.isNotEmpty()) {
-                for (token in jwtAccessToken) {
-                    pref?.edit()?.putString("access-token", token)?.apply()
-                }
+            val jwtAccessToken = original.headers("X-ACCESS-TOKEN").getOrNull(0)
+            val jwtRefreshToken = original.headers("X-REFRESH-TOKEN").getOrNull(0)
+            val jwtTokenTime = original.headers("X-TOKEN-TIME").getOrNull(0)
+
+            if (jwtAccessToken != null) {
+                pref?.edit()?.putString("access-token", jwtAccessToken)?.apply()
+//                Logcat.d("엑세스 토큰 \n-> $jwtAccessToken")
+
             }
-            if (jwtRefreshToken.isNotEmpty()) {
-                for (token in jwtRefreshToken) {
-                    pref?.edit()?.putString("refresh-token", token)?.apply()
-                }
+            if (jwtRefreshToken != null) {
+                pref?.edit()?.putString("refresh-token", jwtRefreshToken)?.apply()
+//                Logcat.d("리프레시 토큰 \n-> $jwtRefreshToken")
+
+            }
+            if (jwtTokenTime != null) {
+                pref?.edit()?.putString("token-time", jwtTokenTime.toString())?.apply()
+//                Logcat.d("갱신 시간 \n-> $jwtTokenTime")
+
             }
 
             return original // 수정된 응답 반환
@@ -111,6 +120,7 @@ object NetworkService {
             val pref =
                 Constants.context?.getSharedPreferences("dataPreferences", Context.MODE_PRIVATE)
             val accessToken = pref?.getString("access-token", "")
+//            Logcat.d("엑세스 토큰 저장값 \n-> $accessToken")
 
             // 요청 빌더 생성 및 설정
             val builder = request().newBuilder()
@@ -128,7 +138,7 @@ object NetworkService {
 
             // 로그인 상태인 경우 Bearer Token을 요청 헤더에 추가
             if (DataProvider.isLogin) {
-                builder.addHeader("Authorization", "Bearer $accessToken")
+                builder.addHeader("X-ACCESS-TOKEN", accessToken.toString())
             }
             builder.addHeader("User-Agent", "aos")
 
