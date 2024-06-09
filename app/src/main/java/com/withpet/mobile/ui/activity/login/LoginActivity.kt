@@ -1,11 +1,11 @@
-package com.withpet.mobile.ui.login
+package com.withpet.mobile.ui.activity.login
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.databinding.ActivityLoginBinding
-import com.withpet.mobile.ui.signup.SignupActivity
+import com.withpet.mobile.ui.activity.signup.SignupActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

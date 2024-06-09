@@ -1,10 +1,8 @@
 package com.withpet.mobile.data.repository
 
-import android.util.Log
 import com.google.gson.Gson
 import com.withpet.mobile.data.api.NetworkService
 import com.withpet.mobile.data.api.response.ApiResponse
-import com.withpet.mobile.data.api.response.SignInPayload
 import com.withpet.mobile.utils.Logcat
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -62,17 +60,19 @@ object SignInRepo {
         loginId: String,
         password: String,
         networkFail: (String) -> Unit,
-        success: (ApiResponse<SignInPayload>) -> Unit,
+        success: (ApiResponse<Any>) -> Unit,
         failure: (Throwable) -> Unit
     ) {
+
+        Logcat.d("${loginId} / ${password}")
         val jsonBody = "{\"loginId\": \"$loginId\", \"password\": \"$password\"}"
         val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
         NetworkService.getService().requestSignIn(requestBody)
-            .enqueue(object : Callback<ApiResponse<SignInPayload>> {
+            .enqueue(object : Callback<ApiResponse<Any>> {
                 override fun onResponse(
-                    call: Call<ApiResponse<SignInPayload>>,
-                    response: Response<ApiResponse<SignInPayload>>
+                    call: Call<ApiResponse<Any>>,
+                    response: Response<ApiResponse<Any>>
                 ) {
                     if (response.isSuccessful) {
                         val data = response.body()
@@ -87,7 +87,7 @@ object SignInRepo {
                     }
                 }
 
-                override fun onFailure(call: Call<ApiResponse<SignInPayload>>, t: Throwable) {
+                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
                     failure(t)
                 }
             })
