@@ -5,6 +5,8 @@
     android:background="@color/primary"> <!-- 배경색 또는 이미지 추가 가능 -->
     <!--    android:background="@drawable/your_background_image"-->
 
+
+
     <LinearLayout
         android:id="@+id/app_icon"
         android:layout_width="120dp"
@@ -14,13 +16,10 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LOGO"
-            android:textColor="@color/txt1"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="@dimen/logo_size_middle"
+            android:layout_height="@dimen/logo_size_middle"
+            android:src="@drawable/logo"/>
     </LinearLayout>
 
     <TextView
