@@ -32,7 +32,6 @@ abstract class BaseActivity : AppCompatActivity() {
     // 하단 팝업
     private var bottomSheetDialog: BottomSheetDialog? = null
     lateinit var bottomSheetView: View
-    private lateinit var dimBackground: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,46 +157,19 @@ abstract class BaseActivity : AppCompatActivity() {
 //    }
 
     private fun initBottomSheet() {
-        // 바텀 시트 레이아웃을 포함하는 부모 레이아웃
-        val parentLayout = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
-        bottomSheetView = parentLayout.findViewById(R.id.bottom_sheet)
-        dimBackground = parentLayout.findViewById(R.id.dim_background)
-
+        bottomSheetView =
+            LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
         bottomSheetDialog = BottomSheetDialog(this).apply {
-            setContentView(parentLayout)
-            setCancelable(true)
-            setCanceledOnTouchOutside(true)
-
-            val behavior = BottomSheetBehavior.from(bottomSheetView)
-            behavior.state = BottomSheetBehavior.STATE_HIDDEN
-            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                        dismiss()
-                    }
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    dimBackground.alpha = slideOffset * 0.5f
-                }
-            })
-
-            bottomSheetView.setBackgroundResource(R.drawable.bg_bottom_sheet)
-        }
-
-        // 바텀 시트 외부를 클릭하면 바텀 시트를 숨김
-        dimBackground.setOnClickListener {
-            hidePopup()
+            setContentView(bottomSheetView)
+            // 팝업의 상단 좌우 곡선값 설정
         }
     }
 
     protected fun showPopup() {
-        BottomSheetBehavior.from(bottomSheetView).state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetDialog?.show()
     }
 
     protected fun hidePopup() {
-        BottomSheetBehavior.from(bottomSheetView).state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheetDialog?.dismiss()
     }
 
