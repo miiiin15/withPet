@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- 반투명 배경 -->
+    <View
+        android:id="@+id/dim_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/txt1"
+        android:alpha="0.5" />
+
+    <!-- 바텀 시트 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="16dp"
+        android:layout_gravity="bottom"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+<!--        <FrameLayout-->
+<!--            android:id="@+id/content_frame"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            &lt;!&ndash; 자식 액티비티가 내용을 추가할 수 있는 영역 &ndash;&gt;-->
+<!--        </FrameLayout>-->
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

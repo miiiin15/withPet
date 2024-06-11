@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
@@ -13,6 +14,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 //import com.save.protect.app.data.Constants.context
 //import com.save.protect.esbank.ui.view13_etc.ErrorPageActivity
@@ -25,6 +29,11 @@ abstract class BaseActivity : AppCompatActivity() {
 //    lateinit var loadingDialog: LoadingDialog
 //    lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils   //키보드 유틸
 
+    // 하단 팝업
+    private var bottomSheetDialog: BottomSheetDialog? = null
+    lateinit var bottomSheetView: View
+    private lateinit var dimBackground: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
@@ -35,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
 //        loadingDialog = LoadingDialog()
-
+        initBottomSheet()
 //        DataProvider.unCaughtException(this, ErrorPageActivity())   //Global Exception
     }
 
@@ -147,6 +156,50 @@ abstract class BaseActivity : AppCompatActivity() {
 //            e.printStackTrace()
 //        }
 //    }
+
+    private fun initBottomSheet() {
+        // 바텀 시트 레이아웃을 포함하는 부모 레이아웃
+        val parentLayout = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
+        bottomSheetView = parentLayout.findViewById(R.id.bottom_sheet)
+        dimBackground = parentLayout.findViewById(R.id.dim_background)
+
+        bottomSheetDialog = BottomSheetDialog(this).apply {
+            setContentView(parentLayout)
+            setCancelable(true)
+            setCanceledOnTouchOutside(true)
+
+            val behavior = BottomSheetBehavior.from(bottomSheetView)
+            behavior.state = BottomSheetBehavior.STATE_HIDDEN
+            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                        dismiss()
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    dimBackground.alpha = slideOffset * 0.5f
+                }
+            })
+
+            bottomSheetView.setBackgroundResource(R.drawable.bg_bottom_sheet)
+        }
+
+        // 바텀 시트 외부를 클릭하면 바텀 시트를 숨김
+        dimBackground.setOnClickListener {
+            hidePopup()
+        }
+    }
+
+    protected fun showPopup() {
+        BottomSheetBehavior.from(bottomSheetView).state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetDialog?.show()
+    }
+
+    protected fun hidePopup() {
+        BottomSheetBehavior.from(bottomSheetView).state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetDialog?.dismiss()
+    }
 
 
     fun showKeyboard() {
