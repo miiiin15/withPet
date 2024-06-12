@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/all_box_white_rounded_all_corners"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llDlgTitleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/padding_16"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/txvDlgTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_horizontal"
+                android:textSize="20dp"
+                android:textColor="@color/txt3"
+                tools:text="텍스트" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="26dp"
+            android:paddingVertical="35dp">
+
+            <com.withpet.mobile.ui.custom.MaxHeightScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:maxHeight="@dimen/height_dlg_max_300">
+
+                <LinearLayout
+                    android:id="@+id/llDlgContentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txvDlgContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="16dp"
+                        android:textColor="@color/txt3"
+                        android:lineSpacingExtra="@dimen/margin_8"
+                        android:text="텍스트" />
+                </LinearLayout>
+            </com.withpet.mobile.ui.custom.MaxHeightScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDlgNegative"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/disable"
+                android:textColor="@color/txt1"
+                android:text="취소"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDlgPositive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="확인"
+                android:background="@color/primary"
+                android:textColor="@color/white"
+
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

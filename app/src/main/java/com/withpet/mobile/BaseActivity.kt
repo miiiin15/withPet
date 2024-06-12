@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
+import com.withpet.mobile.ui.custom.CustomDialog
 
 //import com.save.protect.app.data.Constants.context
 //import com.save.protect.esbank.ui.view13_etc.ErrorPageActivity
@@ -133,27 +134,27 @@ abstract class BaseActivity : AppCompatActivity() {
 //        setOnClickListener(oneClick)
 //    }
 
-//    fun showAlert(msg: String, title: String = "") {
-//        try {
-//            val builder = CustomDialog.Builder(this)
-//            builder.setMessage(msg)
-//                .setCancelable(false)
-//                .setPositiveButton(DialogInterface.OnClickListener { dialog, which ->
-//                    dialog.dismiss()
-//                })
-//
-//            // 제목이 비어있지 않고 null이 아닌 경우에만 제목을 설정
-//            if (title.isNotBlank()) {
-//                builder.setTitle(title)
-//            }
-//
-//            builder.create().show()
-//        } catch (e: WindowManager.BadTokenException) {
-//            e.printStackTrace()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
+    fun showAlert(msg: String, title: String = "") {
+        try {
+            val builder = CustomDialog.Builder(this)
+            builder.setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton(DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+
+            // 제목이 비어있지 않고 null이 아닌 경우에만 제목을 설정
+            if (title.isNotBlank()) {
+                builder.setTitle(title)
+            }
+
+            builder.create().show()
+        } catch (e: WindowManager.BadTokenException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     private fun initBottomSheet() {
         bottomSheetView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)

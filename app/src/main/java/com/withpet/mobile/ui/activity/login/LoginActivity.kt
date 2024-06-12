@@ -37,13 +37,13 @@ class LoginActivity : BaseActivity() {
         // 첫 번째 카드뷰에 클릭 리스너 추가
         cardView1.setOnClickListener {
             // 클릭 이벤트 처리
-            Toast.makeText(this, "첫 번째 카드뷰가 클릭되었습니다.", Toast.LENGTH_SHORT).show()
+            showAlert("남성", "성별 선택")
         }
 
         // 두 번째 카드뷰에 클릭 리스너 추가
         cardView2.setOnClickListener {
             // 클릭 이벤트 처리
-            Toast.makeText(this, "두 번째 카드뷰가 클릭되었습니다.", Toast.LENGTH_SHORT).show()
+            showAlert("여성", "성별 선택")
         }
     }
 
@@ -51,7 +51,7 @@ class LoginActivity : BaseActivity() {
     private fun setupStartButton() {
         // TODO : 로그인 로직 처리
         binding.buttonStart.setOnClickListener {
-        showPopup()
+            showPopup()
         }
     }
 
