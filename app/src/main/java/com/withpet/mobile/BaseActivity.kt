@@ -8,6 +8,7 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -157,6 +158,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun initBottomSheet() {
         bottomSheetView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
 
+        // Bottom sheet dialog 설정
         bottomSheetDialog = BottomSheetDialog(this).apply {
             setContentView(bottomSheetView)
             setOnShowListener {
@@ -165,9 +167,9 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
 
-        val bottomSheet = bottomSheetView.findViewById<MaterialCardView>(R.id.bottom_sheet)
-
-        bottomSheetDialog?.behavior?.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        // Bottom sheet behavior 초기화
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     hidePopup()
@@ -175,7 +177,7 @@ abstract class BaseActivity : AppCompatActivity() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // Do nothing
+                // TODO : 슬라이드 이벤트 처리 필요시 추가
             }
         })
     }
