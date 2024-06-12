@@ -20,9 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="정보를\n입력해주세요(임시)"
-            android:textColor="@color/txt1"
-            android:textSize="24dp"
-            android:textStyle="bold" />
+            style="@style/TitleText"
+            />
     </LinearLayout>
 
 

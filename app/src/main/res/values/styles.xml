@@ -14,6 +14,18 @@
     </declare-styleable>
 
 
+    <style name="TitleText">
+        <item name="android:textColor">@color/txt3</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BottomSheetTitleText">
+        <item name="android:textColor">@color/txt3</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="CustomInputTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">16sp</item> <!-- 입력된 값의 글자 크기 -->
         <item name="android:textColor">@color/txt1</item> <!-- 입력된 값의 색상 -->
