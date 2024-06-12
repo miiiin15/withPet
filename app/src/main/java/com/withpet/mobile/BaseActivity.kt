@@ -5,10 +5,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -17,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.card.MaterialCardView
 
 //import com.save.protect.app.data.Constants.context
 //import com.save.protect.esbank.ui.view13_etc.ErrorPageActivity
@@ -157,12 +155,29 @@ abstract class BaseActivity : AppCompatActivity() {
 //    }
 
     private fun initBottomSheet() {
-        bottomSheetView =
-            LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
+        bottomSheetView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
+
         bottomSheetDialog = BottomSheetDialog(this).apply {
             setContentView(bottomSheetView)
-            // 팝업의 상단 좌우 곡선값 설정
+            setOnShowListener {
+                val parentLayout = bottomSheetView.parent as ViewGroup
+                parentLayout.setBackgroundResource(android.R.color.transparent)
+            }
         }
+
+        val bottomSheet = bottomSheetView.findViewById<MaterialCardView>(R.id.bottom_sheet)
+
+        bottomSheetDialog?.behavior?.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    hidePopup()
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // Do nothing
+            }
+        })
     }
 
     protected fun showPopup() {
