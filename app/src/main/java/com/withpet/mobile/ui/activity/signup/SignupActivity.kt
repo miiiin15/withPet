@@ -56,17 +56,22 @@ class SignupActivity : BaseActivity() {
     }
 
     private fun setupCheckDuplicationButton() {
-//        binding.btnCheckDuplication.setOnClickListener {
-//            val loginId = binding.etLoginId.text.toString()
-//            if (loginId.isEmpty()) {
-//                Toast.makeText(this, "Login ID를 입력해주세요", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//
-//            // TODO : 중복 검사 로직 추가
-//            // 예시로 토스트 메시지 출력
-//            Toast.makeText(this, "중복 검사 완료", Toast.LENGTH_SHORT).show()
-//        }
+        binding.btnCheckDuplication.setOnClickListener {
+            val loginId = binding.etLoginId.text.toString()
+            if (loginId.isEmpty()) {
+                Toast.makeText(this, "이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            SignInRepo.checkDuplicate(
+                loginId = loginId,
+                success = {
+                    Toast.makeText(this, "중복 검사 ${it.payload}", Toast.LENGTH_SHORT).show()
+                },
+                failure = {
+                    Toast.makeText(this, "중복 검사 실패 $it", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
     }
 
     private fun setListeners() {

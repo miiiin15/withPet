@@ -12,6 +12,33 @@ import retrofit2.Response
 
 object SignInRepo {
 
+    fun checkDuplicate(
+        loginId: String,
+        networkFail: (String) -> Unit = {},
+        success: (ApiResponse<Any>) -> Unit,
+        failure: (Throwable) -> Unit
+    ) {
+
+        NetworkService.getService().getCheckDuplicate(loginId)
+            .enqueue(object : Callback<ApiResponse<Any>> {
+                override fun onResponse(
+                    call: Call<ApiResponse<Any>>,
+                    response: Response<ApiResponse<Any>>
+                ) {
+                    if (response.isSuccessful) {
+                        val data = response.body() ?: return
+                        success(data)
+                    } else {
+                        networkFail(response.code().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
+                    failure(t)
+                }
+            })
+    }
+
     fun signUp(
         loginId: String,
         password: String,
@@ -44,13 +71,11 @@ object SignInRepo {
                         val data = response.body() ?: return
                         success(data)
                     } else {
-                        // 통신 실패 처리
                         networkFail(response.code().toString())
                     }
                 }
 
                 override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
-                    // 실패한 응답 처리
                     failure(t)
                 }
             })
