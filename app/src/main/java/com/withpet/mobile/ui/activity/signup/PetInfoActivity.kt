@@ -6,10 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.withpet.mobile.data.api.response.PetAddRequest
 import com.withpet.mobile.data.repository.PetRepo
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivityPetInfoBinding
 import com.withpet.mobile.ui.activity.MainActivity
+import com.withpet.mobile.utils.Logcat
 
 class PetInfoActivity : AppCompatActivity() {
 
@@ -20,29 +22,47 @@ class PetInfoActivity : AppCompatActivity() {
         binding = ActivityPetInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         binding.btnSubmitPetInfo.setOnClickListener {
             val petSize = binding.etPetSize.text.toString()
             val petSex =
                 if (binding.rgSexType.checkedRadioButtonId == binding.rbMale.id) "남자" else "여자"
-            val petAge = binding.etPetAge.text.toString().toInt()
+            val petAge = safeStringToInt(binding.etPetAge.text.toString())
             val petIntroduction = binding.etPetIntroduction.text.toString()
-            val memberId = binding.etMemberId.text.toString().toInt()
 
-            binding.btnSubmitPetInfo.setOnClickListener {
+            val loginId = intent.getStringExtra("loginId") ?: ""
+            val password = intent.getStringExtra("password") ?: ""
+            val signupId = intent.getStringExtra("signupId")?.toDouble()?.toInt() ?: 0
 
-                PetRepo.savePetInfo(petSize, petSex, petAge, petIntroduction, memberId,
-                    success = {},
-                    networkFail = {},
-                    failure = {}
-                )
-            }
+            val petAddRequest = PetAddRequest(
+                size = petSize,
+                sex = petSex,
+                age = petAge,
+                introduction = petIntroduction,
+                memberId = signupId
+            )
+            PetRepo.savePetInfo(petAddRequest,
+                success = {
+                    if (it.result.code == 200) {
+                        signIn(loginId, password)
+                    } else {
+                        Logcat.d("else")
+                    }
+                },
+                networkFail = {
+                    Logcat.d("networkFail")
+                },
+                failure = {
+                    Logcat.d("failure")
+                }
+            )
         }
     }
 
-    // TODO : 회원가입 기존 로그인 소스(저장소에 저장까지) 옮기기 마무리하기
-    // TODO : 1차 회원가입 응답값 인 id와 회원가입화면에서 받아온 아이디 비번값 Intent로 이 액티비티에 넘기기
-    // TODO : 2차 테스트 해보고 완료 후 로그인 시키기
+    // TODO : profileImage 어떻게 쏴야하는지 확인하기
     // TODO : UI요소 버튼 validate 인풋 리스너 담시
+    // TODO : 메인화면으로 넘긴후 분기처리 작업하기
 
     private fun signIn(loginId: String, password: String) {
         SignInRepo.signIn(
@@ -80,4 +100,7 @@ class PetInfoActivity : AppCompatActivity() {
         editor.apply()
     }
 
+    private fun safeStringToInt(str: String?, defaultValue: Int = 0): Int {
+        return str?.toIntOrNull() ?: defaultValue
+    }
 }

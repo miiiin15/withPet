@@ -31,6 +31,7 @@
             android:exported="true" />
         <activity android:name=".ui.activity.login.LoginActivity" />
         <activity android:name=".ui.activity.signup.SignupActivity" />
+        <activity android:name=".ui.activity.signup.PetInfoActivity" />
     </application>
 
     <!-- 권한 목록 -->

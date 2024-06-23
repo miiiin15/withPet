@@ -119,7 +119,13 @@ class SignupActivity : BaseActivity() {
             sexType = sexType,
             success = {
                 if (it.result.code == 200) {
-                    signIn(loginId, password)
+                    val intent = Intent(this, PetInfoActivity::class.java)
+                    intent.putExtra("loginId", loginId)
+                    intent.putExtra("password", password)
+                    intent.putExtra("signupId", it.payload.toString())
+
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
                 }
@@ -142,7 +148,6 @@ class SignupActivity : BaseActivity() {
             },
             success = {
                 if (it.result.code == 200) {
-                    saveCredentials(loginId, password)
                     Toast.makeText(this, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java).apply {
                         // 새로운 Activity가 시작되면서 기존의 Activity를 모두 종료하고 새 Activity를 최상단에 위치시킵니다.
@@ -159,14 +164,6 @@ class SignupActivity : BaseActivity() {
                 Toast.makeText(this, "에러: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         )
-    }
-
-    private fun saveCredentials(loginId: String, password: String) {
-        val sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("loginId", loginId)
-        editor.putString("password", password)
-        editor.apply()
     }
 
     private fun validButton() {

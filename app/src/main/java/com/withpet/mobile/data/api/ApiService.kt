@@ -2,6 +2,7 @@ package com.withpet.mobile.data.api
 
 import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.api.response.MemberInfo
+import com.withpet.mobile.data.api.response.PetAddRequest
 import com.withpet.mobile.data.api.response.VersionPayload
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -29,14 +30,14 @@ interface ApiService {
     // 회원가입
     @POST("api/v1/auth/sign-up")
     fun requestSignUp(@Body params: RequestBody): Call<ApiResponse<Any>>
-  
+
     // 이메일 중복 검사( 회원 여부 조회 )
     @GET("api/v1/auth/check/duplicate")
     fun getCheckDuplicate(@Query("loginId") loginId: String): Call<ApiResponse<Any>>
 
-   // 반려견 정보입력
+    // 반려견 정보입력
     @POST("api/v1/pet-info")
-    fun requestSavePetInfo(@Body params: RequestBody): Call<ApiResponse<Any>>
+    fun requestSavePetInfo(@Body params: PetAddRequest): Call<ApiResponse<Any>>
 
     // 위치 저장
     @POST("api/location")
