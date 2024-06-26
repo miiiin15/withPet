@@ -4,6 +4,7 @@ import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.api.response.PetAddRequest
 import com.withpet.mobile.data.api.response.VersionPayload
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -36,8 +37,12 @@ interface ApiService {
     fun getCheckDuplicate(@Query("loginId") loginId: String): Call<ApiResponse<Any>>
 
     // 반려견 정보입력
+    @Multipart
     @POST("api/v1/pet-info")
-    fun requestSavePetInfo(@Body params: PetAddRequest): Call<ApiResponse<Any>>
+    fun requestSavePetInfo(
+        @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part profileImage: MultipartBody.Part?
+    ): Call<ApiResponse<Any>>
 
     // 위치 저장
     @POST("api/location")

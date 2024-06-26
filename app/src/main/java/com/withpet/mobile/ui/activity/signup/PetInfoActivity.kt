@@ -42,7 +42,7 @@ class PetInfoActivity : AppCompatActivity() {
                 introduction = petIntroduction,
                 memberId = signupId
             )
-            PetRepo.savePetInfo(petAddRequest,
+            PetRepo.savePetInfo(petAddRequest, null,
                 success = {
                     if (it.result.code == 200) {
                         signIn(loginId, password)
