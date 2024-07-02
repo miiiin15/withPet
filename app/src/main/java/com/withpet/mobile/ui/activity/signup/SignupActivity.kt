@@ -10,12 +10,15 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.withpet.mobile.BaseActivity
+import com.withpet.mobile.R
 import com.withpet.mobile.data.enums.InputState
 import com.withpet.mobile.data.managers.InputStateManager
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivitySignupBinding
+import com.withpet.mobile.ui.custom.CustomSelect
 import com.withpet.mobile.ui.custom.IsValidListener
+import com.withpet.mobile.ui.custom.Option
 
 class SignupActivity : BaseActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -44,6 +47,7 @@ class SignupActivity : BaseActivity() {
         setListeners()
         setupSignUpButton()
         setupCheckDuplicationButton()
+        setSelect()
         updateUI(inputStateManager.getCurrentState())
     }
 
@@ -52,6 +56,18 @@ class SignupActivity : BaseActivity() {
         binding.etPassword.clearFocus()
         binding.etNickName.clearFocus()
         binding.etAge.clearFocus()
+    }
+
+    private fun setSelect(){
+        val customSelect: CustomSelect = findViewById(R.id.customSelect)
+
+        val options = arrayOf(
+            Option("하나", "01", checked = true),
+            Option("다섯", "05", checked = false),
+            Option("일곱", "07", checked = false)
+        )
+
+        customSelect.setOptions(options)
     }
 
     private fun setupSignUpButton() {

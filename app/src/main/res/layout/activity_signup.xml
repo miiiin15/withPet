@@ -104,6 +104,17 @@
             android:hint="이름"
             android:inputType="text" />
 
+        <com.withpet.mobile.ui.custom.CustomSelect
+            android:id="@+id/customSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select an option"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="true" />
+
+
     </LinearLayout>
 
     <com.withpet.mobile.ui.custom.CustomButton
