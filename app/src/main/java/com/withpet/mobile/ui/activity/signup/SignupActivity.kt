@@ -42,6 +42,7 @@ class SignupActivity : BaseActivity() {
         }
 
         // TODO : 성별 입력 팝업 연결하기
+        // TODO : 팝업 높이 고정하는 설정 만들기
         inputStateManager = InputStateManager(::onStateChange)
 
         setListeners()
@@ -60,13 +61,15 @@ class SignupActivity : BaseActivity() {
 
     private fun setSelect(){
         val customSelect: CustomSelect = findViewById(R.id.customSelect)
-
         val options = arrayOf(
             Option("하나", "01", checked = true),
-            Option("다섯", "05", checked = false),
-            Option("일곱", "07", checked = false)
+            Option("다섯", "05"),
+            Option("일곱", "07"),
+            Option("둘", "02"),
+            Option("여덟", "08"),
+            Option("열", "10"),
+            Option("구십구", "99")
         )
-
         customSelect.setOptions(options)
     }
 

@@ -1,20 +1,19 @@
 package com.withpet.mobile.ui.custom
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.withpet.mobile.R
-
 
 data class Option(val label: String, val value: String, var checked: Boolean = false)
 
@@ -41,6 +40,14 @@ class CustomSelect @JvmOverloads constructor(
         val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
         val customView = LayoutInflater.from(context).inflate(R.layout.custom_select_list, null)
         contentFrame.addView(customView)
+
+        val recyclerView: RecyclerView = customView.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = OptionAdapter(options) { selectedOption ->
+            options.forEach { it.checked = it == selectedOption }
+            setText(selectedOption.label)
+            hidePopup()
+        }
 
         // Bottom sheet dialog 설정
         bottomSheetDialog = BottomSheetDialog(context).apply {
@@ -81,5 +88,33 @@ class CustomSelect @JvmOverloads constructor(
         super.setEnabled(enabled)
         val colorResId = if (enabled) R.color.primary else R.color.disable
         setTextColor(ContextCompat.getColor(context, colorResId))
+    }
+
+    private inner class OptionAdapter(
+        private val options: Array<Option>,
+        private val itemClickListener: (Option) -> Unit
+    ) : RecyclerView.Adapter<OptionAdapter.OptionViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_option, parent, false)
+            return OptionViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: OptionViewHolder, position: Int) {
+            val option = options[position]
+            holder.bind(option)
+        }
+
+        override fun getItemCount(): Int = options.size
+
+        inner class OptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private val label: TextView = itemView.findViewById(R.id.option_label)
+
+            fun bind(option: Option) {
+                label.text = option.label
+                itemView.setOnClickListener { itemClickListener(option) }
+            }
+        }
     }
 }
