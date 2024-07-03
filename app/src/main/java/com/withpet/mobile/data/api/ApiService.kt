@@ -38,7 +38,7 @@ interface ApiService {
 
     // 반려견 정보입력
     @Multipart
-    @POST("api/v1/pet-info")
+    @POST("api/v1/pet-info/save")
     fun requestSavePetInfo(
         @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part profileImage: MultipartBody.Part?
