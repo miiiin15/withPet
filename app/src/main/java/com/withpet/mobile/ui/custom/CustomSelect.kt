@@ -1,6 +1,8 @@
 package com.withpet.mobile.ui.custom
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +27,22 @@ class CustomSelect @JvmOverloads constructor(
 
     private var options: Array<Option> = arrayOf()
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private var type: String = "list"
 
     init {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.CustomSelect,
+            0, 0
+        ).apply {
+            try {
+                type = getString(R.styleable.CustomSelect_type) ?: "list"
+            } finally {
+                recycle()
+            }
+        }
+
+        background = ContextCompat.getDrawable(context, R.drawable.custom_select_bg)
         setOnClickListener { showOptions() }
     }
 
@@ -43,10 +59,31 @@ class CustomSelect @JvmOverloads constructor(
 
         val recyclerView: RecyclerView = customView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = OptionAdapter(options) { selectedOption ->
-            options.forEach { it.checked = it == selectedOption }
-            setText(selectedOption.label)
-            hidePopup()
+
+        when (type) {
+            "list" -> {
+                recyclerView.adapter = OptionAdapter(options) { selectedOption ->
+                    options.forEach { it.checked = it == selectedOption }
+                    setText(selectedOption.label)
+                    hidePopup()
+                }
+            }
+            "A" -> {
+                // Type A에 대한 처리
+            }
+            "B" -> {
+                // Type B에 대한 처리
+            }
+            "C" -> {
+                // Type C에 대한 처리
+            }
+            else -> {
+                recyclerView.adapter = OptionAdapter(options) { selectedOption ->
+                    options.forEach { it.checked = it == selectedOption }
+                    setText(selectedOption.label)
+                    hidePopup()
+                }
+            }
         }
 
         // Bottom sheet dialog 설정
@@ -60,17 +97,26 @@ class CustomSelect @JvmOverloads constructor(
 
         // Bottom sheet behavior 초기화
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
+        val defaultHeight = (context.resources.displayMetrics.heightPixels * 0.4).toInt()
+        bottomSheetBehavior.peekHeight = defaultHeight
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED // 초기 높이를 동일하게 설정
+        bottomSheetBehavior.isHideable = false // 슬라이드 비활성화
+
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    hidePopup()
+                // STATE_COLLAPSED 외의 상태로 변경되지 않도록 처리
+                if (newState != BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // TODO : 슬라이드 이벤트 처리 필요시 추가
+                // 슬라이드 이벤트 비활성화
             }
         })
+
+        // Bottom sheet 크기 조정
+        bottomSheetView.layoutParams.height = defaultHeight
 
         bottomSheetDialog.show()
     }
@@ -84,10 +130,21 @@ class CustomSelect @JvmOverloads constructor(
         bottomSheetDialog.dismiss()
     }
 
+    private fun setUnderlineColor(color: Int) {
+        val layerDrawable = background as? LayerDrawable
+        layerDrawable?.findDrawableByLayerId(R.id.underLine)?.apply {
+            if (this is GradientDrawable) {
+                setColor(color)
+            }
+        }
+    }
+
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
-        val colorResId = if (enabled) R.color.primary else R.color.disable
-        setTextColor(ContextCompat.getColor(context, colorResId))
+        // disable 상태일 경우 전체 입력 필드의 색상 변경
+        val colorResId = R.color.disable
+        val color = ContextCompat.getColor(context, colorResId)
+        setUnderlineColor(ContextCompat.getColor(context, colorResId))
     }
 
     private inner class OptionAdapter(
