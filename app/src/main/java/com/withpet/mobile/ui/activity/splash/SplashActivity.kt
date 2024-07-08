@@ -10,11 +10,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.data.repository.SignInRepo
-import com.withpet.mobile.ui.activity.login.LoginActivity
+import com.withpet.mobile.ui.activity.MainActivity
+import com.withpet.mobile.ui.activity.start.StartActivity
 import com.withpet.mobile.utils.DataProvider
 import com.withpet.mobile.utils.Logcat
 
@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
 
         // 버전을 확인하고 이후 sharedPreferences를 검사하고 로직을 진행
-        checkVersionAndNavigate()
+       checkVersionAndNavigate()
     }
 
     private fun checkVersionAndNavigate() {
@@ -169,7 +169,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun navigateToLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, StartActivity::class.java))
         finish()
     }
 
