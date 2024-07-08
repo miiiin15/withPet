@@ -40,7 +40,7 @@ interface ApiService {
     @Multipart
     @POST("api/v1/pet-info/save")
     fun requestSavePetInfo(
-        @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part("petAddRequest") petAddRequest: RequestBody,
         @Part profileImage: MultipartBody.Part?
     ): Call<ApiResponse<Any>>
 

@@ -25,19 +25,9 @@ object PetRepo {
         success: (ApiResponse<Any>) -> Unit,
         failure: (Throwable) -> Unit
     ) {
-        val requestBodyMap = mutableMapOf<String, RequestBody>().apply {
-            put("size", petAddRequest.size.toRequestBody("text/plain".toMediaTypeOrNull()))
-            put("sex", petAddRequest.sex.toRequestBody("text/plain".toMediaTypeOrNull()))
-            put("age", petAddRequest.age.toString().toRequestBody("text/plain".toMediaTypeOrNull()))
-            put(
-                "introduction",
-                petAddRequest.introduction.toRequestBody("text/plain".toMediaTypeOrNull())
-            )
-            put(
-                "memberId",
-                petAddRequest.memberId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            )
-        }
+        val gson = Gson()
+        val json = gson.toJson(petAddRequest)
+        val requestBody = json.toRequestBody("application/json".toMediaTypeOrNull())
 
         val profileImagePart: MultipartBody.Part? = profileImagePath?.let {
             val file = File(it)
@@ -45,7 +35,7 @@ object PetRepo {
             MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
         }
 
-        NetworkService.getService().requestSavePetInfo(requestBodyMap, profileImagePart)
+        NetworkService.getService().requestSavePetInfo(requestBody, profileImagePart)
             .enqueue(object : Callback<ApiResponse<Any>> {
                 override fun onResponse(
                     call: Call<ApiResponse<Any>>,

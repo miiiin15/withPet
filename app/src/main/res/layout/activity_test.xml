@@ -23,28 +23,28 @@
         android:id="@+id/btn_alert_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Alert 테스트"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:text="Alert 테스트" />
 
     <com.withpet.mobile.ui.custom.CustomButton
         android:id="@+id/btn_gender_input_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="성별입력 테스트"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:text="성별입력 팝업 테스트" />
 
     <com.withpet.mobile.ui.custom.CustomButton
         android:id="@+id/btn_reserved_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="예비 1"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:text="반려견 정보입력 TEST" />
 
     <com.withpet.mobile.ui.custom.CustomButton
         android:id="@+id/btn_reserved_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="예비 2"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:text="예비 2" />
 
 </LinearLayout>
