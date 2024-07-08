@@ -1,72 +1,50 @@
 package com.withpet.mobile.ui.activity.login
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.withpet.mobile.BaseActivity
-import com.withpet.mobile.data.api.NetworkService
-import com.withpet.mobile.data.api.response.ApiResponse
-import com.withpet.mobile.databinding.ActivitySigninBinding
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.withpet.mobile.data.repository.SignInRepo
+import com.withpet.mobile.databinding.ActivityLoginBinding
+import com.withpet.mobile.ui.activity.MainActivity
 
 class LoginActivity : BaseActivity() {
 
-    private lateinit var binding: ActivitySigninBinding
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySigninBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // TODO : 응답 처리 추가하기
         binding.btnSignIn.setOnClickListener {
             val loginId = binding.etLoginId.text.toString()
             val password = binding.etPassword.text.toString()
-            signIn(loginId, password,
-                { message -> Log.d("로", "Network Fail: $message") },
-                { response -> Log.d("로", "Success: ${response.payload}") },
-                { throwable -> Log.d("로긴", "Failure: ${throwable.message}") }
-            )
+            signIn(loginId, password)
         }
     }
 
-    private fun signIn(
-        loginId: String,
-        password: String,
-        networkFail: (String) -> Unit,
-        success: (ApiResponse<Any>) -> Unit,
-        failure: (Throwable) -> Unit
-    ) {
-
-        Log.d("LoginActivity", "$loginId / $password")
-        val jsonBody = "{\"loginId\": \"$loginId\", \"password\": \"$password\"}"
-        val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
-
-        NetworkService.getService().requestSignIn(requestBody)
-            .enqueue(object : Callback<ApiResponse<Any>> {
-                override fun onResponse(
-                    call: Call<ApiResponse<Any>>,
-                    response: Response<ApiResponse<Any>>
-                ) {
-                    if (response.isSuccessful) {
-                        val data = response.body()
-                        if (data != null) {
-                            success(data)
-                        } else {
-                            networkFail("Empty response body")
-                        }
-                    } else {
-                        val data = response.errorBody()?.string() ?: return
-                        networkFail(data)
+    private fun signIn(loginId: String, password: String) {
+        SignInRepo.signIn(
+            loginId = loginId,
+            password = password,
+            networkFail = {
+                showAlert("로그인 네트워크 실패: $it")
+            },
+            success = {
+                if (it.result.code == 200) {
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
+                    startActivity(intent)
+                    finish()
+                } else {
+                    showAlert("로그인 실패: ${it.result.message}")
                 }
-
-                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
-                    failure(t)
-                }
-            })
+            },
+            failure = {
+                showAlert("로그인 에러: ${it.message}")
+            }
+        )
     }
 }
