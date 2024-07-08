@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,8 +43,10 @@ class CustomSelect @JvmOverloads constructor(
                 recycle()
             }
         }
-
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         background = ContextCompat.getDrawable(context, R.drawable.custom_select_bg)
+        gravity = Gravity.START or Gravity.CENTER_VERTICAL
+
         setOnClickListener { showOptions() }
     }
 
@@ -52,7 +56,8 @@ class CustomSelect @JvmOverloads constructor(
     }
 
     private fun showOptions() {
-        val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_container, null)
+        val bottomSheetView =
+            LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_container, null)
         val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
         val customView = LayoutInflater.from(context).inflate(R.layout.custom_select_list, null)
         contentFrame.addView(customView)
@@ -102,7 +107,8 @@ class CustomSelect @JvmOverloads constructor(
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED // 초기 높이를 동일하게 설정
         bottomSheetBehavior.isHideable = false // 슬라이드 비활성화
 
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 // STATE_COLLAPSED 외의 상태로 변경되지 않도록 처리
                 if (newState != BottomSheetBehavior.STATE_EXPANDED) {

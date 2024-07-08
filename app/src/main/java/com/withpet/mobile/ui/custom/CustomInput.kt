@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
+import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.withpet.mobile.R
@@ -38,6 +39,7 @@ class CustomInput : AppCompatEditText {
         isSingleLine = inputType != 129 && inputType != 128
 
         setTextAppearance(context, R.style.CustomInputTextStyle)
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         setHintTextColor(ContextCompat.getColor(context,R.color.disable))
 
         // 입력 중, 올바른 값, 올바르지 않은 값에 따라 밑줄 색상을 변경
