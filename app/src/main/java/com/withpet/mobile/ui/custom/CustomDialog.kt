@@ -127,6 +127,9 @@ class CustomDialog : Dialog {
             val dialog = dialogBuilder.create()
             dialog.setCancelable(cancelable)
 
+            // 다이얼로그 외부를 클릭하면 닫히도록 설정
+            dialog.setCanceledOnTouchOutside(true)
+
             // 타이틀 설정
             if (title != null) {
                 (layout.findViewById<View>(R.id.llDlgTitleLayout) as LinearLayout).visibility =
