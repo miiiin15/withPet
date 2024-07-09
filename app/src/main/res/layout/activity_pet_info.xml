@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/margin_horizontal"
     android:gravity="bottom"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,10 +16,10 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="반려견 정보를\n입력해주세요(임시)"
-            style="@style/TitleText" />
+            android:text="반려견 정보를\n입력해주세요" />
     </LinearLayout>
 
     <LinearLayout
@@ -28,6 +28,25 @@
         android:layout_marginBottom="18dp"
         android:layout_weight="2"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/profile_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="18dp"
+            android:background="@color/error"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_Profile"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:background="@drawable/profile_circle_shape"
+                android:scaleType="center"
+                android:src="@drawable/default_profile" />
+
+        </LinearLayout>
+
 
         <com.withpet.mobile.ui.custom.CustomInput
             android:id="@+id/et_petSize"
@@ -75,13 +94,6 @@
             android:hint="소개"
             android:inputType="text" />
 
-        <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/et_memberId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:hint="회원 ID"
-            android:inputType="number" />
 
     </LinearLayout>
 
