@@ -1,5 +1,6 @@
 package com.withpet.mobile.ui.test
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -19,18 +20,23 @@ import com.withpet.mobile.utils.Logcat
 class TestActivity : BaseActivity() {
 
     private lateinit var customInput: CustomInput
+    private lateinit var customInput_disable: CustomInput
     private lateinit var customSelect: CustomSelect
+    private lateinit var customSelect_disable: CustomSelect
     private lateinit var btnAlertTest: CustomButton
     private lateinit var btnGenderInputTest: CustomButton
     private lateinit var btnReserved1: CustomButton
     private lateinit var btnReserved2: CustomButton
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
 
         customInput = findViewById(R.id.customInput)
+        customInput_disable = findViewById(R.id.customInput_disable)
         customSelect = findViewById(R.id.customSelect)
+        customSelect_disable = findViewById(R.id.customSelect_disable)
         btnAlertTest = findViewById(R.id.btn_alert_test)
         btnGenderInputTest = findViewById(R.id.btn_gender_input_test)
         btnReserved1 = findViewById(R.id.btn_reserved_1)
@@ -39,6 +45,8 @@ class TestActivity : BaseActivity() {
 
         setupGenderPopUp()
 
+        customSelect_disable.setDisable(true)
+        customInput_disable.setDisable(true)
 
         btnAlertTest.setOnClickListener {
             showAlert("input : ${customInput.text}\nselect ${customSelect.getValue()}", "인풋 현황")
@@ -80,7 +88,7 @@ class TestActivity : BaseActivity() {
         // Example usage of CustomSelect
         customSelect.setOptions(
             arrayOf(
-                Option("하나", "01", checked = true),
+                Option("하나", "01"),
                 Option("다섯", "05"),
                 Option("일곱", "07"),
                 Option("둘", "02"),

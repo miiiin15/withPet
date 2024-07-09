@@ -15,6 +15,8 @@ interface IsValidListener {
 
 class CustomInput : AppCompatEditText {
 
+    private var isDisabled: Boolean = false
+
     constructor(context: Context) : super(context) {
         init()
     }
@@ -104,8 +106,18 @@ class CustomInput : AppCompatEditText {
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         // disable 상태일 경우 전체 입력 필드의 색상 변경
-        val colorResId = R.color.disable
-        val color = ContextCompat.getColor(context, colorResId)
-        setUnderlineColor(ContextCompat.getColor(context, colorResId))
+        val colorResId = if (enabled) {
+            R.color.txt1 // 정상 상태 색상
+        } else {
+            R.color.txt3 // 비활성화 상태 색상
+        }
+        setHintTextColor(ContextCompat.getColor(context, colorResId))
+        isDisabled = !enabled // 상태 저장
+        setUnderlineColor(ContextCompat.getColor(context, R.color.disable))
+    }
+
+    fun setDisable(disable: Boolean) {
+        isDisabled = disable
+        setEnabled(!disable)
     }
 }

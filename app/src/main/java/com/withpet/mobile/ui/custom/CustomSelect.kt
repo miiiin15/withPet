@@ -30,6 +30,7 @@ class CustomSelect @JvmOverloads constructor(
     private var options: Array<Option> = arrayOf()
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private var type: String = "list"
+    private var isDisabled: Boolean = false
 
     init {
         context.theme.obtainStyledAttributes(
@@ -44,15 +45,22 @@ class CustomSelect @JvmOverloads constructor(
             }
         }
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+        setHintTextColor(ContextCompat.getColor(context, R.color.disable))
         background = ContextCompat.getDrawable(context, R.drawable.custom_select_bg)
         gravity = Gravity.START or Gravity.CENTER_VERTICAL
 
-        setOnClickListener { showOptions() }
+        setOnClickListener {
+            if (!isDisabled) { // 클릭 시 isDisabled 확인
+                showOptions()
+            }
+        }
     }
 
     fun setOptions(options: Array<Option>) {
         this.options = options
-        setText(options.find { it.checked }?.label ?: context.getString(R.string.select_prompt))
+        options.find { it.checked }?.label.let {
+            setText(it)
+        }
     }
 
     private fun showOptions() {
@@ -148,9 +156,19 @@ class CustomSelect @JvmOverloads constructor(
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         // disable 상태일 경우 전체 입력 필드의 색상 변경
-        val colorResId = R.color.disable
-        val color = ContextCompat.getColor(context, colorResId)
-        setUnderlineColor(ContextCompat.getColor(context, colorResId))
+        val colorResId = if (enabled) {
+            R.color.txt1 // 정상 상태 색상
+        } else {
+            R.color.txt3 // 비활성화 상태 색상
+        }
+        setHintTextColor(ContextCompat.getColor(context, colorResId))
+        isDisabled = !enabled // 상태 저장
+    }
+
+    // disable 상태 설정 메서드
+    fun setDisable(disable: Boolean) {
+        isDisabled = disable
+        setEnabled(!disable)
     }
 
     private inner class OptionAdapter(

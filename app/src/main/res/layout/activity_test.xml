@@ -10,13 +10,30 @@
         android:id="@+id/customInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Custom Input" />
+        android:hint="CustomInput" />
+
+    <com.withpet.mobile.ui.custom.CustomInput
+        android:id="@+id/customInput_disable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="CustomInput" />
+
 
     <com.withpet.mobile.ui.custom.CustomSelect
         android:id="@+id/customSelect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Custom Select"
+        android:layout_marginTop="16dp"
+        android:hint="CustomSelect"
+        app:type="list" />
+
+    <com.withpet.mobile.ui.custom.CustomSelect
+        android:id="@+id/customSelect_disable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="CustomSelect Disabled"
         app:type="list" />
 
     <com.withpet.mobile.ui.custom.CustomButton
