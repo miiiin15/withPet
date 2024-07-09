@@ -6,6 +6,7 @@
     <color name="error">#FF0000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="label">#454545</color>
     <color name="disable">#C7C8C9</color>
     <color name="grey2">#EEEEEE</color>
     <color name="grey3">#DDDDDD</color>
