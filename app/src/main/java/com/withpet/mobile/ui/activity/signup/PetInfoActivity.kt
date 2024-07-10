@@ -55,7 +55,8 @@ class PetInfoActivity : AppCompatActivity() {
                 },
                 failure = {
                     Logcat.d("failure")
-                }
+                },
+                finally = {}
             )
         }
     }

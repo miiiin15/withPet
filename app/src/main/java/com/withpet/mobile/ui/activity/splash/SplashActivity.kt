@@ -33,7 +33,8 @@ class SplashActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
 
         // 버전을 확인하고 이후 sharedPreferences를 검사하고 로직을 진행
-       checkVersionAndNavigate()
+//       checkVersionAndNavigate()
+        navigateToLogin()
     }
 
     private fun checkVersionAndNavigate() {
