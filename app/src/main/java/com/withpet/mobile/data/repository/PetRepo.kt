@@ -23,7 +23,8 @@ object PetRepo {
         profileImagePath: String?,
         networkFail: (String) -> Unit,
         success: (ApiResponse<Any>) -> Unit,
-        failure: (Throwable) -> Unit
+        failure: (Throwable) -> Unit,
+        finally: () -> Unit
     ) {
         val gson = Gson()
         val json = gson.toJson(petAddRequest)
@@ -41,17 +42,26 @@ object PetRepo {
                     call: Call<ApiResponse<Any>>,
                     response: Response<ApiResponse<Any>>
                 ) {
-                    if (response.isSuccessful) {
-                        val data = response.body() ?: return
-                        success(data)
-                    } else {
-                        networkFail(response.code().toString())
+                    try {
+                        if (response.isSuccessful) {
+                            val data = response.body() ?: return
+                            success(data)
+                        } else {
+                            networkFail(response.code().toString())
+                        }
+                    } finally {
+                        finally()
                     }
                 }
 
                 override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
-                    failure(t)
+                    try {
+                        failure(t)
+                    } finally {
+                        finally()
+                    }
                 }
             })
     }
 }
+
