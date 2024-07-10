@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.ui.custom.CustomDialog
+import com.withpet.mobile.ui.custom.LoadingDialog
 
 //import com.save.protect.app.data.Constants.context
 //import com.save.protect.esbank.ui.view13_etc.ErrorPageActivity
@@ -26,7 +27,7 @@ import com.withpet.mobile.ui.custom.CustomDialog
 
 abstract class BaseActivity : AppCompatActivity() {
 
-//    lateinit var loadingDialog: LoadingDialog
+    lateinit var loadingDialog: LoadingDialog
 //    lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils   //키보드 유틸
 
     // 하단 팝업
@@ -42,7 +43,7 @@ abstract class BaseActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-//        loadingDialog = LoadingDialog()
+        loadingDialog = LoadingDialog()
         initBottomSheet()
 //        DataProvider.unCaughtException(this, ErrorPageActivity())   //Global Exception
     }
