@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
+import com.withpet.mobile.utils.Logcat
 
 data class Option(val label: String, val value: String, var checked: Boolean = false)
 
@@ -29,8 +31,9 @@ class CustomSelect @JvmOverloads constructor(
 
     private var options: Array<Option> = arrayOf()
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private var type: String = "list"
     private var isDisabled: Boolean = false
+    private var value: String = ""
+    var type: String = "list"
 
     init {
         context.theme.obtainStyledAttributes(
@@ -67,35 +70,49 @@ class CustomSelect @JvmOverloads constructor(
         val bottomSheetView =
             LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_container, null)
         val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
-        val customView = LayoutInflater.from(context).inflate(R.layout.custom_select_list, null)
-        contentFrame.addView(customView)
-
-        val recyclerView: RecyclerView = customView.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
 
         when (type) {
             "list" -> {
+                val customView =
+                    LayoutInflater.from(context).inflate(R.layout.custom_select_list, null)
+                contentFrame.addView(customView)
+
+                val recyclerView: RecyclerView = customView.findViewById(R.id.recyclerView)
+                recyclerView.layoutManager = LinearLayoutManager(context)
                 recyclerView.adapter = OptionAdapter(options) { selectedOption ->
                     options.forEach { it.checked = it == selectedOption }
                     setText(selectedOption.label)
+                    value = selectedOption.value
                     hidePopup()
                 }
             }
-            "A" -> {
-                // Type A에 대한 처리
-            }
-            "B" -> {
-                // Type B에 대한 처리
-            }
-            "C" -> {
-                // Type C에 대한 처리
+            "gender" -> {
+                val customView =
+                    LayoutInflater.from(context).inflate(R.layout.custom_select_gender_view, null)
+                contentFrame.addView(customView)
+
+
+                val cardView1: MaterialCardView = customView.findViewById(R.id.card_view_1)
+                val cardView2: MaterialCardView = customView.findViewById(R.id.card_view_2)
+                // 첫 번째 카드뷰에 클릭 리스너 추가
+                cardView1.setOnClickListener {
+                    // 클릭 이벤트 처리
+                    setText("남성")
+                    value = "MALE"
+                    hidePopup()
+                }
+
+                // 두 번째 카드뷰에 클릭 리스너 추가
+                cardView2.setOnClickListener {
+                    // 클릭 이벤트 처리
+                    setText("여성")
+                    value = "FEMALE"
+                    hidePopup()
+                }
             }
             else -> {
-                recyclerView.adapter = OptionAdapter(options) { selectedOption ->
-                    options.forEach { it.checked = it == selectedOption }
-                    setText(selectedOption.label)
-                    hidePopup()
-                }
+                text = null
+                value = ""
             }
         }
 
@@ -137,7 +154,7 @@ class CustomSelect @JvmOverloads constructor(
 
     // 선택된 옵션의 값에 접근하기 위한 메서드
     fun getValue(): String? {
-        return options.find { it.checked }?.value
+        return value
     }
 
     private fun hidePopup() {
