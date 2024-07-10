@@ -41,14 +41,12 @@ class SignupActivity : BaseActivity() {
             true
         }
 
-        // TODO : 성별 입력 팝업 연결하기
-        // TODO : 팝업 높이 고정하는 설정 만들기
         inputStateManager = InputStateManager(::onStateChange)
 
         setListeners()
+        binding.selectGender.type ="gender"
         setupSignUpButton()
         setupCheckDuplicationButton()
-        setSelect()
         updateUI(inputStateManager.getCurrentState())
     }
 
@@ -59,19 +57,6 @@ class SignupActivity : BaseActivity() {
         binding.etAge.clearFocus()
     }
 
-    private fun setSelect(){
-        val customSelect: CustomSelect = findViewById(R.id.customSelect)
-        val options = arrayOf(
-            Option("하나", "01", checked = true),
-            Option("다섯", "05"),
-            Option("일곱", "07"),
-            Option("둘", "02"),
-            Option("여덟", "08"),
-            Option("열", "10"),
-            Option("구십구", "99")
-        )
-        customSelect.setOptions(options)
-    }
 
     private fun setupSignUpButton() {
         binding.btnSignUp.setEnable(false)
@@ -81,7 +66,7 @@ class SignupActivity : BaseActivity() {
                 InputState.NAME_INPUT -> {
                     val nickName = binding.etNickName.text.toString()
                     if (nickName.isEmpty()) {
-                        Toast.makeText(this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show()
+                        showAlert("이름을 입력해주세요")
                     } else {
                         inputStateManager.nextState()
                     }
@@ -90,20 +75,25 @@ class SignupActivity : BaseActivity() {
                 InputState.AGE_INPUT -> {
                     val age = binding.etAge.text.toString().toIntOrNull()
                     if (age == null || age <= 0) {
-                        Toast.makeText(this, "나이를 올바르게 입력해주세요", Toast.LENGTH_SHORT).show()
+                        showAlert("나이를 올바르게 입력해주세요")
                     } else {
                         inputStateManager.nextState()
                     }
                 }
 
                 InputState.GENDER_INPUT -> {
-                    inputStateManager.nextState()
+                    val gender = binding.selectGender.getValue()
+                    if (gender.isNullOrBlank()) {
+                        showAlert("성별을 선택해주세요")
+                    } else {
+                        inputStateManager.nextState()
+                    }
                 }
 
                 InputState.EMAIL_INPUT -> {
                     val loginId = binding.etLoginId.text.toString()
                     if (loginId.isEmpty()) {
-                        Toast.makeText(this, "이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
+                        showAlert("이메일을 입력해주세요")
                     } else {
                         inputStateManager.nextState()
                     }
@@ -112,12 +102,12 @@ class SignupActivity : BaseActivity() {
                 InputState.PASSWORD_INPUT -> {
                     val password = binding.etPassword.text.toString()
                     if (password.isEmpty()) {
-                        Toast.makeText(this, "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
+                        showAlert("비밀번호를 입력해주세요")
                     } else {
                         val loginId = binding.etLoginId.text.toString()
                         val nickName = binding.etNickName.text.toString()
                         val age = binding.etAge.text.toString().toIntOrNull() ?: 0
-                        val sexType = if (binding.rbMale.isChecked) "MALE" else "FEMALE"
+                        val sexType = binding.selectGender.getValue() ?: ""
 
                         signUp(loginId, password, nickName, age, sexType)
                     }
@@ -218,25 +208,25 @@ class SignupActivity : BaseActivity() {
         binding.btnSignUp.setEnable(false)
         when (state) {
             InputState.AGE_INPUT -> {
-                binding.tvTitle.text ="나이를\n입력해주세요"
+                binding.tvTitle.text = "나이를\n입력해주세요"
                 binding.etAge.visibility = View.VISIBLE
             }
 
             InputState.GENDER_INPUT -> {
                 binding.btnSignUp.setEnable(true)
-                binding.tvTitle.text ="성별을\n입력해주세요"
-                binding.rgSexType.visibility = View.VISIBLE
+                binding.tvTitle.text = "성별을\n입력해주세요"
+                binding.selectGender.visibility = View.VISIBLE
             }
 
             InputState.EMAIL_INPUT -> {
-                binding.tvTitle.text ="이메일을\n입력해주세요"
+                binding.tvTitle.text = "이메일을\n입력해주세요"
                 binding.layoutIdForm.visibility = View.VISIBLE
                 binding.etLoginId.visibility = View.VISIBLE
                 binding.btnCheckDuplication.visibility = View.VISIBLE
             }
 
             InputState.PASSWORD_INPUT -> {
-                binding.tvTitle.text ="비밀번호를\n입력해주세요"
+                binding.tvTitle.text = "비밀번호를\n입력해주세요"
                 binding.etPassword.visibility = View.VISIBLE
             }
 

@@ -3,9 +3,9 @@
     android:id="@+id/outsideView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/margin_horizontal"
     android:gravity="bottom"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,11 +17,10 @@
 
         <TextView
             android:id="@+id/tv_title"
+            style="@style/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이름을\n입력해주세요"
-            style="@style/TitleText"
-            />
+            android:text="이름을\n입력해주세요" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,28 +63,13 @@
                 android:text="중복" />
         </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_sexType"
+        <com.withpet.mobile.ui.custom.CustomSelect
+            android:id="@+id/select_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="18dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <RadioButton
-                android:id="@+id/rb_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="남성" />
-
-            <RadioButton
-                android:id="@+id/rb_female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="여성" />
-        </RadioGroup>
+            android:hint="성별"
+            android:visibility="gone" />
 
         <com.withpet.mobile.ui.custom.CustomInput
             android:id="@+id/et_age"
@@ -103,17 +87,6 @@
             android:layout_marginBottom="18dp"
             android:hint="이름"
             android:inputType="text" />
-
-        <com.withpet.mobile.ui.custom.CustomSelect
-            android:id="@+id/customSelect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/select_prompt"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:clickable="true" />
-
 
     </LinearLayout>
 
