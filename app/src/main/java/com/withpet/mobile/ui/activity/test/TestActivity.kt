@@ -2,10 +2,11 @@ package com.withpet.mobile.ui.test
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
@@ -15,7 +16,6 @@ import com.withpet.mobile.ui.custom.CustomButton
 import com.withpet.mobile.ui.custom.CustomInput
 import com.withpet.mobile.ui.custom.CustomSelect
 import com.withpet.mobile.ui.custom.Option
-import com.withpet.mobile.utils.Logcat
 
 class TestActivity : BaseActivity() {
 
@@ -23,8 +23,9 @@ class TestActivity : BaseActivity() {
     private lateinit var customInput_disable: CustomInput
     private lateinit var customSelect: CustomSelect
     private lateinit var customSelect_disable: CustomSelect
+    private lateinit var customSelect_gender: CustomSelect
     private lateinit var btnAlertTest: CustomButton
-    private lateinit var btnGenderInputTest: CustomButton
+    private lateinit var btnLoadingTest: CustomButton
     private lateinit var btnReserved1: CustomButton
     private lateinit var btnReserved2: CustomButton
 
@@ -37,26 +38,44 @@ class TestActivity : BaseActivity() {
         customInput_disable = findViewById(R.id.customInput_disable)
         customSelect = findViewById(R.id.customSelect)
         customSelect_disable = findViewById(R.id.customSelect_disable)
+        customSelect_gender = findViewById(R.id.customSelect_gender)
         btnAlertTest = findViewById(R.id.btn_alert_test)
-        btnGenderInputTest = findViewById(R.id.btn_gender_input_test)
+        btnLoadingTest = findViewById(R.id.btn_loading_test)
         btnReserved1 = findViewById(R.id.btn_reserved_1)
         btnReserved2 = findViewById(R.id.btn_reserved_2)
 
-
-        setupGenderPopUp()
-
         customSelect_disable.setDisable(true)
         customInput_disable.setDisable(true)
+        customSelect_gender.type = "gender"
+
+        customSelect.setOptions(
+            arrayOf(
+                Option("하나", "01"),
+                Option("다섯", "05"),
+                Option("일곱", "07"),
+                Option("둘", "02"),
+                Option("여덟", "08"),
+                Option("열", "10"),
+                Option("구십구", "99")
+            )
+        )
 
         btnAlertTest.setOnClickListener {
-            showAlert("input : ${customInput.text}\nselect ${customSelect.getValue()}", "인풋 현황")
+            showAlert(
+                "input : ${customInput.text}\nselect : ${customSelect.getValue()}\nselect_gender : ${customSelect_gender.getValue()}",
+                "인풋 현황"
+            )
         }
 
-        btnGenderInputTest.setOnClickListener {
-            showPopup()
+        btnLoadingTest.setOnClickListener {
+            loadingDialog.show(supportFragmentManager, "")
+            Handler(Looper.getMainLooper()).postDelayed({
+                loadingDialog.dismiss()
+            }, 3000)
         }
 
         btnReserved1.setOnClickListener {
+            loadingDialog.show(supportFragmentManager, "")
             val petAddRequest = PetAddRequest(
                 size = "소형",
                 sex = "남자",
@@ -77,6 +96,9 @@ class TestActivity : BaseActivity() {
                 },
                 failure = {
                     showAlert("그냥 실패")
+                },
+                finally = {
+                    loadingDialog.dismiss()
                 }
             )
         }
@@ -85,42 +107,7 @@ class TestActivity : BaseActivity() {
             Toast.makeText(this, "예비 2 버튼 클릭", Toast.LENGTH_SHORT).show()
         }
 
-        // Example usage of CustomSelect
-        customSelect.setOptions(
-            arrayOf(
-                Option("하나", "01"),
-                Option("다섯", "05"),
-                Option("일곱", "07"),
-                Option("둘", "02"),
-                Option("여덟", "08"),
-                Option("열", "10"),
-                Option("구십구", "99")
-            )
-        )
-
-
     }
 
 
-    private fun setupGenderPopUp() {
-        val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
-        val customView = LayoutInflater.from(this).inflate(R.layout.custom_select_gender_view, null)
-        contentFrame.addView(customView)
-
-
-        val cardView1: MaterialCardView = customView.findViewById(R.id.card_view_1)
-        val cardView2: MaterialCardView = customView.findViewById(R.id.card_view_2)
-        // 첫 번째 카드뷰에 클릭 리스너 추가
-        cardView1.setOnClickListener {
-            // 클릭 이벤트 처리
-            showAlert("남성", "성별 선택")
-        }
-
-        // 두 번째 카드뷰에 클릭 리스너 추가
-        cardView2.setOnClickListener {
-            // 클릭 이벤트 처리
-            showAlert("여성", "성별 선택")
-        }
-
-    }
 }

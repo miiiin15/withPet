@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="CustomInput" />
+        android:hint="비활 상태" />
 
 
     <com.withpet.mobile.ui.custom.CustomSelect
@@ -33,7 +33,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="CustomSelect Disabled"
+        android:hint="비활 상태"
+        app:type="list" />
+
+    <com.withpet.mobile.ui.custom.CustomSelect
+        android:id="@+id/customSelect_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="CustomSelect_gender"
         app:type="list" />
 
     <com.withpet.mobile.ui.custom.CustomButton
@@ -44,11 +52,11 @@
         android:text="Alert 테스트" />
 
     <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_gender_input_test"
+        android:id="@+id/btn_loading_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="성별입력 팝업 테스트" />
+        android:text="로딩 테스트" />
 
     <com.withpet.mobile.ui.custom.CustomButton
         android:id="@+id/btn_reserved_1"
