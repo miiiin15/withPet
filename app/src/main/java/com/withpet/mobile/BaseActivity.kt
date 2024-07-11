@@ -135,12 +135,13 @@ abstract class BaseActivity : AppCompatActivity() {
 //        setOnClickListener(oneClick)
 //    }
 
-    fun showAlert(msg: String, title: String = "") {
+    fun showAlert(msg: String, title: String = "", onPress: (() -> Unit)? = null) {
         try {
             val builder = CustomDialog.Builder(this)
             builder.setMessage(msg)
                 .setCancelable(false)
                 .setPositiveButton(DialogInterface.OnClickListener { dialog, which ->
+                    onPress?.invoke()
                     dialog.dismiss()
                 })
 
@@ -157,8 +158,40 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun showAlert(
+        msg: String,
+        title: String = "",
+        onPress: (() -> Unit),
+        onCancel: (() -> Unit)? = null
+    ) {
+        try {
+            val builder = CustomDialog.Builder(this)
+            builder.setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton(DialogInterface.OnClickListener { dialog, which ->
+                    onPress()
+                    dialog.dismiss()
+                }).setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                    onCancel?.invoke()
+                })
+
+            // 제목이 비어있지 않고 null이 아닌 경우에만 제목을 설정
+            if (title.isNotBlank()) {
+                builder.setTitle(title)
+            }
+
+            builder.create().show()
+        } catch (e: WindowManager.BadTokenException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun initBottomSheet() {
-        bottomSheetView = LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
+        bottomSheetView =
+            LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
 
         // Bottom sheet dialog 설정
         bottomSheetDialog = BottomSheetDialog(this).apply {
@@ -171,7 +204,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
         // Bottom sheet behavior 초기화
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     hidePopup()

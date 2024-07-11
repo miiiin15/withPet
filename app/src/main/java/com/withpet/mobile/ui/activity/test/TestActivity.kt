@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
-import android.widget.FrameLayout
 import android.widget.Toast
-import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.data.api.response.PetAddRequest
@@ -24,10 +21,11 @@ class TestActivity : BaseActivity() {
     private lateinit var customSelect: CustomSelect
     private lateinit var customSelect_disable: CustomSelect
     private lateinit var customSelect_gender: CustomSelect
-    private lateinit var btnAlertTest: CustomButton
-    private lateinit var btnLoadingTest: CustomButton
-    private lateinit var btnReserved1: CustomButton
-    private lateinit var btnReserved2: CustomButton
+    private lateinit var btnTest1: CustomButton
+    private lateinit var btnTest2: CustomButton
+    private lateinit var btnTest3: CustomButton
+    private lateinit var btnTest4: CustomButton
+    private lateinit var btnTest5: CustomButton
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,10 +37,11 @@ class TestActivity : BaseActivity() {
         customSelect = findViewById(R.id.customSelect)
         customSelect_disable = findViewById(R.id.customSelect_disable)
         customSelect_gender = findViewById(R.id.customSelect_gender)
-        btnAlertTest = findViewById(R.id.btn_alert_test)
-        btnLoadingTest = findViewById(R.id.btn_loading_test)
-        btnReserved1 = findViewById(R.id.btn_reserved_1)
-        btnReserved2 = findViewById(R.id.btn_reserved_2)
+        btnTest1 = findViewById(R.id.btn_test1)
+        btnTest2 = findViewById(R.id.btn_test2)
+        btnTest3 = findViewById(R.id.btn_test3)
+        btnTest4 = findViewById(R.id.btn_test4)
+        btnTest5 = findViewById(R.id.btn_test5)
 
         customSelect_disable.setDisable(true)
         customInput_disable.setDisable(true)
@@ -60,21 +59,35 @@ class TestActivity : BaseActivity() {
             )
         )
 
-        btnAlertTest.setOnClickListener {
+        btnTest1.setOnClickListener {
             showAlert(
                 "input : ${customInput.text}\nselect : ${customSelect.getValue()}\nselect_gender : ${customSelect_gender.getValue()}",
                 "인풋 현황"
+            ) {
+                Toast.makeText(this, "showAlert onPress", Toast.LENGTH_SHORT).show()
+            }
+        }
+        btnTest2.setOnClickListener {
+            showAlert(
+                msg = "버튼이 2개지요",
+                title = "투버튼",
+                onPress = {
+                    Toast.makeText(this, "showAlert onPress", Toast.LENGTH_SHORT).show()
+                },
+                onCancel = {
+                    Toast.makeText(this, "showAlert onCancel", Toast.LENGTH_SHORT).show()
+                }
             )
         }
 
-        btnLoadingTest.setOnClickListener {
+        btnTest3.setOnClickListener {
             loadingDialog.show(supportFragmentManager, "")
             Handler(Looper.getMainLooper()).postDelayed({
                 loadingDialog.dismiss()
             }, 3000)
         }
 
-        btnReserved1.setOnClickListener {
+        btnTest4.setOnClickListener {
             loadingDialog.show(supportFragmentManager, "")
             val petAddRequest = PetAddRequest(
                 size = "소형",
@@ -103,7 +116,7 @@ class TestActivity : BaseActivity() {
             )
         }
 
-        btnReserved2.setOnClickListener {
+        btnTest5.setOnClickListener {
             Toast.makeText(this, "예비 2 버튼 클릭", Toast.LENGTH_SHORT).show()
         }
 

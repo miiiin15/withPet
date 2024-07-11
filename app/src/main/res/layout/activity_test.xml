@@ -1,75 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/margin_horizontal">
+    android:layout_height="match_parent">
 
-    <com.withpet.mobile.ui.custom.CustomInput
-        android:id="@+id/customInput"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="CustomInput" />
+        android:orientation="vertical"
+        android:padding="@dimen/margin_horizontal">
 
-    <com.withpet.mobile.ui.custom.CustomInput
-        android:id="@+id/customInput_disable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="비활 상태" />
+        <com.withpet.mobile.ui.custom.CustomInput
+            android:id="@+id/customInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="CustomInput" />
 
+        <com.withpet.mobile.ui.custom.CustomInput
+            android:id="@+id/customInput_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="비활성화" />
 
-    <com.withpet.mobile.ui.custom.CustomSelect
-        android:id="@+id/customSelect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="CustomSelect"
-        app:type="list" />
+        <com.withpet.mobile.ui.custom.CustomSelect
+            android:id="@+id/customSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="CustomSelect"
+            app:type="list" />
 
-    <com.withpet.mobile.ui.custom.CustomSelect
-        android:id="@+id/customSelect_disable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="비활 상태"
-        app:type="list" />
+        <com.withpet.mobile.ui.custom.CustomSelect
+            android:id="@+id/customSelect_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="비활성화"
+            app:type="list" />
 
-    <com.withpet.mobile.ui.custom.CustomSelect
-        android:id="@+id/customSelect_gender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="CustomSelect_gender"
-        app:type="list" />
+        <com.withpet.mobile.ui.custom.CustomSelect
+            android:id="@+id/customSelect_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="CustomSelect_gender"
+            app:type="list" />
 
-    <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_alert_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Alert 테스트" />
+        <com.withpet.mobile.ui.custom.CustomButton
+            android:id="@+id/btn_test1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Alert 테스트 기본" />
 
-    <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_loading_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="로딩 테스트" />
+        <com.withpet.mobile.ui.custom.CustomButton
+            android:id="@+id/btn_test2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Alert 테스트 2버튼" />
 
-    <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_reserved_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="반려견 정보입력 TEST" />
+        <com.withpet.mobile.ui.custom.CustomButton
+            android:id="@+id/btn_test3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="로딩 테스트" />
 
-    <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_reserved_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="예비 2" />
+        <com.withpet.mobile.ui.custom.CustomButton
+            android:id="@+id/btn_test4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="반려견 정보입력 TEST" />
 
-</LinearLayout>
+        <com.withpet.mobile.ui.custom.CustomButton
+            android:id="@+id/btn_test5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="예비 2" />
+
+    </LinearLayout>
+
+</ScrollView>
