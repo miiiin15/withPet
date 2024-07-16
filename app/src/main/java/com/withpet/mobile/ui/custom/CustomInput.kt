@@ -24,7 +24,7 @@ class CustomInput @JvmOverloads constructor(
 
     init {
         setBackgroundResource(R.drawable.custom_input_bg)
-        setPadding(0, 20, 0, 20)
+//        setPadding(0, 20, 0, 20)
         gravity = Gravity.START or Gravity.CENTER_VERTICAL
         setHintTextColor(ContextCompat.getColor(context, R.color.disable))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
@@ -53,7 +53,7 @@ class CustomInput @JvmOverloads constructor(
         val colorResIdBackground = if (enabled) R.color.transparent else R.color.disable
         setCustomBackgroundColor(colorResIdBackground)
 
-        val hintTextColorResId = if (enabled) R.color.disable else R.color.txt1
+        val hintTextColorResId = if (enabled) R.color.txt1 else R.color.txt3
         setHintTextColor(ContextCompat.getColor(context, hintTextColorResId))
     }
     override fun setError(error: CharSequence?) {

@@ -19,7 +19,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
-import com.withpet.mobile.utils.Logcat
 
 data class Option(val label: String, val value: String, var checked: Boolean = false)
 
@@ -47,10 +46,13 @@ class CustomSelect @JvmOverloads constructor(
                 recycle()
             }
         }
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-        setHintTextColor(ContextCompat.getColor(context, R.color.disable))
-        background = ContextCompat.getDrawable(context, R.drawable.custom_select_bg)
+        isCursorVisible = false
+
+        setBackgroundResource(R.drawable.custom_select_bg)
+//        setPadding(0, 20, 0, 20)
         gravity = Gravity.START or Gravity.CENTER_VERTICAL
+        setHintTextColor(ContextCompat.getColor(context, R.color.disable))
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
 
         setOnClickListener {
             if (!isDisabled) { // 클릭 시 isDisabled 확인
@@ -67,6 +69,7 @@ class CustomSelect @JvmOverloads constructor(
     }
 
     private fun showOptions() {
+        setUnderlineColor(R.color.primary)
         val bottomSheetView =
             LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_container, null)
         val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
@@ -123,6 +126,9 @@ class CustomSelect @JvmOverloads constructor(
                 val parentLayout = bottomSheetView.parent as ViewGroup
                 parentLayout.setBackgroundResource(android.R.color.transparent)
             }
+            setOnCancelListener {
+                setUnderlineColor(R.color.disable)
+            }
         }
 
         // Bottom sheet behavior 초기화
@@ -158,27 +164,40 @@ class CustomSelect @JvmOverloads constructor(
     }
 
     private fun hidePopup() {
+        setUnderlineColor(R.color.disable)
         bottomSheetDialog.dismiss()
     }
 
-    private fun setUnderlineColor(color: Int) {
-        val layerDrawable = background as? LayerDrawable
-        layerDrawable?.findDrawableByLayerId(R.id.underLine)?.apply {
-            if (this is GradientDrawable) {
-                setColor(color)
-            }
+    private fun setUnderlineColor(colorResId: Int) {
+        val drawable = background
+        if (drawable is LayerDrawable) {
+            val underline = drawable.findDrawableByLayerId(R.id.underLine) as? GradientDrawable
+            underline?.setColor(ContextCompat.getColor(context, colorResId))
+        } else {
+            background?.mutate()?.setTint(ContextCompat.getColor(context, colorResId))
+        }
+    }
+
+    private fun setCustomBackgroundColor(colorResId: Int) {
+        val drawable = background
+        if (drawable is LayerDrawable) {
+            val underline = drawable.findDrawableByLayerId(R.id.background) as? GradientDrawable
+            underline?.setColor(ContextCompat.getColor(context, colorResId))
+        } else {
+            background?.mutate()?.setTint(ContextCompat.getColor(context, colorResId))
         }
     }
 
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         // disable 상태일 경우 전체 입력 필드의 색상 변경
-        val colorResId = if (enabled) {
-            R.color.txt1 // 정상 상태 색상
-        } else {
-            R.color.txt3 // 비활성화 상태 색상
-        }
+        val colorResId = if (enabled) R.color.txt1 else R.color.txt3
         setHintTextColor(ContextCompat.getColor(context, colorResId))
+
+        val colorResIdBackground = if (enabled) R.color.transparent else R.color.disable
+        setCustomBackgroundColor(colorResIdBackground)
+
+
         isDisabled = !enabled // 상태 저장
     }
 

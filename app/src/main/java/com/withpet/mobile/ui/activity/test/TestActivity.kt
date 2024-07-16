@@ -9,10 +9,7 @@ import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.data.api.response.PetAddRequest
 import com.withpet.mobile.data.repository.PetRepo
-import com.withpet.mobile.ui.custom.CustomButton
-import com.withpet.mobile.ui.custom.CustomInput
-import com.withpet.mobile.ui.custom.CustomSelect
-import com.withpet.mobile.ui.custom.Option
+import com.withpet.mobile.ui.custom.*
 
 class TestActivity : BaseActivity() {
 
@@ -46,6 +43,12 @@ class TestActivity : BaseActivity() {
         customSelect_disable.setDisable(true)
         customInput_disable.setDisable(true)
         customSelect_gender.type = "gender"
+
+        customInput.setIsValidListener(object : IsValidListener {
+            override fun isValid(text: String): Boolean {
+                return text.length > 6
+            }
+        })
 
         customSelect.setOptions(
             arrayOf(
