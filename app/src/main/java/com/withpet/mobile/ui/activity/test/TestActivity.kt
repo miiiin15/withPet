@@ -1,6 +1,7 @@
 package com.withpet.mobile.ui.test
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -120,7 +121,8 @@ class TestActivity : BaseActivity() {
         }
 
         btnTest5.setOnClickListener {
-            Toast.makeText(this, "예비 2 버튼 클릭", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, SampleActivity::class.java)
+            startActivity(intent)
         }
 
     }

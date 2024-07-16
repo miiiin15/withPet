@@ -36,6 +36,7 @@
         <activity android:name=".ui.activity.signup.PetInfoActivity" />
 
         <activity android:name=".ui.test.TestActivity" />
+        <activity android:name=".ui.test.SampleActivity" />
     </application>
 
     <!-- 권한 목록 -->
