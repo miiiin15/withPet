@@ -36,6 +36,7 @@
                 android:layout_height="150dp"
                 android:gravity="center"
                 android:orientation="vertical"
+
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="20dp">
 

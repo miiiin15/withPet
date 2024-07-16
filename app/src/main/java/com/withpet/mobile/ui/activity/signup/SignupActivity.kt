@@ -1,24 +1,18 @@
 package com.withpet.mobile.ui.activity.signup
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.withpet.mobile.BaseActivity
-import com.withpet.mobile.R
 import com.withpet.mobile.data.enums.InputState
 import com.withpet.mobile.data.managers.InputStateManager
-import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivitySignupBinding
-import com.withpet.mobile.ui.custom.CustomSelect
 import com.withpet.mobile.ui.custom.IsValidListener
-import com.withpet.mobile.ui.custom.Option
 
 class SignupActivity : BaseActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -44,7 +38,7 @@ class SignupActivity : BaseActivity() {
         inputStateManager = InputStateManager(::onStateChange)
 
         setListeners()
-        binding.selectGender.type ="gender"
+        binding.selectGender.type = "gender"
         setupSignUpButton()
         setupCheckDuplicationButton()
         updateUI(inputStateManager.getCurrentState())
