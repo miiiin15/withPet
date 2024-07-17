@@ -22,9 +22,16 @@ class SampleActivity : BaseActivity() {
     private fun setList() {
         val someoneList: SomeoneList = findViewById(R.id.someoneList)
         val someones = arrayOf(
-            Someone("User1", "Address1", "Female", null),
-            Someone("User2", "Address2", "Male", null),
-            // 더 많은 Someone 객체 추가
+            Someone("김철수", "서울특별시 강남구", "Female", null),
+            Someone("이영희", "서울특별시 서초구", "Male", null),
+            Someone("박준영", "부산광역시 해운대구", "Female", null),
+            Someone("최수지", "대구광역시 수성구", "Male", null),
+            Someone("강민지", "인천광역시 연수구", "Female", null),
+            Someone("윤서진", "대전광역시 유성구", "Male", null),
+            Someone("정하나", "광주광역시 북구", "Female", null),
+            Someone("오지훈", "울산광역시 남구", "Male", null),
+            Someone("홍길동", "경기도 성남시 분당구", "Female", null),
+            Someone("고수민", "경상남도 창원시 의창구", "Male", null)
         )
         someoneList.setSomeones(someones)
     }
