@@ -7,6 +7,8 @@ import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.databinding.ActivitySampleBinding
 import com.withpet.mobile.ui.activity.main.SomeoneList
+import com.withpet.mobile.ui.custom.BottomNavigationBar
+import com.withpet.mobile.utils.Logcat
 
 class SampleActivity : BaseActivity() {
     private lateinit var binding: ActivitySampleBinding
@@ -17,6 +19,15 @@ class SampleActivity : BaseActivity() {
         setContentView(binding.root)
 
         setList()
+
+        val bottomNavigationBar: BottomNavigationBar = findViewById(R.id.bottomNavigationBar)
+        bottomNavigationBar.selectedCategory = "홈"
+
+        // 카테고리 클릭 리스너 설정 (필요 시)
+        bottomNavigationBar.setOnClickListener {
+            // TODO: 카테고리 클릭 시 동작 설정
+            Logcat.d(bottomNavigationBar.selectedCategory)
+        }
     }
 
     private fun setList() {
