@@ -1,13 +1,13 @@
 package com.withpet.mobile.ui.activity.main
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
-import com.withpet.mobile.utils.Logcat
+import com.withpet.mobile.ui.custom.CustomLikeButton
 
 // SomeoneList 컴포넌트 정의
 class SomeoneList @JvmOverloads constructor(
@@ -56,26 +56,31 @@ class SomeoneList @JvmOverloads constructor(
 
         override fun onBindViewHolder(holder: SomeoneViewHolder, position: Int) {
             val someone = someones[position]
-            holder.bind(someone, position)
+            holder.bind(someone, position, itemCount)
         }
 
         override fun getItemCount(): Int = someones.size
 
         inner class SomeoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-            private val infoLayout: LinearLayout = itemView.findViewById(R.id.userInfoLayout)
             private val addressText: TextView = itemView.findViewById(R.id.addressText)
             private val usernameText: TextView = itemView.findViewById(R.id.usernameText)
             private val genderText: TextView = itemView.findViewById(R.id.genderText)
-            private val likeButton: Button = itemView.findViewById(R.id.likeButton)
+            private val ageText: TextView = itemView.findViewById(R.id.ageText)
+            private val actionButton: CustomLikeButton = itemView.findViewById(R.id.likeButton)
+            private val profileImage: ImageView =
+                itemView.findViewById(R.id.profileImage) // 프로필 이미지뷰
+            private val userInfoLayout: ViewGroup =
+                itemView.findViewById(R.id.userInfoLayout) // 사용자 정보 레이아웃
+
+            val displayMetrics: DisplayMetrics = itemView.context.resources.displayMetrics
+            val screenWidth = displayMetrics.widthPixels
+            val marginHorizontal =
+                itemView.context.resources.getDimensionPixelSize(R.dimen.margin_horizontal)
+            val cardWidth = screenWidth - marginHorizontal * 5
 
             init {
                 // 화면 너비와 마진 값을 가져와서 MaterialCardView의 너비를 설정
-                val displayMetrics: DisplayMetrics = itemView.context.resources.displayMetrics
-                val screenWidth = displayMetrics.widthPixels
-                val marginHorizontal =
-                    itemView.context.resources.getDimensionPixelSize(R.dimen.margin_horizontal)
-                val cardWidth = screenWidth - marginHorizontal * 4
 
                 // cardView의 레이아웃 파라미터를 설정
                 val layoutParams = cardView.layoutParams
@@ -84,45 +89,53 @@ class SomeoneList @JvmOverloads constructor(
                 cardView.layoutParams = layoutParams
             }
 
-            fun bind(someone: Someone, position: Int) {
+            @SuppressLint("SetTextI18n")
+            fun bind(someone: Someone, position: Int, itemCount: Int) {
+                val ITEM_MARGIN = (screenWidth - cardWidth)/8// 아이템 간의 여백을 16dp로 설정
+
                 addressText.text = someone.address
                 usernameText.text = someone.username
                 genderText.text = if (someone.gender == "Male") "남자" else "여자"
-//                likeButton.isLike = false
+                ageText.text = "${someone.age} 세"
 
                 // TODO: 프로필 이미지 설정
-                // 예: Glide.with(itemView).load(someone.profileImage).into(imageView)
+                // 예: Glide.with(itemView).load(someone.profileImage).into(profileImage)
 
                 // TODO: actionButton click listener 설정
-                likeButton.setOnClickListener {
-                    // 액션 버튼 클릭 리스너
+                actionButton.setOnClickListener {
+                    actionButton.isLike = !actionButton.isLike
                 }
 
-                // TODO : 리스트 간격 문제 해결하기
-                // 마지막 항목인 경우 layout_marginRight 설정
-                val cardViewParams = cardView.layoutParams as ViewGroup.MarginLayoutParams
-                val infoLayoutParams = infoLayout.layoutParams as ViewGroup.MarginLayoutParams
-                val marginHorizontal =
-                    itemView.context.resources.getDimensionPixelSize(R.dimen.margin_horizontal)
-                if (position == 0) {
-//                    Logcat.d("나느 $position")
-                    cardViewParams.leftMargin = marginHorizontal *2
-                    infoLayoutParams.leftMargin = marginHorizontal *2
-                } else {
-                    cardViewParams.leftMargin = 0
-                    infoLayoutParams.leftMargin = 0
-                }
+                // 첫 번째 또는 마지막 항목인 경우 layout_marginRight 설정
+                val params = cardView.layoutParams as ViewGroup.MarginLayoutParams
+                val userInfoParams = userInfoLayout.layoutParams as ViewGroup.MarginLayoutParams
+                val displayMetrics: DisplayMetrics = itemView.context.resources.displayMetrics
+                val screenWidth = displayMetrics.widthPixels
+                val marginHorizontal = (screenWidth - cardView.layoutParams.width) / 2
 
-                if (position == itemCount - 1) {
-                    Logcat.d("이  $position")
-                    cardViewParams.rightMargin = marginHorizontal*2
-                } else {
-                    cardViewParams.rightMargin = 0
+                when (position) {
+                    0 -> {
+                        params.leftMargin = marginHorizontal
+                        params.rightMargin = ITEM_MARGIN // 아이템 간의 여백 설정
+                        userInfoParams.leftMargin = marginHorizontal
+                        userInfoParams.rightMargin = ITEM_MARGIN
+                    }
+                    itemCount - 1 -> {
+                        params.leftMargin = ITEM_MARGIN // 아이템 간의 여백 설정
+                        params.rightMargin = marginHorizontal
+                        userInfoParams.leftMargin = ITEM_MARGIN
+                        userInfoParams.rightMargin = marginHorizontal
+                    }
+                    else -> {
+                        params.leftMargin = ITEM_MARGIN // 아이템 간의 여백 설정
+                        params.rightMargin = ITEM_MARGIN // 아이템 간의 여백 설정
+                        userInfoParams.leftMargin = ITEM_MARGIN
+                        userInfoParams.rightMargin = ITEM_MARGIN
+                    }
                 }
-                cardView.layoutParams = cardViewParams
+                cardView.layoutParams = params
+                userInfoLayout.layoutParams = userInfoParams
             }
-
-
         }
     }
 }

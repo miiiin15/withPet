@@ -22,17 +22,18 @@ class SampleActivity : BaseActivity() {
     private fun setList() {
         val someoneList: SomeoneList = findViewById(R.id.someoneList)
         val someones = arrayOf(
-            Someone("김철수", "서울특별시 강남구", "Female", null),
-            Someone("이영희", "서울특별시 서초구", "Male", null),
-            Someone("박준영", "부산광역시 해운대구", "Female", null),
-            Someone("최수지", "대구광역시 수성구", "Male", null),
-            Someone("강민지", "인천광역시 연수구", "Female", null),
-            Someone("윤서진", "대전광역시 유성구", "Male", null),
-            Someone("정하나", "광주광역시 북구", "Female", null),
-            Someone("오지훈", "울산광역시 남구", "Male", null),
-            Someone("홍길동", "경기도 성남시 분당구", "Female", null),
-            Someone("고수민", "경상남도 창원시 의창구", "Male", null)
+            Someone("치와왕", "서울특별시 강남구", "Female", 25, null),
+            Someone("무적폭풍 김모리", "서울특별시 강동구", "Female", 99, null),
+            Someone("호날두", "부산광역시 해운대구", "Male", 22, null),
+            Someone("민들레", "대구광역시 수성구", "Male", 28, null),
+            Someone("닉넴뭐하지", "인천광역시 연수구", "Female", 27, null),
+            Someone("유성 강타", "대전광역시 유성구", "Male", 26, null),
+            Someone("xx12", "광주광역시 북구", "Female", 24, null),
+            Someone("위즐리", "울산광역시 남구", "Male", 31, null),
+            Someone("엔투소프트", "경기도 성남시 분당구", "Female", 29, null),
+            Someone("창원케로베로스", "경상남도 창원시 의창구", "Male", 23, null)
         )
+
         someoneList.setSomeones(someones)
     }
 }
