@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
+    android:layout_marginTop="12dp"
     android:background="@drawable/navigation_background"
-    android:elevation="8dp"
+    android:elevation="12dp"
     android:orientation="horizontal"
-    android:padding="8dp"
     android:weightSum="5">
 
     <LinearLayout
@@ -20,9 +19,9 @@
         android:padding="8dp">
         <ImageView
             android:id="@+id/nav_home_icon"
-            android:layout_width="24dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_menu_home"
             android:tag="홈_icon"/>
         <TextView
             android:textSize="12sp"
@@ -44,9 +43,9 @@
         android:padding="8dp">
         <ImageView
             android:id="@+id/nav_chat_icon"
-            android:layout_width="24dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_menu_message"
             android:tag="채팅_icon"/>
         <TextView
             android:textSize="12sp"
@@ -68,9 +67,9 @@
         android:padding="8dp">
         <ImageView
             android:id="@+id/nav_walk_icon"
-            android:layout_width="24dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_menu_walk"
             android:tag="산책하기_icon"/>
         <TextView
             android:textSize="12sp"
@@ -92,9 +91,9 @@
         android:padding="8dp">
         <ImageView
             android:id="@+id/nav_match_icon"
-            android:layout_width="24dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_menu_matching"
             android:tag="매칭_icon"/>
         <TextView
             android:textSize="12sp"
@@ -116,9 +115,9 @@
         android:padding="8dp">
         <ImageView
             android:id="@+id/nav_my_icon"
-            android:layout_width="24dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_menu_my"
             android:tag="MY_icon"/>
         <TextView
             android:textSize="12sp"
