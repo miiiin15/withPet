@@ -48,7 +48,7 @@ class CustomSelect @JvmOverloads constructor(
         }
         isCursorVisible = false
 
-        setBackgroundResource(R.drawable.custom_select_bg)
+        setBackgroundResource(R.drawable.bg_custom_select)
 //        setPadding(0, 20, 0, 20)
         gravity = Gravity.START or Gravity.CENTER_VERTICAL
         setHintTextColor(ContextCompat.getColor(context, R.color.disable))
@@ -71,7 +71,7 @@ class CustomSelect @JvmOverloads constructor(
     private fun showOptions() {
         setUnderlineColor(R.color.primary)
         val bottomSheetView =
-            LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_container, null)
+            LayoutInflater.from(context).inflate(R.layout.custom_bottom_sheet_container, null)
         val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
 
         when (type) {
@@ -91,7 +91,7 @@ class CustomSelect @JvmOverloads constructor(
             }
             "gender" -> {
                 val customView =
-                    LayoutInflater.from(context).inflate(R.layout.custom_select_gender_view, null)
+                    LayoutInflater.from(context).inflate(R.layout.custom_view_gender, null)
                 contentFrame.addView(customView)
 
 

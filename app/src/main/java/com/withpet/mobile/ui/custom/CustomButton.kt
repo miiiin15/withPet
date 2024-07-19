@@ -28,7 +28,7 @@ class CustomButton @JvmOverloads constructor(
             text = textValue ?: "확인"
         }
 
-        background = ContextCompat.getDrawable(context, R.drawable.custom_button_selector)
+        background = ContextCompat.getDrawable(context, R.drawable.selector_custom_button)
         setTextColor(ContextCompat.getColor(context, R.color.white))
     }
 

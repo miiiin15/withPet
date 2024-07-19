@@ -8,14 +8,9 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.ui.custom.CustomDialog
 import com.withpet.mobile.ui.custom.LoadingDialog
 
@@ -191,7 +186,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun initBottomSheet() {
         bottomSheetView =
-            LayoutInflater.from(this).inflate(R.layout.layout_bottom_sheet_container, null)
+            LayoutInflater.from(this).inflate(R.layout.custom_bottom_sheet_container, null)
 
         // Bottom sheet dialog 설정
         bottomSheetDialog = BottomSheetDialog(this).apply {

@@ -121,7 +121,7 @@ class CustomDialog : Dialog {
         fun create(): AlertDialog {
             val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val layout = inflater.inflate(R.layout.dialog_layout, null)
+            val layout = inflater.inflate(R.layout.custom_alert, null)
             val dialogBuilder = AlertDialog.Builder(context)
             dialogBuilder.setView(layout)
             val dialog = dialogBuilder.create()

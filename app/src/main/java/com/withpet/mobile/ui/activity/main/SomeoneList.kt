@@ -50,7 +50,7 @@ class SomeoneList @JvmOverloads constructor(
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SomeoneViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.someone_list_item, parent, false)
+                .inflate(R.layout.item_someone_list, parent, false)
             return SomeoneViewHolder(view)
         }
 

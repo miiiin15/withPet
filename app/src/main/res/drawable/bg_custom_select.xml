@@ -23,6 +23,6 @@
         <bitmap
             android:id="@+id/icon_down"
             android:gravity="right|center_vertical"
-            android:src="@drawable/chevron_down" />
+            android:src="@drawable/ic_arrow_down" />
     </item>
 </layer-list>

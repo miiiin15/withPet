@@ -23,7 +23,7 @@ class CustomInput @JvmOverloads constructor(
     private var isValidListener: IsValidListener? = null
 
     init {
-        setBackgroundResource(R.drawable.custom_input_bg)
+        setBackgroundResource(R.drawable.bg_custom_input)
 //        setPadding(0, 20, 0, 20)
         gravity = Gravity.START or Gravity.CENTER_VERTICAL
         setHintTextColor(ContextCompat.getColor(context, R.color.disable))

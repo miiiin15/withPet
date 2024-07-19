@@ -54,7 +54,7 @@
                 <ImageView
                     android:layout_width="@dimen/logo_size_middle"
                     android:layout_height="@dimen/logo_size_middle"
-                    android:src="@drawable/logo"/>
+                    android:src="@drawable/img_logo"/>
 
                 <TextView
                     android:layout_width="wrap_content"

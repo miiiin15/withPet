@@ -18,7 +18,7 @@ class CustomLikeButton @JvmOverloads constructor(
         }
 
     init {
-        background = context.getDrawable(R.drawable.like_button_selector)
+        background = context.getDrawable(R.drawable.selector_like_button)
         updateButtonState()
         setOnClickListener {
             isLike = !isLike

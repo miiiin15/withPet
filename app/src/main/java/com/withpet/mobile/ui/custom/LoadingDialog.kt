@@ -10,11 +10,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.withpet.mobile.R
-import com.withpet.mobile.databinding.DialogLoadingBinding
+import com.withpet.mobile.databinding.CustomLoadingBinding
 
 class LoadingDialog : DialogFragment() {
 
-    lateinit var binding: DialogLoadingBinding
+    lateinit var binding: CustomLoadingBinding
 
     // isAdded 등의 플래그가 변경되기 전에 show를 호출할 수 있으므로
     // 별도의 플래그를 둔다.
@@ -31,7 +31,7 @@ class LoadingDialog : DialogFragment() {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.dialog_loading,
+            R.layout.custom_loading,
             container,
             false
         )

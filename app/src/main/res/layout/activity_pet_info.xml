@@ -41,7 +41,7 @@
                 android:id="@+id/iv_Profile"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                android:background="@drawable/profile_circle_shape"
+                android:background="@drawable/shape_profile_circle"
                 android:scaleType="center"
                 android:src="@drawable/default_profile" />
 
