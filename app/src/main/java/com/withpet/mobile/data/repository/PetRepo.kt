@@ -36,7 +36,7 @@ object PetRepo {
             MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
         }
 
-        NetworkService.getService().requestSavePetInfo(requestBody, profileImagePart)
+        NetworkService.getService().requestSavePetInfo(requestBody, null)
             .enqueue(object : Callback<ApiResponse<Any>> {
                 override fun onResponse(
                     call: Call<ApiResponse<Any>>,
@@ -47,7 +47,9 @@ object PetRepo {
                             val data = response.body() ?: return
                             success(data)
                         } else {
-                            networkFail(response.code().toString())
+                            // TODO : 테스트 끝나면 지우기
+//                            networkFail(response.code().toString())
+                            networkFail(response.toString())
                         }
                     } finally {
                         finally()
