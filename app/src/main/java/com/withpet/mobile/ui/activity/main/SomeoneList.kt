@@ -38,14 +38,23 @@ class SomeoneList @JvmOverloads constructor(
         someoneAdapter.setSomeones(someones)
     }
 
+    fun setOnItemClickListener(listener: (Someone) -> Unit) {
+        someoneAdapter.setOnItemClickListener(listener)
+    }
+
     // 어댑터 클래스 정의
     inner class SomeoneAdapter : RecyclerView.Adapter<SomeoneAdapter.SomeoneViewHolder>() {
 
         private var someones: Array<Someone> = arrayOf()
+        private var itemClickListener: ((Someone) -> Unit)? = null
 
         fun setSomeones(someones: Array<Someone>) {
             this.someones = someones
             notifyDataSetChanged()
+        }
+
+        fun setOnItemClickListener(listener: (Someone) -> Unit) {
+            this.itemClickListener = listener
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SomeoneViewHolder {
@@ -91,7 +100,7 @@ class SomeoneList @JvmOverloads constructor(
 
             @SuppressLint("SetTextI18n")
             fun bind(someone: Someone, position: Int, itemCount: Int) {
-                val ITEM_MARGIN = (screenWidth - cardWidth)/8// 아이템 간의 여백을 16dp로 설정
+                val ITEM_MARGIN = (screenWidth - cardWidth) / 8 // 아이템 간의 여백을 16dp로 설정
 
                 addressText.text = someone.address
                 usernameText.text = someone.username
@@ -135,6 +144,11 @@ class SomeoneList @JvmOverloads constructor(
                 }
                 cardView.layoutParams = params
                 userInfoLayout.layoutParams = userInfoParams
+
+                // 카드뷰 클릭 리스너 설정
+                cardView.setOnClickListener {
+                    itemClickListener?.invoke(someone)
+                }
             }
         }
     }
