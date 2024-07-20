@@ -11,6 +11,6 @@ object Constants {
 //    운영서버
 
     //개발서버
-    const val SERVER_URL = "http://210.115.230.154:59020/"
+    const val SERVER_URL = "http://211.245.55.194:59020/"
 
 }
