@@ -44,10 +44,18 @@ class TestActivity : BaseActivity() {
         customSelect_disable.setDisable(true)
         customInput_disable.setDisable(true)
         customSelect_gender.type = "gender"
+        btnTest4.setEnable(false)
 
         customInput.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
-                return text.length > 6
+                return try {
+                    val value = text.toInt()
+                    btnTest4.setEnable(value >= 0)
+                    value >= 0
+                } catch (e: NumberFormatException) {
+                    btnTest4.setEnable(false)
+                    false
+                }
             }
         })
 
@@ -97,8 +105,8 @@ class TestActivity : BaseActivity() {
                 size = "소형",
                 sex = "남자",
                 age = 3,
-                introduction = "소개",
-                memberId = 47
+                introduction = "소개 12345 가나다라마사바 ABCDEFG 6789",
+                memberId = customInput.text.toString().toIntOrNull() ?: 0
             )
             PetRepo.savePetInfo(petAddRequest, null,
                 success = {
@@ -119,6 +127,8 @@ class TestActivity : BaseActivity() {
                 }
             )
         }
+
+
 
         btnTest5.setOnClickListener {
             val intent = Intent(this, SampleActivity::class.java)

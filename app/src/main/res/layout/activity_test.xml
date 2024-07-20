@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="6자 이상 입력" />
+            android:hint="test memberId 이상 입력"
+            android:inputType="number" />
 
         <com.withpet.mobile.ui.custom.CustomInput
             android:id="@+id/customInput_disable"
