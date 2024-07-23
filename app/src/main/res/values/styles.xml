@@ -39,6 +39,17 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="AlertCornersRounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeBottomRight">12dp</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+    </style>
+
+    <!-- DatePicker -->
+
+    <!-- BottomSheetDialog -->
     <style name="TopCornersRounded" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">@dimen/bottom_sheet_radius</item>
@@ -47,9 +58,7 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
-    <!-- DatePicker -->
 
-    <!-- BottomSheetDialog -->
     <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item> <!-- This is important -->
         <item name="android:statusBarColor">@android:color/transparent

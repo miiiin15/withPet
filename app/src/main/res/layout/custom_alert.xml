@@ -1,93 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/bg_alert"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_horizontal"
+        android:background="@android:color/transparent"
+        app:cardElevation="0dp"
+        app:cardForegroundColor="@color/transparent"
+        app:shapeAppearanceOverlay="@style/AlertCornersRounded">
 
         <LinearLayout
-            android:id="@+id/llDlgTitleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_alert"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/txvDlgTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/txt3"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="26dp"
-            android:paddingVertical="24dp">
-
-            <com.withpet.mobile.ui.custom.MaxHeightScrollView
+            <LinearLayout
+                android:id="@+id/llDlgTitleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:maxHeight="@dimen/height_dlg_max_300">
+                android:paddingTop="12dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/llDlgContentLayout"
+                <TextView
+                    android:id="@+id/txvDlgTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt3"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="26dp"
+                android:paddingVertical="12dp">
+
+                <com.withpet.mobile.ui.custom.MaxHeightScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    app:maxHeight="@dimen/height_dlg_max_300">
 
-                    <TextView
-                        android:id="@+id/txvDlgContent"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/llDlgContentLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:lineSpacingExtra="@dimen/margin_8"
-                        android:text="텍스트"
-                        android:textColor="@color/txt3"
-                        android:textSize="16dp" />
-                </LinearLayout>
-            </com.withpet.mobile.ui.custom.MaxHeightScrollView>
-        </LinearLayout>
+                        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/txvDlgContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:lineSpacingExtra="@dimen/margin_8"
+                            android:text="텍스트"
+                            android:textColor="@color/txt3"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+                </com.withpet.mobile.ui.custom.MaxHeightScrollView>
+            </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnDlgPositive"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/primary"
-                android:text="확인"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="16dp">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnDlgNegative"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@color/transparent"
-                android:text="취소"
-                android:textColor="@color/button_cancel_text"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnDlgPositive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button_enable"
+                    android:text="확인"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnDlgNegative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/transparent"
+                    android:text="취소"
+                    android:textColor="@color/button_cancel_text"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>
