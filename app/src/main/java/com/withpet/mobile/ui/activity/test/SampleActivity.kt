@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -15,6 +16,7 @@ import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.databinding.ActivitySampleBinding
 import com.withpet.mobile.ui.activity.main.SomeoneList
 import com.withpet.mobile.ui.custom.BottomNavigationBar
+import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
 import com.withpet.mobile.utils.Logcat
 
 class SampleActivity : BaseActivity() {
@@ -27,7 +29,7 @@ class SampleActivity : BaseActivity() {
         setContentView(binding.root)
 
         setList()
-        setBottomSheet()
+//        setBottomSheet()
 
         val bottomNavigationBar: BottomNavigationBar = findViewById(R.id.bottomNavigationBar)
         bottomNavigationBar.selectedCategory = "홈"
@@ -55,53 +57,33 @@ class SampleActivity : BaseActivity() {
 
         someoneList.setSomeones(someones)
         someoneList.setOnItemClickListener { someone ->
-            Toast.makeText(this, "${someone.username} 클릭됨", Toast.LENGTH_SHORT).show()
-            bottomSheetDialog.show()
+            showSomeoneInfoBottomSheet(someone)
+
         }
     }
 
-    private fun setBottomSheet() {
-        val bottomSheetView =
-            LayoutInflater.from(this).inflate(R.layout.custom_bottom_sheet_container, null)
-        val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
-        val customView =
-            LayoutInflater.from(this).inflate(R.layout.custom_view_someone_info, null)
-        contentFrame.addView(customView)
+    private fun showSomeoneInfoBottomSheet(someone: Someone) {
+        val bottomSheet = SomeoneInfoBottomSheet()
 
-        // Bottom sheet dialog 설정
-        bottomSheetDialog = BottomSheetDialog(this).apply {
-            setContentView(bottomSheetView)
-            setOnShowListener {
-                val parentLayout = bottomSheetView.parent as ViewGroup
-                parentLayout.setBackgroundResource(android.R.color.transparent)
-            }
-            setOnCancelListener {
-            }
+        // 아이콘과 텍스트 설정
+//        bottomSheet.setProfileImage(R.drawable.ic_profile) // 기본 이미지 설정, 필요시 변경
+        bottomSheet.setUserName(someone.username)
+        bottomSheet.setUserAge(someone.age)
+        bottomSheet.setUserGender(someone.gender)
+//        bottomSheet.setPetName("강아지") // 필요 시 실제 데이터로 변경
+//        bottomSheet.setPetDescription("강아지는 사랑스러운 반려동물입니다.") // 필요 시 실제 데이터로 변경
+
+        // 버튼 클릭 리스너 설정
+        bottomSheet.setOnGreetClickListener {
+            // 인사하기 버튼 클릭 시 동작 설정
+            showAlert("안녕하세요?")
         }
 
-        // Bottom sheet behavior 초기화
-        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
-//        val defaultHeight = (this.resources.displayMetrics.heightPixels * 0.4).toInt()
-//        bottomSheetBehavior.peekHeight = defaultHeight
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED // 초기 높이를 동일하게 설정
-        bottomSheetBehavior.isHideable = false // 슬라이드 비활성화
+        bottomSheet.setOnLikeClickListener {
+            // 좋아요 버튼 클릭 시 동작 설정
+            showAlert("좋아요")
+        }
 
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                // STATE_COLLAPSED 외의 상태로 변경되지 않도록 처리
-                if (newState != BottomSheetBehavior.STATE_EXPANDED) {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // 슬라이드 이벤트 비활성화
-            }
-        })
-
-        // Bottom sheet 크기 조정
-//        bottomSheetView.layoutParams.height = defaultHeight
-
+        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 }
