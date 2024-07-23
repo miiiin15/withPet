@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/icon_close"
-        android:layout_width="wrap_content"
+        android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="12dp"
         android:src="@drawable/ic_close"
@@ -31,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_profile">
@@ -63,7 +64,7 @@
                 android:id="@+id/tv_user_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="8dp"
                 android:text="10세"
                 android:textColor="@color/txt1"
                 android:textSize="15dp"
