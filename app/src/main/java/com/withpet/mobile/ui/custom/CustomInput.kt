@@ -3,6 +3,9 @@ package com.withpet.mobile.ui.custom
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -20,6 +23,7 @@ class CustomInput @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatEditText(context, attrs, defStyleAttr) {
 
+    private var isInitialized = false
     private var isValidListener: IsValidListener? = null
 
     init {
@@ -43,6 +47,16 @@ class CustomInput @JvmOverloads constructor(
                     setUnderlineColor(R.color.disable)
                 }
             }
+        }
+
+        // inputType이 textPassword, numberPassword 또는 number일 경우에도 초기 설정 적용
+        if (inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
+            inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) ||
+            inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD ||
+            inputType == (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD) ||
+            inputType == InputType.TYPE_CLASS_NUMBER
+        ) {
+            setInitialUnderlineColor()
         }
     }
 
@@ -71,7 +85,12 @@ class CustomInput @JvmOverloads constructor(
     }
 
     fun setIsValidListener(listener: IsValidListener) {
-        isValidListener = listener
+        this.isValidListener = listener
+        if (!isInitialized) {
+            // 초기화 후 처음 한 번만 언더라인 색상을 설정
+            setUnderlineColor(R.color.disable)
+            isInitialized = true
+        }
     }
 
     private fun isValid(): Boolean {
@@ -90,6 +109,13 @@ class CustomInput @JvmOverloads constructor(
 
     private fun isValid(text: String): Boolean {
         return isValidListener?.isValid(text) ?: text.isNotEmpty()
+    }
+
+    private fun setInitialUnderlineColor() {
+        if (!isInitialized) {
+            setUnderlineColor(R.color.disable)
+            isInitialized = true
+        }
     }
 
     private fun setUnderlineColor(colorResId: Int) {
