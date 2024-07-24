@@ -18,21 +18,27 @@ class CustomButton @JvmOverloads constructor(
     }
 
     private fun init(attrs: AttributeSet?) {
-        // 속성 초기화
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CustomButton)
             val textValue = typedArray.getString(R.styleable.CustomButton_android_text)
             typedArray.recycle()
 
             // 텍스트 설정
-            text = textValue ?: "확인"
+            setTextStyle(textValue)
+
         }
 
         background = ContextCompat.getDrawable(context, R.drawable.selector_custom_button)
         setTextColor(ContextCompat.getColor(context, R.color.white))
     }
 
-    // isEnable 속성을 설정하는 함수
+
+    private fun setTextStyle(textValue: String?) {
+        text = textValue ?: "확인"
+        textSize = 16F
+        setTypeface(typeface, android.graphics.Typeface.BOLD)
+    }
+
     fun setEnable(isEnabled: Boolean) {
         this.isEnabled = isEnabled
     }
