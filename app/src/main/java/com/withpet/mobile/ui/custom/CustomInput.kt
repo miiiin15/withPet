@@ -31,6 +31,7 @@ class CustomInput @JvmOverloads constructor(
 
         isFocusable = true
         isFocusableInTouchMode = true
+        isSingleLine = true
 
         setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
