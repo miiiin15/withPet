@@ -9,54 +9,69 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.withpet.mobile.R
+import com.withpet.mobile.BaseActivity
+import com.withpet.mobile.BuildConfig
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.data.repository.SignInRepo
+import com.withpet.mobile.databinding.ActivitySplashBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.activity.start.StartActivity
 import com.withpet.mobile.utils.DataProvider
 import com.withpet.mobile.utils.Logcat
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
     companion object {
         private const val PERMISSION_REQUEST_ID = 11
         private var requestPermissionGranted = false
     }
 
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+        binding.tvAppVersion.text = "버전 ${BuildConfig.VERSION_NAME}"
 
         // 버전을 확인하고 이후 sharedPreferences를 검사하고 로직을 진행
-//       checkVersionAndNavigate()
-        navigateToLogin()
+        checkVersionAndNavigate()
+
+        // TODO : 서버 문제시 뚫기 위한 테스트 코드
+        binding.imgAppIcon.setOnClickListener {
+            navigateToLogin()
+        }
+
     }
 
     private fun checkVersionAndNavigate() {
-        CommonRepo.getVersion(
-            success = {
-                if (it.result.code == 200) {
-                    // sharedPreferences를 검사하고 이후 로직을 진행
-                    Toast.makeText(this, "버전 : ${it.payload.version}", Toast.LENGTH_SHORT)
-                        .show()
-                    checkSharedPreferences()
-                } else {
-                    Toast.makeText(this, "${it.error?.message.toString()}", Toast.LENGTH_SHORT)
-                        .show()
+        loadingDialog.show(supportFragmentManager, "")
+        try {
+            CommonRepo.getVersion(
+                success = {
+                    if (it.result.code == 200) {
+                        // sharedPreferences를 검사하고 이후 로직을 진행
+                        Toast.makeText(this, "버전 : ${it.payload.version}", Toast.LENGTH_SHORT)
+                            .show()
+                        checkSharedPreferences()
+                    } else {
+                        showAlert("${it.error?.message.toString()}")
+                    }
+                },
+                networkFail = {
+                    showAlert(it)
+                },
+                failure = {
+                    showAlert(it.message ?: "fail")
                 }
-            },
-            networkFail = {
-                Toast.makeText(this, "네트웍실패", Toast.LENGTH_SHORT).show()
-            },
-            failure = {
-                Toast.makeText(this, "그냥실패", Toast.LENGTH_SHORT).show()
-            }
-        )
+            )
+        } catch (e: Exception) {
+        } finally {
+            loadingDialog.dismiss()
+        }
     }
 
     private fun checkSharedPreferences() {
