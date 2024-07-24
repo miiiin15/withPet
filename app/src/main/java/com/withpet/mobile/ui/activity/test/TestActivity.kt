@@ -8,8 +8,6 @@ import android.os.Looper
 import android.widget.Toast
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
-import com.withpet.mobile.data.api.response.PetAddRequest
-import com.withpet.mobile.data.repository.PetRepo
 import com.withpet.mobile.ui.custom.*
 
 class TestActivity : BaseActivity() {
@@ -44,16 +42,13 @@ class TestActivity : BaseActivity() {
         customSelect_disable.setDisable(true)
         customInput_disable.setDisable(true)
         customSelect_gender.type = "gender"
-        btnTest4.setEnable(false)
 
         customInput.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 return try {
                     val value = text.toInt()
-                    btnTest4.setEnable(value >= 0)
                     value >= 0
                 } catch (e: NumberFormatException) {
-                    btnTest4.setEnable(false)
                     false
                 }
             }
@@ -81,7 +76,7 @@ class TestActivity : BaseActivity() {
         }
         btnTest2.setOnClickListener {
             showAlert(
-                msg = "버튼이 2개지요",
+                message = "버튼이 2개지요",
                 title = "투버튼",
                 onPress = {
                     Toast.makeText(this, "showAlert onPress", Toast.LENGTH_SHORT).show()
@@ -100,31 +95,10 @@ class TestActivity : BaseActivity() {
         }
 
         btnTest4.setOnClickListener {
-            loadingDialog.show(supportFragmentManager, "")
-            val petAddRequest = PetAddRequest(
-                size = "소형",
-                sex = "남자",
-                age = 3,
-                introduction = "소개 12345 가나다라마사바 ABCDEFG 6789",
-                memberId = customInput.text.toString().toIntOrNull() ?: 0
-            )
-            PetRepo.savePetInfo(petAddRequest, null,
-                success = {
-                    if (it.result.code == 200) {
-                        showAlert("전송 성공 저장 성공 : ${it.payload}")
-                    } else {
-                        showAlert("전송 성공 저장 실패 : ${it.result}")
-                    }
-                },
-                networkFail = {
-                    showAlert("전송 실패 : $it")
-                },
-                failure = {
-                    showAlert("그냥 실패")
-                },
-                finally = {
-                    loadingDialog.dismiss()
-                }
+            showSnackBar(
+                message = "이건 테스트 입니다.",
+                buttonText = "보러가기",
+                onPress = { showAlert("스낵바 버튼 누름") }
             )
         }
 

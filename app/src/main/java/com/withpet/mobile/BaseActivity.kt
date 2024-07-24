@@ -1,6 +1,6 @@
 package com.withpet.mobile
 
-import android.content.*
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Rect
 import android.os.Bundle
@@ -12,8 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.withpet.mobile.databinding.CustomAlertBinding
-import com.withpet.mobile.ui.custom.CustomDialog
+import com.withpet.mobile.databinding.CustomToastBinding
 import com.withpet.mobile.ui.custom.LoadingDialog
 
 //import com.save.protect.app.data.Constants.context
@@ -132,9 +133,45 @@ abstract class BaseActivity : AppCompatActivity() {
 //        setOnClickListener(oneClick)
 //    }
 
+    // 1버튼 알림 대화상자
+    protected fun showAlert(
+        message: String,
+        title: String? = null,
+        buttonText: String? = null,
+        onPress: (() -> Unit)? = null
+    ) {
+        val binding = CustomAlertBinding.inflate(layoutInflater)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(binding.root)
+
+        val dialog = builder.create()
+
+        title?.let {
+            binding.llDlgTitleLayout.visibility = View.VISIBLE
+            binding.txvDlgTitle.text = it
+        }
+
+        binding.txvDlgContent.text = message
+        binding.btnDlgPositive.text = buttonText ?: "확인"
+        binding.btnDlgNegative.visibility = View.GONE
+
+        binding.btnDlgPositive.setOnClickListener {
+            onPress?.invoke()
+            dialog.dismiss()
+        }
+
+        dialog.setOnShowListener {
+            val window = dialog.window
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+        }
+
+
+        dialog.show()
+    }
+
     // 2버튼 알림 대화상자
     protected fun showAlert(
-        msg: String,
+        message: String,
         title: String? = null,
         positiveText: String? = null,
         negativeText: String? = null,
@@ -152,7 +189,7 @@ abstract class BaseActivity : AppCompatActivity() {
             binding.txvDlgTitle.text = it
         }
 
-        binding.txvDlgContent.text = msg
+        binding.txvDlgContent.text = message
         binding.btnDlgPositive.text = positiveText ?: "확인"
         binding.btnDlgNegative.text = negativeText ?: "취소"
 
@@ -174,40 +211,58 @@ abstract class BaseActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    // 1버튼 알림 대화상자
-    protected fun showAlert(
-        msg: String,
-        title: String? = null,
+    // 커스텀 토스트 메시지
+//    protected fun showToast(
+//        message: String, duration: Int = Toast.LENGTH_SHORT, onPress: (() -> Unit)? = null
+//    ) {
+//        val inflater = LayoutInflater.from(this)
+//        val binding = CustomToastBinding.inflate(inflater)
+//
+//        val toast = Toast(this).apply {
+//            setDuration(duration)
+//            setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 100)
+//            view = binding.root
+//        }
+//
+//        binding.txToastMessage.text = message
+//        binding.btnToast.setOnClickListener {
+//            toast.cancel()
+//            onPress?.invoke()
+//        }
+//
+//      toast.show()
+//    }
+
+    // 커스텀 스넥바 메시지
+    protected fun showSnackBar(
+        message: String,
         buttonText: String? = null,
+        duration: Int = Snackbar.LENGTH_SHORT,
         onPress: (() -> Unit)? = null
     ) {
-        val binding = CustomAlertBinding.inflate(layoutInflater)
-        val builder = AlertDialog.Builder(this)
-        builder.setView(binding.root)
+        val inflater = LayoutInflater.from(this)
+        val binding = CustomToastBinding.inflate(inflater)
 
-        val dialog = builder.create()
+        val rootView = findViewById<View>(android.R.id.content)
+        val snackbar = Snackbar.make(rootView, "", duration)
 
-        title?.let {
-            binding.llDlgTitleLayout.visibility = View.VISIBLE
-            binding.txvDlgTitle.text = it
-        }
+        // Snackbar의 기본 텍스트와 동작 버튼을 숨깁니다.
+        snackbar.view.findViewById<View>(com.google.android.material.R.id.snackbar_text).visibility =
+            View.INVISIBLE
+        snackbar.view.findViewById<View>(com.google.android.material.R.id.snackbar_action).visibility =
+            View.INVISIBLE
 
-        binding.txvDlgContent.text = msg
-        binding.btnDlgPositive.text = buttonText ?: "확인"
-        binding.btnDlgNegative.visibility = View.GONE
-
-        binding.btnDlgPositive.setOnClickListener {
+        binding.txSnackbarMessage.text = message
+        binding.btnSnackbar.text = buttonText ?: "확인"
+        binding.btnSnackbar.setOnClickListener {
+            snackbar.dismiss()
             onPress?.invoke()
-            dialog.dismiss()
         }
 
-        dialog.setOnShowListener {
-            val window = dialog.window
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-        }
-
-
-        dialog.show()
+        val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
+        snackbarLayout.addView(binding.root, 0)
+        snackbarLayout.setBackgroundResource(android.R.color.transparent)
+        snackbar.show()
     }
 
     private fun initBottomSheet() {
@@ -234,7 +289,7 @@ abstract class BaseActivity : AppCompatActivity() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // TODO : 슬라이드 이벤트 처리 필요시 추가
+                // 슬라이드 이벤트 처리 필요시 추가
             }
         })
     }

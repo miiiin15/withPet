@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="test memberId 이상 입력"
-            android:inputType="number" />
+            android:hint="숫자만 입력"
+            />
 
         <com.withpet.mobile.ui.custom.CustomInput
             android:id="@+id/customInput_disable"
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="반려견 정보입력 TEST" />
+            android:text="snackbar 테스트" />
 
         <com.withpet.mobile.ui.custom.CustomButton
             android:id="@+id/btn_test5"
