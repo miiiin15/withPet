@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.withpet.mobile.databinding.CustomAlertBinding
-import com.withpet.mobile.databinding.CustomToastBinding
+import com.withpet.mobile.databinding.CustomSnackbarBinding
 import com.withpet.mobile.ui.custom.LoadingDialog
 
 //import com.save.protect.app.data.Constants.context
@@ -241,7 +241,7 @@ abstract class BaseActivity : AppCompatActivity() {
         onPress: (() -> Unit)? = null
     ) {
         val inflater = LayoutInflater.from(this)
-        val binding = CustomToastBinding.inflate(inflater)
+        val binding = CustomSnackbarBinding.inflate(inflater)
 
         val rootView = findViewById<View>(android.R.id.content)
         val snackbar = Snackbar.make(rootView, "", duration)
