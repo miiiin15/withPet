@@ -13,10 +13,12 @@ import com.withpet.mobile.data.managers.InputStateManager
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivitySignupBinding
 import com.withpet.mobile.ui.custom.IsValidListener
+import com.withpet.mobile.utils.ValidationUtils
 
 class SignupActivity : BaseActivity() {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var inputStateManager: InputStateManager
+    private var isIdValid = false
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,9 +89,9 @@ class SignupActivity : BaseActivity() {
                 InputState.EMAIL_INPUT -> {
                     val loginId = binding.etLoginId.text.toString()
                     if (loginId.isEmpty()) {
-                        showAlert("이메일을 입력해주세요")
+                        showAlert("이메일을 중복 확인 해주세요")
                     } else {
-                        inputStateManager.nextState()
+                        successValidateID()
                     }
                 }
 
@@ -104,6 +106,7 @@ class SignupActivity : BaseActivity() {
                         val sexType = binding.selectGender.getValue() ?: ""
 
                         signUp(loginId, password, nickName, age, sexType)
+
                     }
                 }
             }
@@ -113,17 +116,28 @@ class SignupActivity : BaseActivity() {
     private fun setupCheckDuplicationButton() {
         binding.btnCheckDuplication.setOnClickListener {
             val loginId = binding.etLoginId.text.toString()
-            if (loginId.isEmpty()) {
-                Toast.makeText(this, "이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
+            if (!ValidationUtils.isValidEmail(loginId)) {
+                showAlert("이메일 형식을 확인해주세요.")
                 return@setOnClickListener
             }
             SignInRepo.checkDuplicate(
                 loginId = loginId,
                 success = {
-                    Toast.makeText(this, "중복 검사 ${it.payload}", Toast.LENGTH_SHORT).show()
+                    if (it.payload == false) {
+                        isIdValid = true
+                        binding.btnSignUp.setEnable(ValidationUtils.isValidEmail(loginId))
+                        showSnackBar(message = "[${loginId}] 사용가능합니다",
+                            buttonText ="사용",
+                            onPress = {
+                            successValidateID()
+                        })
+                    } else {
+                        isIdValid = false
+                        showSnackBar("중복된 아이디 입니다")
+                    }
                 },
                 failure = {
-                    Toast.makeText(this, "중복 검사 실패 $it", Toast.LENGTH_SHORT).show()
+                    showAlert("$it 검사 실패")
                 }
             )
         }
@@ -132,31 +146,40 @@ class SignupActivity : BaseActivity() {
     private fun setListeners() {
         binding.etLoginId.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
-                binding.btnSignUp.setEnable(text.isNotEmpty())
-                return text.isNotEmpty()
+                isIdValid = false
+                binding.btnSignUp.setEnable(false)
+                return ValidationUtils.isValidEmail(text)
             }
         })
 
         binding.etPassword.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
-                binding.btnSignUp.setEnable(text.isNotEmpty())
-                return text.isNotEmpty()
+                binding.btnSignUp.setEnable(ValidationUtils.isValidPassword(text))
+                return ValidationUtils.isValidPassword(text)
             }
         })
 
         binding.etNickName.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
-                binding.btnSignUp.setEnable(text.isNotEmpty())
-                return text.isNotEmpty()
+                binding.btnSignUp.setEnable(ValidationUtils.isValidUsername(text))
+                return ValidationUtils.isValidUsername(text)
             }
         })
 
         binding.etAge.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
-                binding.btnSignUp.setEnable(text.toInt() > 0)
-                return text.isNotEmpty()
+                val ageText = if (text.isEmpty()) 0 else text.toInt()
+                binding.btnSignUp.setEnable(ValidationUtils.isValidAge(ageText))
+                return ValidationUtils.isValidAge(ageText)
             }
         })
+    }
+
+    // 이메일 검중 완료 후 동작
+    private fun successValidateID() {
+        inputStateManager.nextState()
+        binding.etLoginId.setDisable(true)
+        binding.btnCheckDuplication.setEnable(false)
     }
 
     private fun signUp(
@@ -166,32 +189,39 @@ class SignupActivity : BaseActivity() {
         age: Int,
         sexType: String
     ) {
-        SignInRepo.signUp(
-            loginId = loginId,
-            password = password,
-            nickName = nickName,
-            age = age,
-            sexType = sexType,
-            success = {
-                if (it.result.code == 200) {
-                    val intent = Intent(this, PetInfoActivity::class.java)
-                    intent.putExtra("loginId", loginId)
-                    intent.putExtra("password", password)
-                    intent.putExtra("signupId", it.payload.toString())
+        try {
+            loadingDialog.show(supportFragmentManager, "")
+            SignInRepo.signUp(
+                loginId = loginId,
+                password = password,
+                nickName = nickName,
+                age = age,
+                sexType = sexType,
+                success = {
+                    if (it.result.code == 200) {
+                        val intent = Intent(this, PetInfoActivity::class.java)
+                        intent.putExtra("loginId", loginId)
+                        intent.putExtra("password", password)
+                        intent.putExtra("signupId", it.payload.toString())
 
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        showAlert("실패: ${it.result.message}")
+                    }
+                },
+                networkFail = {
+                    showAlert("네트워크 실패: $it")
+                },
+                failure = {
+                    showAlert("에러: ${it.message}")
                 }
-            },
-            networkFail = {
-                Toast.makeText(this, "네트워크 실패: $it", Toast.LENGTH_SHORT).show()
-            },
-            failure = {
-                Toast.makeText(this, "에러: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        )
+            )
+        } catch (e: Exception) {
+            showAlert("${e.message}")
+        } finally {
+            loadingDialog.dismiss()
+        }
     }
 
     private fun onStateChange(newState: InputState) {
