@@ -140,33 +140,38 @@ abstract class BaseActivity : AppCompatActivity() {
         buttonText: String? = null,
         onPress: (() -> Unit)? = null
     ) {
-        val binding = CustomAlertBinding.inflate(layoutInflater)
-        val builder = AlertDialog.Builder(this)
-        builder.setView(binding.root)
+        if (!isFinishing && !isDestroyed) {
+            try {
+                val binding = CustomAlertBinding.inflate(layoutInflater)
+                val builder = AlertDialog.Builder(this)
+                builder.setView(binding.root)
 
-        val dialog = builder.create()
+                val dialog = builder.create()
 
-        title?.let {
-            binding.llDlgTitleLayout.visibility = View.VISIBLE
-            binding.txvDlgTitle.text = it
+                title?.let {
+                    binding.llDlgTitleLayout.visibility = View.VISIBLE
+                    binding.txvDlgTitle.text = it
+                }
+
+                binding.txvDlgContent.text = message
+                binding.btnDlgPositive.text = buttonText ?: "확인"
+                binding.btnDlgNegative.visibility = View.GONE
+
+                binding.btnDlgPositive.setOnClickListener {
+                    onPress?.invoke()
+                    dialog.dismiss()
+                }
+
+                dialog.setOnShowListener {
+                    val window = dialog.window
+                    window?.setBackgroundDrawableResource(android.R.color.transparent)
+                }
+
+                dialog.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-
-        binding.txvDlgContent.text = message
-        binding.btnDlgPositive.text = buttonText ?: "확인"
-        binding.btnDlgNegative.visibility = View.GONE
-
-        binding.btnDlgPositive.setOnClickListener {
-            onPress?.invoke()
-            dialog.dismiss()
-        }
-
-        dialog.setOnShowListener {
-            val window = dialog.window
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-        }
-
-
-        dialog.show()
     }
 
     // 2버튼 알림 대화상자
@@ -178,37 +183,44 @@ abstract class BaseActivity : AppCompatActivity() {
         onPress: (() -> Unit)? = null,
         onCancel: (() -> Unit)? = null
     ) {
-        val binding = CustomAlertBinding.inflate(layoutInflater)
-        val builder = AlertDialog.Builder(this)
-        builder.setView(binding.root)
+        if (!isFinishing && !isDestroyed) {
+            try {
+                val binding = CustomAlertBinding.inflate(layoutInflater)
+                val builder = AlertDialog.Builder(this)
+                builder.setView(binding.root)
 
-        val dialog = builder.create()
+                val dialog = builder.create()
 
-        title?.let {
-            binding.llDlgTitleLayout.visibility = View.VISIBLE
-            binding.txvDlgTitle.text = it
+                title?.let {
+                    binding.llDlgTitleLayout.visibility = View.VISIBLE
+                    binding.txvDlgTitle.text = it
+                }
+
+                binding.txvDlgContent.text = message
+                binding.btnDlgPositive.text = positiveText ?: "확인"
+                binding.btnDlgNegative.text = negativeText ?: "취소"
+
+                binding.btnDlgPositive.setOnClickListener {
+                    onPress?.invoke()
+                    dialog.dismiss()
+                }
+
+                binding.btnDlgNegative.setOnClickListener {
+                    onCancel?.invoke()
+                    dialog.dismiss()
+                }
+
+                dialog.setOnShowListener {
+                    val window = dialog.window
+                    window?.setBackgroundDrawableResource(android.R.color.transparent)
+                }
+
+                dialog.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
-        binding.txvDlgContent.text = message
-        binding.btnDlgPositive.text = positiveText ?: "확인"
-        binding.btnDlgNegative.text = negativeText ?: "취소"
-
-        binding.btnDlgPositive.setOnClickListener {
-            onPress?.invoke()
-            dialog.dismiss()
-        }
-
-        binding.btnDlgNegative.setOnClickListener {
-            onCancel?.invoke()
-            dialog.dismiss()
-        }
-
-        dialog.setOnShowListener {
-            val window = dialog.window
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-        }
-
-        dialog.show()
     }
 
     // 커스텀 토스트 메시지
@@ -240,29 +252,35 @@ abstract class BaseActivity : AppCompatActivity() {
         duration: Int = Snackbar.LENGTH_SHORT,
         onPress: (() -> Unit)? = null
     ) {
-        val inflater = LayoutInflater.from(this)
-        val binding = CustomSnackbarBinding.inflate(inflater)
+        if (!isFinishing && !isDestroyed) {
+            try {
+                val inflater = LayoutInflater.from(this)
+                val binding = CustomSnackbarBinding.inflate(inflater)
 
-        val rootView = findViewById<View>(android.R.id.content)
-        val snackbar = Snackbar.make(rootView, "", duration)
+                val rootView = findViewById<View>(android.R.id.content)
+                val snackbar = Snackbar.make(rootView, "", duration)
 
-        // Snackbar의 기본 텍스트와 동작 버튼을 숨깁니다.
-        snackbar.view.findViewById<View>(com.google.android.material.R.id.snackbar_text).visibility =
-            View.INVISIBLE
-        snackbar.view.findViewById<View>(com.google.android.material.R.id.snackbar_action).visibility =
-            View.INVISIBLE
+                // Snackbar의 기본 텍스트와 동작 버튼을 숨깁니다.
+                snackbar.view.findViewById<View>(com.google.android.material.R.id.snackbar_text).visibility =
+                    View.INVISIBLE
+                snackbar.view.findViewById<View>(com.google.android.material.R.id.snackbar_action).visibility =
+                    View.INVISIBLE
 
-        binding.txSnackbarMessage.text = message
-        binding.btnSnackbar.text = buttonText ?: "확인"
-        binding.btnSnackbar.setOnClickListener {
-            snackbar.dismiss()
-            onPress?.invoke()
+                binding.txSnackbarMessage.text = message
+                binding.btnSnackbar.text = buttonText ?: "확인"
+                binding.btnSnackbar.setOnClickListener {
+                    snackbar.dismiss()
+                    onPress?.invoke()
+                }
+
+                val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
+                snackbarLayout.addView(binding.root, 0)
+                snackbarLayout.setBackgroundResource(android.R.color.transparent)
+                snackbar.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-
-        val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
-        snackbarLayout.addView(binding.root, 0)
-        snackbarLayout.setBackgroundResource(android.R.color.transparent)
-        snackbar.show()
     }
 
     private fun initBottomSheet() {
