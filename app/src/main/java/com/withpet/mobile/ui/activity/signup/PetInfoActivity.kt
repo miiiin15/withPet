@@ -1,9 +1,12 @@
 package com.withpet.mobile.ui.activity.signup
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.withpet.mobile.data.api.response.PetAddRequest
@@ -11,18 +14,44 @@ import com.withpet.mobile.data.repository.PetRepo
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivityPetInfoBinding
 import com.withpet.mobile.ui.activity.MainActivity
+import com.withpet.mobile.ui.custom.IsValidListener
 import com.withpet.mobile.utils.Logcat
+import com.withpet.mobile.utils.ValidationUtils
 
 class PetInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPetInfoBinding
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPetInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 외부 뷰 터치 시 키보드 내리기와 포커스 해제
+        binding.outsideView.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.outsideView.windowToken, 0)
+                clearFocus()
+            }
+            true
+        }
 
+        setButton()
+        setInputListener()
+
+
+    }
+
+    private fun clearFocus() {
+        binding.etPetAge.clearFocus()
+        binding.etPetSize.clearFocus()
+        binding.etPetIntroduction.clearFocus()
+    }
+
+    private fun setButton() {
+        binding.btnSubmitPetInfo.setEnable(false)
 
         binding.btnSubmitPetInfo.setOnClickListener {
             val petSize = binding.etPetSize.text.toString()
@@ -63,6 +92,38 @@ class PetInfoActivity : AppCompatActivity() {
 
     // TODO : profileImage 어떻게 쏴야하는지 확인하기
     // TODO : UI요소 버튼 validate 인풋 리스너 담시
+    private fun setInputListener() {
+        binding.etPetSize.setIsValidListener(object : IsValidListener {
+            override fun isValid(text: String): Boolean {
+                setButtonEnable()
+                return text.isNotEmpty()
+            }
+        })
+        binding.etPetAge.setIsValidListener(object : IsValidListener {
+            override fun isValid(text: String): Boolean {
+                setButtonEnable()
+                return text.isNotEmpty()
+            }
+        })
+        binding.etPetIntroduction.setIsValidListener(object : IsValidListener {
+            override fun isValid(text: String): Boolean {
+                setButtonEnable()
+                return ValidationUtils.isValidDescription(text)
+            }
+        })
+
+
+    }
+
+    private fun setButtonEnable() {
+        binding.btnSubmitPetInfo.setEnable(
+            binding.etPetSize.text!!.isNotEmpty() && binding.etPetAge.text!!.isNotEmpty() && ValidationUtils.isValidDescription(
+                binding.etPetIntroduction.text.toString()
+            )
+        )
+    }
+
+
     // TODO : 메인화면으로 넘긴후 분기처리 작업하기
 
     private fun signIn(loginId: String, password: String) {
