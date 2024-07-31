@@ -35,7 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="18dp"
-            android:background="@color/error"
             android:gravity="center">
 
             <ImageView
@@ -49,35 +48,20 @@
         </LinearLayout>
 
 
-        <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/et_petSize"
+        <com.withpet.mobile.ui.custom.CustomSelect
+            android:id="@+id/select_petSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="24dp"
             android:hint="크기 (소형, 중형, 대형)"
             android:inputType="text" />
 
-        <RadioGroup
+        <com.withpet.mobile.ui.custom.CustomRadio
             android:id="@+id/rg_sexType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="18dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="18dp" />
 
-            <RadioButton
-                android:id="@+id/rb_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="남성" />
-
-            <RadioButton
-                android:id="@+id/rb_female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="여성" />
-        </RadioGroup>
 
         <com.withpet.mobile.ui.custom.CustomInput
             android:id="@+id/et_petAge"

@@ -9,16 +9,19 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.data.api.response.PetAddRequest
 import com.withpet.mobile.data.repository.PetRepo
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivityPetInfoBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.custom.IsValidListener
+import com.withpet.mobile.ui.custom.RadioItem
+import com.withpet.mobile.ui.custom.SelectItem
 import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.utils.ValidationUtils
 
-class PetInfoActivity : AppCompatActivity() {
+class PetInfoActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPetInfoBinding
 
@@ -38,25 +41,47 @@ class PetInfoActivity : AppCompatActivity() {
             true
         }
 
-        setButton()
+        setOptionss()
+        setButtons()
         setInputListener()
 
+        binding.ivProfile.setOnClickListener {
+            showAlert("기능 개발중")
+        }
 
     }
 
     private fun clearFocus() {
         binding.etPetAge.clearFocus()
-        binding.etPetSize.clearFocus()
         binding.etPetIntroduction.clearFocus()
     }
 
-    private fun setButton() {
-        binding.btnSubmitPetInfo.setEnable(false)
 
+    private fun setOptionss() {
+        binding.selectPetSize.setOptions(
+            arrayOf(
+                SelectItem("소형", "Small"),
+                SelectItem("중형", "Medium"),
+                SelectItem("대형", "Large"),
+            ),
+        )
+
+        binding.rgSexType.setOptions(
+            arrayOf(
+                RadioItem("남아", "Male"),
+                RadioItem("여아", "Female"),
+            ),
+        )
+    }
+
+    private fun setButtons() {
+
+
+        binding.btnSubmitPetInfo.setEnable(false)
         binding.btnSubmitPetInfo.setOnClickListener {
-            val petSize = binding.etPetSize.text.toString()
-            val petSex =
-                if (binding.rgSexType.checkedRadioButtonId == binding.rbMale.id) "남자" else "여자"
+            loadingDialog.show(supportFragmentManager, "")
+            val petSize = binding.selectPetSize.getValue() ?: ""
+            val petSex = binding.rgSexType.getValue() ?: ""
             val petAge = safeStringToInt(binding.etPetAge.text.toString())
             val petIntroduction = binding.etPetIntroduction.text.toString()
 
@@ -76,16 +101,18 @@ class PetInfoActivity : AppCompatActivity() {
                     if (it.result.code == 200) {
                         signIn(loginId, password)
                     } else {
-                        Logcat.d("else")
+                        showAlert("반려견 정보 등록 실패")
                     }
                 },
                 networkFail = {
-                    Logcat.d("networkFail")
+                    showAlert("networkFail: 반려견 정보 등록 실패")
                 },
                 failure = {
-                    Logcat.d("failure")
+                    showAlert("failure: 반려견 정보 등록 실패")
                 },
-                finally = {}
+                finally = {
+                    loadingDialog.dismiss()
+                }
             )
         }
     }
@@ -93,12 +120,6 @@ class PetInfoActivity : AppCompatActivity() {
     // TODO : profileImage 어떻게 쏴야하는지 확인하기
     // TODO : UI요소 버튼 validate 인풋 리스너 담시
     private fun setInputListener() {
-        binding.etPetSize.setIsValidListener(object : IsValidListener {
-            override fun isValid(text: String): Boolean {
-                setButtonEnable()
-                return text.isNotEmpty()
-            }
-        })
         binding.etPetAge.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 setButtonEnable()
@@ -117,7 +138,8 @@ class PetInfoActivity : AppCompatActivity() {
 
     private fun setButtonEnable() {
         binding.btnSubmitPetInfo.setEnable(
-            binding.etPetSize.text!!.isNotEmpty() && binding.etPetAge.text!!.isNotEmpty() && ValidationUtils.isValidDescription(
+            binding.selectPetSize.getValue()!!
+                .isNotEmpty() && binding.etPetAge.text!!.isNotEmpty() && ValidationUtils.isValidDescription(
                 binding.etPetIntroduction.text.toString()
             )
         )
@@ -145,11 +167,11 @@ class PetInfoActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish() // 현재 Activity 종료
                 } else {
-                    Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
+                    showAlert("실패: ${it.result.message}")
                 }
             },
             failure = {
-                Toast.makeText(this, "에러: ${it.message}", Toast.LENGTH_SHORT).show()
+                showAlert("에러: ${it.message}")
             }
         )
     }
