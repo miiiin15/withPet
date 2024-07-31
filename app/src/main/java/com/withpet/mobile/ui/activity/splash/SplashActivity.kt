@@ -41,7 +41,7 @@ class SplashActivity : BaseActivity() {
         checkVersionAndNavigate()
 
         // TODO : 서버 문제시 뚫기 위한 테스트 코드
-        binding.imgAppIcon.setOnClickListener {
+        binding.imgAppIconCenter.setOnClickListener {
             navigateToLogin()
         }
 
