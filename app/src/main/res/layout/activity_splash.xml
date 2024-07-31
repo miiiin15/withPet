@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/img_logo_name" />
+            android:src="@drawable/img_logo_name_white" />
     <TextView
         android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
 
 
     <ImageView
-        android:id="@+id/img_log_big"
+        android:id="@+id/img_logo_big"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginLeft="-48dp"
@@ -53,10 +53,10 @@
         android:src="@drawable/img_logo" />
 
     <ImageView
-        android:id="@+id/img_log_small"
+        android:id="@+id/img_logo_small"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:rotation="-45"
-        android:layout_below="@+id/img_log_big"
+        android:layout_below="@+id/img_logo_big"
         android:src="@drawable/img_logo" />
 </RelativeLayout>

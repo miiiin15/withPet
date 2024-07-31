@@ -9,68 +9,59 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
         android:layout_marginTop="@dimen/top_to_header"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TitleText"
+            android:layout_marginHorizontal="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마음 맞는\n산책 친구가\n필요할 때는?" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:ignore="NestedWeights">
+            android:layout_weight="2"
+            android:gravity="end">
 
-            <LinearLayout
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:background="@color/disable"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="text"
-                    android:textColor="@color/txt1"
-                    android:textSize="25sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <LinearLayout
-                android:id="@+id/logo_area"
+            <ImageView
+                android:id="@+id/img_logo_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/img_logo_name_primary" />
 
-                <ImageView
-                    android:layout_width="@dimen/logo_size_big"
-                    android:layout_height="@dimen/logo_size_big"
-                    android:src="@drawable/img_logo"/>
+            <ImageView
+                android:id="@+id/img_logo_big"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginRight="-48dp"
+                android:layout_above="@+id/img_logo_small"
+                android:layout_alignParentEnd="true"
+                android:rotation="-45"
+                android:src="@drawable/img_logo" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    android:textColor="@color/txt1"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/img_logo_small"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:rotation="45"
+                android:src="@drawable/img_logo" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
             android:orientation="vertical">
             <!-- 밀어내기용 View-->
             <View
@@ -82,8 +73,7 @@
                 android:id="@+id/button_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+
                 android:layout_marginBottom="8dp"
                 android:text="시작하기" />
 
@@ -92,9 +82,8 @@
                 android:id="@+id/button_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+
                 android:layout_marginBottom="@dimen/bottom_to_button"
                 android:text="가입하기" />
         </LinearLayout>
