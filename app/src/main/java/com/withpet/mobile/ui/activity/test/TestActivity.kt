@@ -56,13 +56,13 @@ class TestActivity : BaseActivity() {
 
         customSelect.setOptions(
             arrayOf(
-                Option("하나", "01"),
-                Option("다섯", "05"),
-                Option("일곱", "07"),
-                Option("둘", "02"),
-                Option("여덟", "08"),
-                Option("열", "10"),
-                Option("구십구", "99")
+                SelectItem("하나", "01"),
+                SelectItem("다섯", "05"),
+                SelectItem("일곱", "07"),
+                SelectItem("둘", "02"),
+                SelectItem("여덟", "08"),
+                SelectItem("열", "10"),
+                SelectItem("구십구", "99")
             )
         )
 

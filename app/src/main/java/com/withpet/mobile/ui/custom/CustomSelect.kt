@@ -20,7 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
 
-data class Option(val label: String, val value: String, var checked: Boolean = false)
+data class SelectItem(val label: String, val value: String, var checked: Boolean = false)
 
 class CustomSelect @JvmOverloads constructor(
     context: Context,
@@ -28,7 +28,7 @@ class CustomSelect @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatEditText(context, attrs, defStyleAttr) {
 
-    private var options: Array<Option> = arrayOf()
+    private var options: Array<SelectItem> = arrayOf()
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private var isDisabled: Boolean = false
     private var value: String = ""
@@ -61,7 +61,7 @@ class CustomSelect @JvmOverloads constructor(
         }
     }
 
-    fun setOptions(options: Array<Option>) {
+    fun setOptions(options: Array<SelectItem>) {
         this.options = options
         options.find { it.checked }?.label.let {
             setText(it)
@@ -208,8 +208,8 @@ class CustomSelect @JvmOverloads constructor(
     }
 
     private inner class OptionAdapter(
-        private val options: Array<Option>,
-        private val itemClickListener: (Option) -> Unit
+        private val options: Array<SelectItem>,
+        private val itemClickListener: (SelectItem) -> Unit
     ) : RecyclerView.Adapter<OptionAdapter.OptionViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
@@ -228,7 +228,7 @@ class CustomSelect @JvmOverloads constructor(
         inner class OptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val label: TextView = itemView.findViewById(R.id.option_label)
 
-            fun bind(option: Option) {
+            fun bind(option: SelectItem) {
                 label.text = option.label
                 itemView.setOnClickListener { itemClickListener(option) }
             }
