@@ -15,7 +15,7 @@
             android:id="@+id/pgb"
             android:layout_width="97dp"
             android:layout_height="109dp"
-            android:scaleType="fitXY" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/txvPrgMessage"
