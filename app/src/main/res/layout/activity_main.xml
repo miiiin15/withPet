@@ -22,15 +22,12 @@
         app:srcCompat="@android:drawable/ic_lock_power_off"
         app:tint="@color/white" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+    <com.withpet.mobile.ui.custom.BottomNavigationBar
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/bottom_to_button"
-        android:backgroundTint="@color/primary"
-        app:srcCompat="@android:drawable/ic_dialog_email"
-        app:tint="@color/white" />
+        />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

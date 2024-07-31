@@ -10,10 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import com.withpet.mobile.R
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.databinding.ActivityMainBinding
 import com.withpet.mobile.ui.activity.splash.SplashActivity
+import com.withpet.mobile.utils.Logcat
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,37 +34,38 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
         getMemberInfo()
+        setNavigationBar()
 
+    }
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "안녕하세요?", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+    private fun setFragment () {
+        binding.bottomNavigationBar.selectedCategory = "홈"
 
-        binding.logout.setOnClickListener { view ->
-            val sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-            sharedPreferences.edit().clear().apply()
-            Toast.makeText(this, "로그아웃 성공", Toast.LENGTH_SHORT).show()
-            finish()
-            startActivity(Intent(this, SplashActivity::class.java))
+        // 카테고리 클릭 리스너 설정 (필요 시)
+        binding.bottomNavigationBar.setOnClickListener {
+            // TODO: 카테고리 클릭 시 동작 설정
+            Logcat.d(binding.bottomNavigationBar.selectedCategory)
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+    // 프래그먼트 로드 메서드
+    private fun loadFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.nav_host_fragment_content_main, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+    private fun setNavigationBar () {
+        binding.bottomNavigationBar.selectedCategory = "홈"
+
+        // 카테고리 클릭 리스너 설정 (필요 시)
+        binding.bottomNavigationBar.setOnClickListener {
+            // TODO: 카테고리 클릭 시 동작 설정
+            Logcat.d(binding.bottomNavigationBar.selectedCategory)
         }
     }
+
 
     private fun getMemberInfo() {
         CommonRepo.getMemberInfo(

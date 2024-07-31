@@ -1,4 +1,4 @@
-package com.withpet.mobile.ui.fragment
+package com.withpet.mobile.ui.fragment.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,7 +12,7 @@ import com.withpet.mobile.databinding.FragmentFirstBinding
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class MainFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
