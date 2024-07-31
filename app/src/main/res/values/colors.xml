@@ -15,5 +15,5 @@
     <color name="teal_700">#FF018786</color>
     <color name="txt1">#FF000000</color>
     <color name="txt3">#111618</color>
-    <color name="button_cancel_text">#72777A</color>
+    <color name="button_cancel_text">#000000</color>
 </resources>
