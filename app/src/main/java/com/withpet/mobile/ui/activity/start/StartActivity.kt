@@ -29,7 +29,7 @@ class StartActivity : BaseActivity() {
             handleButtonClick(ButtonType.REGISTER)
         }
 
-        binding.logoArea.setOnClickListener {
+        binding.imgLogoName.setOnClickListener {
             handleButtonClick(ButtonType.LOGO)
         }
     }
