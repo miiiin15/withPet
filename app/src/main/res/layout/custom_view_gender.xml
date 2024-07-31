@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        android:layout_marginHorizontal="48dp"
         android:text="성별을 선택해주세요" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,30 +29,28 @@
             android:layout_weight="1"
             android:foreground="?attr/selectableItemBackground"
             app:cardCornerRadius="15dp"
-            app:cardElevation="10dp">
+            app:cardElevation="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:gravity="center"
                 android:orientation="vertical"
-
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="20dp">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="icon" />
+                    android:src="@drawable/icon_gender_male" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="남자"
+                    android:textColor="@color/txt3"
                     android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -68,7 +66,7 @@
             android:layout_weight="1"
             android:foreground="?attr/selectableItemBackground"
             app:cardCornerRadius="15dp"
-            app:cardElevation="10dp">
+            app:cardElevation="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,19 +76,18 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="20dp">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="icon" />
+                    android:src="@drawable/icon_gender_female" />
 
                 <TextView
-                    android:layout_weight="1"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="여자"
+                    android:textColor="@color/txt3"
                     android:textSize="16dp"
                     android:textStyle="bold" />
             </LinearLayout>
