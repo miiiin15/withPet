@@ -127,10 +127,10 @@ class SignupActivity : BaseActivity() {
                         isIdValid = true
                         binding.btnSignUp.setEnable(ValidationUtils.isValidEmail(loginId))
                         showSnackBar(message = "[${loginId}] 사용가능합니다",
-                            buttonText ="사용",
+                            buttonText = "사용",
                             onPress = {
-                            successValidateID()
-                        })
+                                successValidateID()
+                            })
                     } else {
                         isIdValid = false
                         showSnackBar("중복된 아이디 입니다")
@@ -147,21 +147,21 @@ class SignupActivity : BaseActivity() {
         binding.etLoginId.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 isIdValid = false
-                binding.btnSignUp.setEnable(false)
+                updateButtonState()
                 return ValidationUtils.isValidEmail(text)
             }
         })
 
         binding.etPassword.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
-                binding.btnSignUp.setEnable(ValidationUtils.isValidPassword(text))
+                updateButtonState()
                 return ValidationUtils.isValidPassword(text)
             }
         })
 
         binding.etNickName.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
-                binding.btnSignUp.setEnable(ValidationUtils.isValidUsername(text))
+                updateButtonState()
                 return ValidationUtils.isValidUsername(text)
             }
         })
@@ -169,10 +169,43 @@ class SignupActivity : BaseActivity() {
         binding.etAge.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 val ageText = if (text.isEmpty()) 0 else text.toInt()
-                binding.btnSignUp.setEnable(ValidationUtils.isValidAge(ageText))
+                updateButtonState()
                 return ValidationUtils.isValidAge(ageText)
             }
         })
+    }
+
+    private fun updateButtonState() {
+        binding.btnSignUp.setEnable(validateCurrentState(inputStateManager.getCurrentState()))
+    }
+
+    private fun validateCurrentState(state: InputState): Boolean {
+
+        val nickName = binding.etNickName.text.toString()
+        val age = binding.etAge.text.toString().toIntOrNull() ?: 0
+        val loginId = binding.etLoginId.text.toString()
+        val password = binding.etPassword.text.toString()
+
+        return when (state) {
+            InputState.NAME_INPUT ->
+                ValidationUtils.isValidUsername(nickName)
+            InputState.AGE_INPUT ->
+                ValidationUtils.isValidUsername(nickName)
+                        && ValidationUtils.isValidAge(age)
+            InputState.GENDER_INPUT ->
+                ValidationUtils.isValidUsername(nickName)
+                        && ValidationUtils.isValidAge(age)
+            InputState.EMAIL_INPUT ->
+                ValidationUtils.isValidUsername(nickName)
+                        && ValidationUtils.isValidAge(age)
+                        && ValidationUtils.isValidEmail(loginId)
+            InputState.PASSWORD_INPUT ->
+                ValidationUtils.isValidUsername(nickName)
+                        && ValidationUtils.isValidAge(age)
+                        && ValidationUtils.isValidEmail(loginId)
+                        && ValidationUtils.isValidPassword(password)
+            else -> false
+        }
     }
 
     // 이메일 검중 완료 후 동작
