@@ -3,6 +3,7 @@ package com.withpet.mobile.data.repository
 import com.google.gson.Gson
 import com.withpet.mobile.data.api.NetworkService
 import com.withpet.mobile.data.api.response.ApiResponse
+import com.withpet.mobile.utils.DataProvider
 import com.withpet.mobile.utils.Logcat
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -103,6 +104,7 @@ object SignInRepo {
                         val data = response.body()
                         if (data != null) {
                             success(data)
+                            DataProvider.isLogin = true
                         } else {
                             networkFail("Empty response body")
                         }
