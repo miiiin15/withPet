@@ -1,20 +1,14 @@
 package com.withpet.mobile.ui.activity
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.withpet.mobile.R
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.databinding.ActivityMainBinding
-import com.withpet.mobile.ui.activity.splash.SplashActivity
 import com.withpet.mobile.utils.Logcat
 
 class MainActivity : AppCompatActivity() {
@@ -38,13 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setFragment () {
-        binding.bottomNavigationBar.selectedCategory = "홈"
+    private fun setFragment() {
 
         // 카테고리 클릭 리스너 설정 (필요 시)
         binding.bottomNavigationBar.setOnClickListener {
             // TODO: 카테고리 클릭 시 동작 설정
-            Logcat.d(binding.bottomNavigationBar.selectedCategory)
         }
     }
 
@@ -56,13 +48,11 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    private fun setNavigationBar () {
-        binding.bottomNavigationBar.selectedCategory = "홈"
+    private fun setNavigationBar() {
 
         // 카테고리 클릭 리스너 설정 (필요 시)
         binding.bottomNavigationBar.setOnClickListener {
             // TODO: 카테고리 클릭 시 동작 설정
-            Logcat.d(binding.bottomNavigationBar.selectedCategory)
         }
     }
 

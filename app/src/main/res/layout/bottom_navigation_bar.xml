@@ -17,20 +17,22 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
+
         <ImageView
             android:id="@+id/nav_home_icon"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_home"
-            android:tag="홈_icon"/>
+            android:tag="MAIN_icon" />
+
         <TextView
-            android:textSize="12sp"
             android:id="@+id/nav_home_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="MAIN_text"
             android:text="홈"
             android:textColor="@color/disable"
-            android:tag="홈_text"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,20 +43,22 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
+
         <ImageView
             android:id="@+id/nav_chat_icon"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_message"
-            android:tag="채팅_icon"/>
+            android:tag="CHAT_icon" />
+
         <TextView
-            android:textSize="12sp"
             android:id="@+id/nav_chat_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="CHAT_text"
             android:text="채팅"
             android:textColor="@color/disable"
-            android:tag="채팅_text"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,20 +69,22 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
+
         <ImageView
             android:id="@+id/nav_walk_icon"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_walk"
-            android:tag="산책하기_icon"/>
+            android:tag="WALK_icon" />
+
         <TextView
-            android:textSize="12sp"
             android:id="@+id/nav_walk_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="산책하기"
+            android:tag="WALK_text"
+            android:text="산책"
             android:textColor="@color/disable"
-            android:tag="산책하기_text"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -89,20 +95,22 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
+
         <ImageView
             android:id="@+id/nav_match_icon"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_matching"
-            android:tag="매칭_icon"/>
+            android:tag="MATCH_icon" />
+
         <TextView
-            android:textSize="12sp"
             android:id="@+id/nav_match_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="MATCH_text"
             android:text="매칭"
             android:textColor="@color/disable"
-            android:tag="매칭_text"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -113,19 +121,21 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
+
         <ImageView
             android:id="@+id/nav_my_icon"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_my"
-            android:tag="MY_icon"/>
+            android:tag="PROFILE_icon" />
+
         <TextView
-            android:textSize="12sp"
             android:id="@+id/nav_my_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="PROFILE_text"
             android:text="MY"
             android:textColor="@color/disable"
-            android:tag="MY_text"/>
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

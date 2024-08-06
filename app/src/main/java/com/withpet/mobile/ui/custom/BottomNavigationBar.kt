@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.withpet.mobile.R
+import com.withpet.mobile.data.enums.Category
 
 class BottomNavigationBar @JvmOverloads constructor(
     context: Context,
@@ -16,7 +17,7 @@ class BottomNavigationBar @JvmOverloads constructor(
 ) : LinearLayout(context, attrs), View.OnClickListener {
 
     // 카테고리 상태값을 저장하는 변수
-    var selectedCategory: String = "홈"
+    var selectedCategory: Category = Category.MAIN
         set(value) {
             field = value
             updateNavigationBar()
@@ -35,11 +36,17 @@ class BottomNavigationBar @JvmOverloads constructor(
 
     // 네비게이션 바 업데이트
     private fun updateNavigationBar() {
-        val categories = listOf("홈", "채팅", "산책하기", "매칭", "MY")
+        val categories = mapOf(
+            Category.MAIN to "MAIN",
+            Category.CHAT to "CHAT",
+            Category.WALK to "WALK",
+            Category.MATCH to "MATCH",
+            Category.PROFILE to "PROFILE"
+        )
 
-        categories.forEach { category ->
-            val iconView = findViewWithTag<ImageView>("${category}_icon")
-            val textView = findViewWithTag<TextView>("${category}_text")
+        categories.forEach { (category, tag) ->
+            val iconView = findViewWithTag<ImageView>("${tag}_icon")
+            val textView = findViewWithTag<TextView>("${tag}_text")
 
             if (category == selectedCategory) {
                 iconView?.setColorFilter(ContextCompat.getColor(context, R.color.primary))
@@ -57,24 +64,24 @@ class BottomNavigationBar @JvmOverloads constructor(
     override fun onClick(view: View) {
         when (view.id) {
             R.id.nav_home -> {
-                selectedCategory = "홈"
-                Toast.makeText(context, "홈 클릭", Toast.LENGTH_SHORT).show()
+                selectedCategory = Category.MAIN
+                Toast.makeText(context, "MAIN 클릭", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_chat -> {
-                selectedCategory = "채팅"
-                Toast.makeText(context, "채팅 클릭", Toast.LENGTH_SHORT).show()
+                selectedCategory = Category.CHAT
+                Toast.makeText(context, "CHAT 클릭", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_walk -> {
-                selectedCategory = "산책하기"
-                Toast.makeText(context, "산책하기 클릭", Toast.LENGTH_SHORT).show()
+                selectedCategory = Category.WALK
+                Toast.makeText(context, "WALK 클릭", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_match -> {
-                selectedCategory = "매칭"
-                Toast.makeText(context, "매칭 클릭", Toast.LENGTH_SHORT).show()
+                selectedCategory = Category.MATCH
+                Toast.makeText(context, "MATCH 클릭", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_my -> {
-                selectedCategory = "MY"
-                Toast.makeText(context, "MY 클릭", Toast.LENGTH_SHORT).show()
+                selectedCategory = Category.PROFILE
+                Toast.makeText(context, "PROFILE 클릭", Toast.LENGTH_SHORT).show()
             }
         }
     }
