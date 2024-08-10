@@ -33,6 +33,7 @@ class CustomInput @JvmOverloads constructor(
         setHintTextColor(ContextCompat.getColor(context, R.color.disable))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
 
+        setEnabled(true)
         isFocusable = true
         isFocusableInTouchMode = true
         isSingleLine = true
@@ -68,7 +69,7 @@ class CustomInput @JvmOverloads constructor(
         val colorResIdBackground = if (enabled) R.color.transparent else R.color.disable
         setCustomBackgroundColor(colorResIdBackground)
 
-        val hintTextColorResId = if (enabled) R.color.txt1 else R.color.txt3
+        val hintTextColorResId = if (enabled) R.color.disable else R.color.txt3
         setHintTextColor(ContextCompat.getColor(context, hintTextColorResId))
     }
     override fun setError(error: CharSequence?) {
