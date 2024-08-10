@@ -82,7 +82,7 @@ object SignInRepo {
             })
     }
 
-    fun signIn(
+    fun logIn(
         loginId: String,
         password: String,
         networkFail: (String) -> Unit,
@@ -90,8 +90,7 @@ object SignInRepo {
         failure: (Throwable) -> Unit
     ) {
 
-        Logcat.d("${loginId} / ${password}")
-        val jsonBody = "{\"loginId\": \"$loginId\", \"password\": \"$password\"}"
+        val jsonBody = "{\"loginId\": \"${loginId.trim()}\", \"password\": \"${password.trim()}\"}"
         val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
         NetworkService.getService().requestSignIn(requestBody)

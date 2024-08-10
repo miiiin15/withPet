@@ -2,13 +2,11 @@ package com.withpet.mobile.ui.activity.signup
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.data.api.response.PetAddRequest
 import com.withpet.mobile.data.repository.PetRepo
@@ -18,7 +16,7 @@ import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.custom.IsValidListener
 import com.withpet.mobile.ui.custom.RadioItem
 import com.withpet.mobile.ui.custom.SelectItem
-import com.withpet.mobile.utils.Logcat
+import com.withpet.mobile.utils.SharedPreferencesUtil
 import com.withpet.mobile.utils.ValidationUtils
 
 class PetInfoActivity : BaseActivity() {
@@ -99,7 +97,7 @@ class PetInfoActivity : BaseActivity() {
             PetRepo.savePetInfo(petAddRequest, null,
                 success = {
                     if (it.result.code == 200) {
-                        signIn(loginId, password)
+                        logIn(loginId, password)
                     } else {
                         showAlert("반려견 정보 등록 실패")
                     }
@@ -118,7 +116,6 @@ class PetInfoActivity : BaseActivity() {
     }
 
     // TODO : profileImage 어떻게 쏴야하는지 확인하기
-    // TODO : UI요소 버튼 validate 인풋 리스너 담시
     private fun setInputListener() {
         binding.etPetAge.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
@@ -145,11 +142,8 @@ class PetInfoActivity : BaseActivity() {
         )
     }
 
-
-    // TODO : 메인화면으로 넘긴후 분기처리 작업하기
-
-    private fun signIn(loginId: String, password: String) {
-        SignInRepo.signIn(
+    private fun logIn(loginId: String, password: String) {
+        SignInRepo.logIn(
             loginId = loginId,
             password = password,
             networkFail = {
@@ -157,7 +151,7 @@ class PetInfoActivity : BaseActivity() {
             },
             success = {
                 if (it.result.code == 200) {
-                    saveCredentials(loginId, password)
+                    SharedPreferencesUtil.saveLoginInfo(this,loginId, password)
                     Toast.makeText(this, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java).apply {
                         // 새로운 Activity가 시작되면서 기존의 Activity를 모두 종료하고 새 Activity를 최상단에 위치시킵니다.
@@ -174,14 +168,6 @@ class PetInfoActivity : BaseActivity() {
                 showAlert("에러: ${it.message}")
             }
         )
-    }
-
-    private fun saveCredentials(loginId: String, password: String) {
-        val sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("loginId", loginId)
-        editor.putString("password", password)
-        editor.apply()
     }
 
     private fun safeStringToInt(str: String?, defaultValue: Int = 0): Int {

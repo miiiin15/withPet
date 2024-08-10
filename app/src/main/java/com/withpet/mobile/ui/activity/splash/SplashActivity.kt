@@ -16,8 +16,6 @@ import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivitySplashBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.activity.start.StartActivity
-import com.withpet.mobile.utils.DataProvider
-import com.withpet.mobile.utils.Logcat
 
 class SplashActivity : BaseActivity() {
     companion object {
@@ -79,7 +77,7 @@ class SplashActivity : BaseActivity() {
         val loginId = sharedPreferences.getString("loginId", "")
         val password = sharedPreferences.getString("password", "")
         if (!loginId.isNullOrBlank() && !password.isNullOrBlank()) {
-            signIn(loginId, password)
+            logIn(loginId, password)
         } else {
             initPermissions()
         }
@@ -161,27 +159,30 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private fun signIn(loginId: String, password: String) {
-        SignInRepo.signIn(
-            loginId = loginId,
-            password = password,
-            networkFail = {
-                Toast.makeText(this, "네트워크 실패: $it", Toast.LENGTH_SHORT).show()
-            },
-            success = {
-                if (it.result.code == 200) {
-                    DataProvider.isLogin = true
-                    Toast.makeText(this, "자동 로그인 성공", Toast.LENGTH_SHORT).show()
-                    navigateToMainActivity()
-                } else {
-                    Toast.makeText(this, "실패: ${it.result.message}", Toast.LENGTH_SHORT).show()
+    private fun logIn(loginId: String, password: String) {
+        loadingDialog.show(supportFragmentManager, "")
+        try {
+            SignInRepo.logIn(
+                loginId = loginId,
+                password = password,
+                success = {
+                    if (it.result.code == 200) {
+                        navigateToMainActivity()
+                    } else {
+                        showAlert("로그인 실패: ${it.result.message}")
+                    }
+                },
+                networkFail = {
+                    showAlert("로그인 네트워크 실패: $it")
+                },
+                failure = {
+                    showAlert("로그인 에러: ${it.message}")
                 }
-            },
-            failure = {
-                Logcat.e("에러: ${it.message}")
-                Toast.makeText(this, "에러: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        )
+            )
+        } catch (e: Exception) {
+        } finally {
+            loadingDialog.dismiss()
+        }
     }
 
     private fun navigateToLogin() {
