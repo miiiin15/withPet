@@ -3,26 +3,120 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/mainFragment">
 
+    <!-- MainFragment -->
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/mainFragment"
         android:name="com.withpet.mobile.ui.fragment.main.MainFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_global_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_global_matchFragment"
+            app:destination="@id/matchFragment" />
+        <action
+            android:id="@+id/action_global_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_global_walkFragment"
+            app:destination="@id/walkFragment" />
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.withpet.mobile.ui.fragment.SecondFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        tools:layout="@layout/fragment_second"> <!-- tools:layout 속성 추가 -->
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/mainFragment" />
     </fragment>
+
+    <!-- ChatFragment -->
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.withpet.mobile.ui.fragment.chat.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat">
+        <action
+            android:id="@+id/action_global_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_global_matchFragment"
+            app:destination="@id/matchFragment" />
+        <action
+            android:id="@+id/action_global_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_global_walkFragment"
+            app:destination="@id/walkFragment" />
+    </fragment>
+
+    <!-- MatchFragment -->
+    <fragment
+        android:id="@+id/matchFragment"
+        android:name="com.withpet.mobile.ui.fragment.match.MatchFragment"
+        android:label="MatchFragment"
+        tools:layout="@layout/fragment_match">
+        <action
+            android:id="@+id/action_global_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_global_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_global_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_global_walkFragment"
+            app:destination="@id/walkFragment" />
+    </fragment>
+
+    <!-- WalkFragment -->
+    <fragment
+        android:id="@+id/walkFragment"
+        android:name="com.withpet.mobile.ui.fragment.walk.WalkFragment"
+        android:label="WalkFragment"
+        tools:layout="@layout/fragment_walk">
+        <action
+            android:id="@+id/action_global_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_global_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_global_matchFragment"
+            app:destination="@id/matchFragment" />
+        <action
+            android:id="@+id/action_global_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <!-- ProfileFragment -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.withpet.mobile.ui.fragment.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_global_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_global_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_global_matchFragment"
+            app:destination="@id/matchFragment" />
+        <action
+            android:id="@+id/action_global_walkFragment"
+            app:destination="@id/walkFragment" />
+    </fragment>
+
 </navigation>
