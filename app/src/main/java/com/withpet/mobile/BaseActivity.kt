@@ -223,6 +223,45 @@ abstract class BaseActivity : AppCompatActivity() {
 
     }
 
+    protected fun showExitAlert() {
+        if (!isFinishing && !isDestroyed) {
+            try {
+                val binding = CustomAlertBinding.inflate(layoutInflater)
+                val builder = AlertDialog.Builder(this)
+                builder.setView(binding.root)
+
+                val dialog = builder.create()
+
+                title?.let {
+                    binding.llDlgTitleLayout.visibility = View.VISIBLE
+                    binding.txvDlgTitle.text = it
+                }
+
+                binding.txvDlgContent.text = "앱을 종료하시겠습니까?"
+                binding.btnDlgPositive.text = "종료"
+                binding.btnDlgNegative.text = "취소"
+
+                binding.btnDlgPositive.setOnClickListener {
+                    dialog.dismiss()
+                    finish()
+                }
+
+                binding.btnDlgNegative.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.setOnShowListener {
+                    val window = dialog.window
+                    window?.setBackgroundDrawableResource(android.R.color.transparent)
+                }
+                dialog.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
     // 커스텀 토스트 메시지
 //    protected fun showToast(
 //        message: String, duration: Int = Toast.LENGTH_SHORT, onPress: (() -> Unit)? = null
