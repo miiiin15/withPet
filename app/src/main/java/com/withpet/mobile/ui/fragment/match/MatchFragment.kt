@@ -1,4 +1,4 @@
-package com.example.yourapp.ui.fragment
+package com.withpet.mobile.ui.fragment.match
 
 import android.os.Bundle
 import android.view.LayoutInflater
