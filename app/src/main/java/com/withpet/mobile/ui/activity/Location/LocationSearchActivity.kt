@@ -1,7 +1,10 @@
 package com.withpet.mobile.ui.activity.Location
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.withpet.mobile.databinding.ActivityLocationSearchBinding
@@ -11,12 +14,23 @@ class LocationSearchActivity : AppCompatActivity() {
     // View Binding 변수 선언
     private lateinit var binding: ActivityLocationSearchBinding
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // View Binding 초기화
         binding = ActivityLocationSearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 외부 뷰 터치 시 키보드 내리기와 포커스 해제
+        binding.outsideView.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.outsideView.windowToken, 0)
+                binding.inputSearchText.clearFocus()
+            }
+            true
+        }
 
         // 검색 버튼 클릭 리스너 설정
         binding.ivSearchButton.setOnClickListener {
