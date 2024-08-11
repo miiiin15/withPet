@@ -18,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.withpet.mobile.databinding.CustomAlertBinding
 import com.withpet.mobile.databinding.CustomSnackbarBinding
+import com.withpet.mobile.ui.activity.Location.LocationSearchActivity
 import com.withpet.mobile.ui.activity.start.StartActivity
 import com.withpet.mobile.ui.custom.LoadingDialog
 
@@ -367,7 +368,7 @@ abstract class BaseActivity : AppCompatActivity() {
         val negativeButton: AppCompatButton = customView.findViewById(R.id.btn_hide_position_popup)
 
         positiveButton.setOnClickListener {
-//            startActivity(Intent(this, StartActivity::class.java))
+            startActivity(Intent(this, LocationSearchActivity::class.java))
         }
         negativeButton.setOnClickListener {
             hidePopup()
