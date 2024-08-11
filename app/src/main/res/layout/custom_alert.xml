@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button_enable"
                     android:text="확인"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginBottom="@dimen/margin_vertical_button"
                     android:textColor="@color/white"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -94,7 +94,6 @@
                     android:id="@+id/btnDlgNegative"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:background="@color/transparent"
                     android:text="취소"
                     android:textColor="@color/button_cancel_text"

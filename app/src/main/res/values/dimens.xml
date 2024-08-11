@@ -6,7 +6,12 @@
     <dimen name="logo_size_small">24dp</dimen>
     <dimen name="logo_size_middle">80dp</dimen>
     <dimen name="logo_size_big">120dp</dimen>
+
+    <dimen name="bottom_sheet_top">12dp</dimen>
+    <dimen name="bottom_margin_horizontal">12dp</dimen>
     <dimen name="bottom_sheet_radius">25dp</dimen>
+
+    <dimen name="margin_vertical_button">8dp</dimen>
 
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_16">16dp</dimen>
