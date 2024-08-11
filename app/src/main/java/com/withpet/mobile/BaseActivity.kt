@@ -1,6 +1,7 @@
 package com.withpet.mobile
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Rect
 import android.os.Bundle
@@ -8,13 +9,16 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.withpet.mobile.databinding.CustomAlertBinding
 import com.withpet.mobile.databinding.CustomSnackbarBinding
+import com.withpet.mobile.ui.activity.start.StartActivity
 import com.withpet.mobile.ui.custom.LoadingDialog
 
 //import com.save.protect.app.data.Constants.context
@@ -351,12 +355,39 @@ abstract class BaseActivity : AppCompatActivity() {
         })
     }
 
+    protected fun showPositionPopup() {
+        // 팝업 내부에 동적으로 콘텐츠를 추가하는 예제
+        val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
+        val customView =
+            LayoutInflater.from(this).inflate(R.layout.custom_view_positioning_recomend, null)
+        contentFrame.addView(customView)
+
+        val positiveButton: AppCompatButton =
+            customView.findViewById(R.id.btn_move_setting_position)
+        val negativeButton: AppCompatButton = customView.findViewById(R.id.btn_hide_position_popup)
+
+        positiveButton.setOnClickListener {
+//            startActivity(Intent(this, StartActivity::class.java))
+        }
+        negativeButton.setOnClickListener {
+            hidePopup()
+        }
+
+        bottomSheetDialog?.show()
+    }
+
     protected fun showPopup() {
         bottomSheetDialog?.show()
     }
 
     protected fun hidePopup() {
         bottomSheetDialog?.dismiss()
+        clearPositionPopupContent()
+    }
+
+    protected fun clearPositionPopupContent() {
+        val contentFrame: FrameLayout? = bottomSheetView.findViewById(R.id.content_frame)
+        contentFrame?.removeAllViews()
     }
 
 

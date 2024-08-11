@@ -1,23 +1,27 @@
 package com.withpet.mobile.ui.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.AppCompatButton
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.data.enums.Category
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.databinding.ActivityMainBinding
 import com.withpet.mobile.ui.custom.BottomNavigationBar
+import com.withpet.mobile.ui.custom.CustomButton
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var bottomSheetDialog: BottomSheetDialog
 
     val navOptions = NavOptions.Builder()
         .setPopUpTo(R.id.mainFragment, true) // mainFragment를 제외한 모든 백스택 제거
@@ -80,13 +84,7 @@ class MainActivity : BaseActivity() {
         CommonRepo.getMemberInfo(
             success = {
                 if (it.result.code == 200) {
-                    // sharedPreferences를 검사하고 이후 로직을 진행
-                    Toast.makeText(
-                        this,
-                        "${it.payload.nickName} 님은 ${getRoleMessage(it.payload.role)}",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    checkRole(it.payload.role)
                 } else {
                     Toast.makeText(this, "${it.error?.message.toString()}", Toast.LENGTH_SHORT)
                         .show()
@@ -101,12 +99,14 @@ class MainActivity : BaseActivity() {
         )
     }
 
-    fun getRoleMessage(role: String): String {
-        return when (role) {
-            "initial" -> "추가정보 입력이 필요합니다."
-            "normal" -> "추가정보 입력을 완료하셨습니다."
-            "admin" -> "관리자입니다."
-            else -> "알 수 없는 역할입니다."
+
+
+    fun checkRole(role: String) {
+        when (role) {
+            "initial" -> showPositionPopup()
+            "normal" -> null
+            "admin" -> null
+            else -> null
         }
     }
 
