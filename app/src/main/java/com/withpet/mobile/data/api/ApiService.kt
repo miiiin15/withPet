@@ -44,9 +44,9 @@ interface ApiService {
         @Part profileImage: MultipartBody.Part?
     ): Call<ApiResponse<Any>>
 
-    // 위치 저장
-    @POST("api/location")
-    fun saveLocationList(@Body params: RequestBody): Call<ApiResponse<String>>
+    // 내 지역 저장
+    @POST("api/v1/region")
+    fun saveLocationList(@Body params: RequestBody): Call<ApiResponse<Any>>
 
     // 추천 코드 기반 위치 조회
     @GET("api/location/{recommenderCode}")
