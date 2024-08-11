@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outsideView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingHorizontal="@dimen/margin_horizontal"
+    android:paddingTop="@dimen/top_to_header"
+    >
 
     <!-- 상단 텍스트뷰: "동네를 설정해주세요" -->
     <TextView
         android:id="@+id/tv_set_location_title"
+        style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="동네를 설정해주세요"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal" />
+        android:text="동네를 설정해주세요" />
 
     <!-- 검색 영역 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_marginVertical="24dp"
+        android:orientation="horizontal">
 
         <!-- 검색 버튼 -->
         <ImageView
             android:id="@+id/iv_search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_search"
             android:contentDescription="Search Button"
-            android:padding="12dp" />
+            android:padding="18dp"
+            android:src="@drawable/ic_search" />
 
         <!-- 텍스트 입력 영역 -->
         <com.withpet.mobile.ui.custom.CustomInput
@@ -45,18 +46,17 @@
         android:id="@+id/btn_find_current_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="현재 위치로 찾기"
-        android:layout_marginTop="16dp" />
+        android:text="현재 위치로 찾기" />
 
     <!-- 입력된 주소를 표시할 텍스트뷰 -->
     <TextView
         android:id="@+id/tv_inputted_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_marginTop="16dp"
-        android:textSize="14sp"
-        android:textColor="@android:color/black" />
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
 
     <!-- 검색 결과를 표시할 리스트뷰 -->
     <ListView
@@ -72,11 +72,11 @@
         android:id="@+id/tv_no_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="검색 결과가 없어요\n동네를 다시 확인 해주세요!"
-        android:gravity="center"
         android:layout_marginTop="16dp"
-        android:visibility="gone"
+        android:gravity="center"
+        android:text="검색 결과가 없어요\n동네를 다시 확인 해주세요!"
+        android:textColor="@android:color/holo_red_dark"
         android:textSize="14sp"
-        android:textColor="@android:color/holo_red_dark" />
+        android:visibility="gone" />
 
 </LinearLayout>
