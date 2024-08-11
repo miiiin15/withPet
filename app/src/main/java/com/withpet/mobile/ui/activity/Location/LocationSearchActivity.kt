@@ -1,15 +1,20 @@
 package com.withpet.mobile.ui.activity.Location
 
 import android.annotation.SuppressLint
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
+import com.withpet.mobile.BaseActivity
+import com.withpet.mobile.data.repository.LocationRepo
 import com.withpet.mobile.databinding.ActivityLocationSearchBinding
+import com.withpet.mobile.utils.PermissionUtils
+import java.lang.Exception
 
-class LocationSearchActivity : AppCompatActivity() {
+class LocationSearchActivity : BaseActivity() {
 
     // View Binding 변수 선언
     private lateinit var binding: ActivityLocationSearchBinding
@@ -77,8 +82,51 @@ class LocationSearchActivity : AppCompatActivity() {
 
     // 10. "현재 위치로 찾기" 버튼 클릭 리스너
     private fun findLocationUsingCurrentPosition() {
-        // 현재 위치를 찾는 로직 구현
-        // 예: 위치 서비스 사용, 현재 위치 API 호출 등
+        // 위치 권한이 있는지 확인
+        if (PermissionUtils.isLocationPermissionGranted(this)) {
+            // 권한이 있는 경우 현재 위치의 좌표값을 가져옴
+            getCurrentLocation()
+        } else {
+            // 권한이 없을 경우 로그 출력 또는 사용자에게 권한 요청
+            showAlert("위치 권한이 허용되지 않았습니다.")
+        }
+    }
+
+    @SuppressLint("MissingPermission") // 이 주석은 권한이 체크되었음을 알려줌
+    private fun getCurrentLocation() {
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        val locationProvider = LocationManager.GPS_PROVIDER
+
+        // 마지막으로 알려진 위치 가져오기
+        val lastKnownLocation: Location? = locationManager.getLastKnownLocation(locationProvider)
+
+        if (lastKnownLocation != null) {
+            val x = lastKnownLocation.longitude
+            val y = lastKnownLocation.latitude
+            saveLocation(x, y)
+        } else {
+            showAlert("현재 위치를 가져올 수 없습니다.")
+        }
+    }
+
+    private fun saveLocation(x: Double, y: Double) {
+        loadingDialog.show(supportFragmentManager, "")
+        try {
+            LocationRepo.saveLocation(x, y, success = {
+                showAlert(it.toString())
+            },
+                networkFail = {
+                    showAlert(it)
+                },
+                failure = {
+                    showAlert(it.message ?: "failure")
+                }
+            )
+        } catch (e: Exception) {
+            showAlert(e.message ?: "error")
+        } finally {
+            loadingDialog.dismiss()
+        }
     }
 
     // 리스트의 아이템 클릭 리스너
@@ -87,8 +135,4 @@ class LocationSearchActivity : AppCompatActivity() {
         // 예: 주소 저장 API 호출, 화면 전환 등
     }
 
-    // 검색 팝업 숨기기 함수
-    private fun hidePopup() {
-        // 팝업을 숨기는 로직 구현
-    }
 }
