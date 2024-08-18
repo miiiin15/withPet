@@ -1,141 +1,118 @@
 package com.withpet.mobile.ui.custom
 
 import android.content.Context
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.LayerDrawable
-import android.text.Editable
-import android.text.InputType
-import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.Gravity
-import androidx.appcompat.widget.AppCompatEditText
+import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.withpet.mobile.R
 
-interface IsValidListener {
-    fun isValid(text: String): Boolean
-}
-
 class CustomInput @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : AppCompatEditText(context, attrs, defStyleAttr) {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private var isInitialized = false
-    private var isValidListener: IsValidListener? = null
+    private val customEditText: CustomEditText
+    private val label: AppCompatTextView
+    private val errorText: AppCompatTextView
 
     init {
-        setBackgroundResource(R.drawable.bg_custom_input)
-//        setPadding(0, 20, 0, 20)
-        gravity = Gravity.START or Gravity.CENTER_VERTICAL
-        setHintTextColor(ContextCompat.getColor(context, R.color.disable))
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+        orientation = VERTICAL
 
-        setEnabled(true)
-        isFocusable = true
-        isFocusableInTouchMode = true
-        isSingleLine = true
+        // label과 errorText 초기화
+        label = AppCompatTextView(context).apply {
+            visibility = GONE
+            textSize = 12f
+            setTextColor(ContextCompat.getColor(context, R.color.label))
+        }
+        errorText = AppCompatTextView(context).apply {
+            visibility = GONE
+            textSize = 12f
+            setTextColor(ContextCompat.getColor(context, R.color.error))
+        }
 
-        setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                setUnderlineColor(R.color.primary)
-            } else {
-                if (!isValid()) {
-                    setUnderlineColor(R.color.error)
-                } else {
-                    setUnderlineColor(R.color.disable)
-                }
+        // CustomInput (AppCompatEditText 상속)을 초기화
+        customEditText = CustomEditText(context, attrs, defStyleAttr)
+
+        // label을 상단에 추가
+        addView(
+            label, LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT
+            )
+        )
+
+        // CustomInput을 가운데 추가
+        addView(
+            customEditText, LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.WRAP_CONTENT
+            )
+        )
+
+        // errorText를 하단에 추가
+        addView(
+            errorText, LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT
+            )
+        )
+
+        // XML에서 정의된 속성을 읽어옴
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.CustomEditText,
+            0, 0
+        ).apply {
+            try {
+                val labelText = getString(R.styleable.CustomEditText_labelText)
+                val errorTextValue = getString(R.styleable.CustomEditText_errorText)
+
+                setLabel(labelText)
+                setErrorText(errorTextValue)
+            } finally {
+                recycle()
             }
         }
-
-        // inputType이 textPassword, numberPassword 또는 number일 경우에도 초기 설정 적용
-        if (inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
-            inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) ||
-            inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD ||
-            inputType == (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD) ||
-            inputType == InputType.TYPE_CLASS_NUMBER
-        ) {
-            setInitialUnderlineColor()
-        }
     }
 
-    override fun setEnabled(enabled: Boolean) {
-        super.setEnabled(enabled)
-        val colorResId = if (enabled) R.color.disable else R.color.disable
-        setUnderlineColor(colorResId)
-
-        val colorResIdBackground = if (enabled) R.color.transparent else R.color.disable
-        setCustomBackgroundColor(colorResIdBackground)
-
-        val hintTextColorResId = if (enabled) R.color.disable else R.color.txt3
-        setHintTextColor(ContextCompat.getColor(context, hintTextColorResId))
-    }
-    override fun setError(error: CharSequence?) {
-        super.setError(error)
-        if (error != null) {
-            setUnderlineColor(R.color.error)
+    // label 설정 메서드
+    fun setLabel(text: String?) {
+        if (!text.isNullOrEmpty()) {
+            label.text = text
+            label.visibility = VISIBLE
         } else {
-            setUnderlineColor(R.color.disable)
+            label.visibility = GONE
         }
+    }
+
+    // errorText 설정 메서드
+    fun setErrorText(text: String?) {
+        if (!text.isNullOrEmpty()) {
+            errorText.text = text
+            errorText.visibility = VISIBLE
+        } else {
+            errorText.visibility = GONE
+        }
+    }
+
+    // text 속성을 통해 editText의 텍스트에 바로 접근할 수 있게 함
+    var text: CharSequence?
+        get() = customEditText.text
+        set(value) {
+            customEditText.setText(value)
+        }
+
+    // CustomInput(AppCompatEditText)의 메서드를 제공하는 래퍼 메서드
+    fun setHintTextColor(color: Int) {
+        customEditText.setHintTextColor(color)
+    }
+
+    // CustomInput의 setIsValidListener를 호출하는 메서드
+    fun setIsValidListener(listener: IsValidListener) {
+        customEditText.setIsValidListener(listener)
     }
 
     fun setDisable(disable: Boolean) {
-        isEnabled = !disable
-    }
-
-    fun setIsValidListener(listener: IsValidListener) {
-        this.isValidListener = listener
-        if (!isInitialized) {
-            // 초기화 후 처음 한 번만 언더라인 색상을 설정
-            setUnderlineColor(R.color.disable)
-            isInitialized = true
-        }
-    }
-
-    private fun isValid(): Boolean {
-        val text = text.toString()
-        return isValidListener?.isValid(text) ?: text.isNotEmpty()
-    }
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        val text = s.toString()
-        if (isValid(text)) {
-            setUnderlineColor(R.color.primary)
-        } else {
-            setUnderlineColor(R.color.error)
-        }
-    }
-
-    private fun isValid(text: String): Boolean {
-        return isValidListener?.isValid(text) ?: text.isNotEmpty()
-    }
-
-    private fun setInitialUnderlineColor() {
-        if (!isInitialized) {
-            setUnderlineColor(R.color.disable)
-            isInitialized = true
-        }
-    }
-
-    private fun setUnderlineColor(colorResId: Int) {
-        val drawable = background
-        if (drawable is LayerDrawable) {
-            val underline = drawable.findDrawableByLayerId(R.id.underLine) as? GradientDrawable
-            underline?.setColor(ContextCompat.getColor(context, colorResId))
-        } else {
-            background?.mutate()?.setTint(ContextCompat.getColor(context, colorResId))
-        }
-    }
-
-    private fun setCustomBackgroundColor(colorResId: Int) {
-        val drawable = background
-        if (drawable is LayerDrawable) {
-            val underline = drawable.findDrawableByLayerId(R.id.background) as? GradientDrawable
-            underline?.setColor(ContextCompat.getColor(context, colorResId))
-        } else {
-            background?.mutate()?.setTint(ContextCompat.getColor(context, colorResId))
-        }
+        customEditText.setDisable(disable)
     }
 }

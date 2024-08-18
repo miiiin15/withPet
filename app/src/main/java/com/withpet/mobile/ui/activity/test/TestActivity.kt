@@ -46,9 +46,11 @@ class TestActivity : BaseActivity() {
         customInput.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 return try {
+                    customInput.setErrorText("")
                     val value = text.toInt()
                     value >= 0
                 } catch (e: NumberFormatException) {
+                    customInput.setErrorText("숫자만 가능합니다")
                     false
                 }
             }

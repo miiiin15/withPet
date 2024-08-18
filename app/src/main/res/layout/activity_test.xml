@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="숫자만 입력"
+            app:labelText="라벨"
             />
 
         <com.withpet.mobile.ui.custom.CustomInput

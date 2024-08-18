@@ -8,4 +8,8 @@
         <attr name="bottomSheetHeight" format="dimension" />
         <attr name="type" format="string" />
     </declare-styleable>
+    <declare-styleable name="CustomEditText">
+        <attr name="labelText" format="string" />
+        <attr name="errorText" format="string" />
+    </declare-styleable>
 </resources>
