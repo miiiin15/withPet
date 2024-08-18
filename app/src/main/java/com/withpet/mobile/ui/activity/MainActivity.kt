@@ -1,10 +1,13 @@
 package com.withpet.mobile.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatButton
 import androidx.navigation.NavOptions
@@ -12,9 +15,12 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
+import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.enums.Category
 import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivityMainBinding
+import com.withpet.mobile.ui.activity.signup.PetInfoActivity
 import com.withpet.mobile.ui.custom.BottomNavigationBar
 import com.withpet.mobile.ui.custom.CustomButton
 
@@ -80,11 +86,23 @@ class MainActivity : BaseActivity() {
         })
     }
 
+    private val petInfoActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val roleUpdated = result.data?.getBooleanExtra("infoUpdated", false) ?: false
+            if (roleUpdated) {
+                // PetInfoActivity에서 업데이트된 정보를 기반으로 유저 정보 조회를 다시 실행
+                getMemberInfo()
+            }
+        }
+    }
+
     private fun getMemberInfo() {
         CommonRepo.getMemberInfo(
             success = {
                 if (it.result.code == 200) {
-                    checkRole(it.payload.role)
+                    checkRole(it.payload)
                 } else {
                     Toast.makeText(this, "${it.error?.message.toString()}", Toast.LENGTH_SHORT)
                         .show()
@@ -100,12 +118,16 @@ class MainActivity : BaseActivity() {
     }
 
 
+    private fun checkRole(memberInfo: MemberInfo) {
+        when (memberInfo.role) {
+            "initial" -> {
+                val intent = Intent(this, PetInfoActivity::class.java)
+                intent.putExtra("entry", "main")
+                petInfoActivityLauncher.launch(intent)
+            }
 
-    fun checkRole(role: String) {
-        when (role) {
-            "initial" -> showPositionPopup()
-            "normal" -> null
-            "admin" -> null
+            "normal" -> UserSession.setMemberInfo(memberInfo)
+            "admin" -> UserSession.setMemberInfo(memberInfo)
             else -> null
         }
     }

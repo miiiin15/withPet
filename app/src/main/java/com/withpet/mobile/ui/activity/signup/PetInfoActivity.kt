@@ -2,6 +2,7 @@ package com.withpet.mobile.ui.activity.signup
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
@@ -22,6 +23,7 @@ import com.withpet.mobile.utils.ValidationUtils
 class PetInfoActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPetInfoBinding
+    private var formSignUp: Boolean = true
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,7 @@ class PetInfoActivity : BaseActivity() {
             true
         }
 
+        checkEntry()
         setOptionss()
         setButtons()
         setInputListener()
@@ -97,7 +100,15 @@ class PetInfoActivity : BaseActivity() {
             PetRepo.savePetInfo(petAddRequest, null,
                 success = {
                     if (it.result.code == 200) {
+                        if (formSignUp){
                         logIn(loginId, password)
+                        }else{
+                            // MainActivity 유저 정보 조회 트리거 용 값 세팅
+                            val resultIntent = Intent()
+                            resultIntent.putExtra("infoUpdated", true)
+                            setResult(Activity.RESULT_OK, resultIntent)
+                            finish()
+                        }
                     } else {
                         showAlert("반려견 정보 등록 실패")
                     }
@@ -142,6 +153,14 @@ class PetInfoActivity : BaseActivity() {
         )
     }
 
+    // 진입 분기 판별
+    private fun checkEntry() {
+        val entry = intent.getStringExtra("entry")
+        if (entry == "main") {
+            formSignUp = false
+        }
+    }
+
     private fun logIn(loginId: String, password: String) {
         SignInRepo.logIn(
             loginId = loginId,
@@ -151,7 +170,7 @@ class PetInfoActivity : BaseActivity() {
             },
             success = {
                 if (it.result.code == 200) {
-                    SharedPreferencesUtil.saveLoginInfo(this,loginId, password)
+                    SharedPreferencesUtil.saveLoginInfo(this, loginId, password)
                     Toast.makeText(this, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java).apply {
                         // 새로운 Activity가 시작되면서 기존의 Activity를 모두 종료하고 새 Activity를 최상단에 위치시킵니다.
