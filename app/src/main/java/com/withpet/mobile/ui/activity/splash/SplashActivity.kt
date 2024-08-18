@@ -13,6 +13,7 @@ import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.BuildConfig
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.data.repository.SignInRepo
+import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivitySplashBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.activity.start.StartActivity
@@ -73,6 +74,8 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun checkSharedPreferences() {
+        // 유저 정보 전역값 초기화
+        UserSession.clear()
         // 로그인 정보가 존재하는지 확인하고, 있으면 자동 로그인 시도
         val loginId = sharedPreferences.getString("loginId", "")
         val password = sharedPreferences.getString("password", "")
