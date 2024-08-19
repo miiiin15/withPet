@@ -70,6 +70,7 @@ open class CustomEditText @JvmOverloads constructor(
         val hintTextColorResId = if (enabled) R.color.disable else R.color.txt3
         setHintTextColor(ContextCompat.getColor(context, hintTextColorResId))
     }
+
     override fun setError(error: CharSequence?) {
         super.setError(error)
         if (error != null) {
@@ -77,6 +78,16 @@ open class CustomEditText @JvmOverloads constructor(
         } else {
             setUnderlineColor(R.color.disable)
         }
+    }
+
+    // visibility를 외부에서 접근할 수 있도록 getter와 setter 메서드 오버라이드
+    override fun getVisibility(): Int {
+        return super.getVisibility()
+    }
+
+    override fun setVisibility(visibility: Int) {
+        super.setVisibility(visibility)
+        // 필요하면 추가적인 동작을 여기에 추가할 수 있음
     }
 
     fun setDisable(disable: Boolean) {

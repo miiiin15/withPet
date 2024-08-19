@@ -2,6 +2,7 @@ package com.withpet.mobile.ui.custom
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -16,6 +17,7 @@ class CustomInput @JvmOverloads constructor(
     private val errorText: AppCompatTextView
 
     init {
+
         orientation = VERTICAL
 
         // label과 errorText 초기화
@@ -102,6 +104,16 @@ class CustomInput @JvmOverloads constructor(
             customEditText.setText(value)
         }
 
+    override fun setVisibility(visibility: Int) {
+        super.setVisibility(visibility)
+        // customEditText의 visibility를 CustomInput의 visibility와 동일하게 설정
+        customEditText.visibility = visibility
+    }
+
+    override fun getVisibility(): Int {
+        return super.getVisibility()
+    }
+
     // CustomInput(AppCompatEditText)의 메서드를 제공하는 래퍼 메서드
     fun setHintTextColor(color: Int) {
         customEditText.setHintTextColor(color)
@@ -115,4 +127,6 @@ class CustomInput @JvmOverloads constructor(
     fun setDisable(disable: Boolean) {
         customEditText.setDisable(disable)
     }
+
+
 }
