@@ -30,7 +30,7 @@ class CustomSelect @JvmOverloads constructor(
 
     private var options: Array<SelectItem> = arrayOf()
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private var isDisabled: Boolean = false
+    var isDisabled: Boolean = false
     private var value: String = ""
     var type: String = "list"
 
@@ -68,7 +68,7 @@ class CustomSelect @JvmOverloads constructor(
         }
     }
 
-    private fun showOptions() {
+    fun showOptions() {
         setUnderlineColor(R.color.primary)
         val bottomSheetView =
             LayoutInflater.from(context).inflate(R.layout.custom_bottom_sheet_container, null)

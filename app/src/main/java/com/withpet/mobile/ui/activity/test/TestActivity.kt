@@ -14,9 +14,9 @@ class TestActivity : BaseActivity() {
 
     private lateinit var customInput: CustomInput
     private lateinit var customInput_disable: CustomInput
-    private lateinit var customSelect: CustomSelect
-    private lateinit var customSelect_disable: CustomSelect
-    private lateinit var customSelect_gender: CustomSelect
+    private lateinit var customOption: CustomOption
+    private lateinit var customOption_disable: CustomOption
+    private lateinit var customOption_gender: CustomOption
     private lateinit var btnTest1: CustomButton
     private lateinit var btnTest2: CustomButton
     private lateinit var btnTest3: CustomButton
@@ -30,18 +30,18 @@ class TestActivity : BaseActivity() {
 
         customInput = findViewById(R.id.customInput)
         customInput_disable = findViewById(R.id.customInput_disable)
-        customSelect = findViewById(R.id.customSelect)
-        customSelect_disable = findViewById(R.id.customSelect_disable)
-        customSelect_gender = findViewById(R.id.customSelect_gender)
+        customOption = findViewById(R.id.customSelect)
+        customOption_disable = findViewById(R.id.customSelect_disable)
+        customOption_gender = findViewById(R.id.customSelect_gender)
         btnTest1 = findViewById(R.id.btn_test1)
         btnTest2 = findViewById(R.id.btn_test2)
         btnTest3 = findViewById(R.id.btn_test3)
         btnTest4 = findViewById(R.id.btn_test4)
         btnTest5 = findViewById(R.id.btn_test5)
 
-        customSelect_disable.setDisable(true)
+        customOption_disable.setDisable(true)
         customInput_disable.setDisable(true)
-        customSelect_gender.type = "gender"
+        customOption_gender.type = "gender"
 
         customInput.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
@@ -56,7 +56,7 @@ class TestActivity : BaseActivity() {
             }
         })
 
-        customSelect.setOptions(
+        customOption.setOptions(
             arrayOf(
                 SelectItem("하나", "01"),
                 SelectItem("다섯", "05"),
@@ -70,7 +70,7 @@ class TestActivity : BaseActivity() {
 
         btnTest1.setOnClickListener {
             showAlert(
-                "input : ${customInput.text}\nselect : ${customSelect.getValue()}\nselect_gender : ${customSelect_gender.getValue()}",
+                "input : ${customInput.text}\nselect : ${customOption.getValue()}\nselect_gender : ${customOption_gender.getValue()}",
                 "인풋 현황"
             ) {
                 Toast.makeText(this, "showAlert onPress", Toast.LENGTH_SHORT).show()
