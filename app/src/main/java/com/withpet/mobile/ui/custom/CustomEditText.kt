@@ -117,7 +117,10 @@ open class CustomEditText @JvmOverloads constructor(
         }
     }
 
+    var onValidListener: ((Boolean) -> Unit)? = null
+
     private fun isValid(text: String): Boolean {
+        onValidListener?.invoke(isValidListener?.isValid(text) ?: text.isNotEmpty())
         return isValidListener?.isValid(text) ?: text.isNotEmpty()
     }
 

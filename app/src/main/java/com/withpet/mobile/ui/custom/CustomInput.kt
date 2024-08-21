@@ -35,6 +35,14 @@ class CustomInput @JvmOverloads constructor(
         // CustomInput (AppCompatEditText 상속)을 초기화
         customEditText = CustomEditText(context, attrs, defStyleAttr)
 
+        customEditText.onValidListener = {
+            if (it) {
+                errorText.visibility = GONE
+            } else {
+                errorText.visibility = VISIBLE
+            }
+        }
+
         // label을 상단에 추가
         addView(
             label, LayoutParams(
@@ -71,6 +79,8 @@ class CustomInput @JvmOverloads constructor(
 
                 setLabel(labelText)
                 setErrorText(errorTextValue)
+                // 초기 상태는 에러 상태가 아니기 때문에 우선 숨김
+                errorText.visibility = GONE
             } finally {
                 recycle()
             }

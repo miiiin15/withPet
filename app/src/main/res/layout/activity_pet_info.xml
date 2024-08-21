@@ -48,13 +48,22 @@
         </LinearLayout>
 
 
-        <com.withpet.mobile.ui.custom.CustomSelect
+        <com.withpet.mobile.ui.custom.CustomOption
             android:id="@+id/select_petSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            app:labelText="크기"
             android:hint="크기 (소형, 중형, 대형)"
             android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="12dp"
+            android:textColor="@color/label"
+            android:text="성별"/>
 
         <com.withpet.mobile.ui.custom.CustomRadio
             android:id="@+id/rg_sexType"
@@ -68,6 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
+            app:labelText="나이"
+            app:errorText="올바른 나이를 입력해주세요"
             android:hint="나이"
             android:inputType="number" />
 
@@ -76,7 +87,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
-            android:hint="소개"
+            app:labelText="품종"
+            app:errorText="소개글을 입력해주세요"
+            android:hint="소개글 입력"
             android:inputType="text" />
 
 
