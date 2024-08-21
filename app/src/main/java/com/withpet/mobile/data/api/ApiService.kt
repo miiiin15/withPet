@@ -4,6 +4,7 @@ import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.api.response.PetAddRequest
 import com.withpet.mobile.data.api.response.VersionPayload
+import com.withpet.mobile.data.model.Someone
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -47,6 +48,19 @@ interface ApiService {
     // 내 지역 저장
     @POST("api/v1/region")
     fun saveLocationList(@Body params: RequestBody): Call<ApiResponse<Any>>
+
+    // TODO : 반환 자료형 정의 할 것
+    // 매칭 정보 조회
+    @GET("api/v1/match")
+    fun getMatchingList(): Call<ApiResponse<Any>>
+
+    // 좋아요
+    @POST("api/v1/like")
+    fun requestLike(@Body params: RequestBody): Call<ApiResponse<Any>>
+
+    // 좋아요 취소
+    @POST("api/v1/like")
+    fun requestDislike(@Query("likeProfileId") likeProfileId: String): Call<ApiResponse<Any>>
 
     // 추천 코드 기반 위치 조회
     @GET("api/location/{recommenderCode}")
