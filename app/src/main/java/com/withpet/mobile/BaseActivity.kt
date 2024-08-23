@@ -139,7 +139,7 @@ abstract class BaseActivity : AppCompatActivity() {
 //    }
 
     // 1버튼 알림 대화상자
-    protected fun showAlert(
+    fun showAlert(
         message: String,
         title: String? = null,
         buttonText: String? = null,
