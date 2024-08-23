@@ -17,13 +17,14 @@ import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.custom.IsValidListener
 import com.withpet.mobile.ui.custom.RadioItem
 import com.withpet.mobile.ui.custom.SelectItem
+import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.utils.SharedPreferencesUtil
 import com.withpet.mobile.utils.ValidationUtils
 
 class PetInfoActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPetInfoBinding
-    private var formSignUp: Boolean = true
+    private var fromSignUp: Boolean = true
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,8 @@ class PetInfoActivity : BaseActivity() {
             }
             true
         }
+
+
 
         checkEntry()
         setOptionss()
@@ -88,21 +91,22 @@ class PetInfoActivity : BaseActivity() {
 
             val loginId = intent.getStringExtra("loginId") ?: ""
             val password = intent.getStringExtra("password") ?: ""
-            val signupId = intent.getStringExtra("signupId")?.toDouble()?.toInt() ?: 0
-
+            val id = if (fromSignUp) intent.getStringExtra("signupId")?.toDouble()?.toInt()
+                ?: 0 else intent.getIntExtra("memberInfoId", 0)
             val petAddRequest = PetAddRequest(
                 size = petSize,
                 sex = petSex,
                 age = petAge,
                 introduction = petIntroduction,
-                memberId = signupId
+                memberId = id
             )
+
             PetRepo.savePetInfo(petAddRequest, null,
                 success = {
                     if (it.result.code == 200) {
-                        if (formSignUp){
-                        logIn(loginId, password)
-                        }else{
+                        if (fromSignUp) {
+                            logIn(loginId, password)
+                        } else {
                             // MainActivity 유저 정보 조회 트리거 용 값 세팅
                             val resultIntent = Intent()
                             resultIntent.putExtra("infoUpdated", true)
@@ -157,7 +161,7 @@ class PetInfoActivity : BaseActivity() {
     private fun checkEntry() {
         val entry = intent.getStringExtra("entry")
         if (entry == "main") {
-            formSignUp = false
+            fromSignUp = false
         }
     }
 

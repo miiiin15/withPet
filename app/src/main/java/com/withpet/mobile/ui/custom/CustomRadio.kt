@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.withpet.mobile.R
+import com.withpet.mobile.utils.Logcat
 
 data class RadioItem(val label: String, val value: String, var checked: Boolean = false)
 
@@ -103,8 +104,8 @@ class CustomRadio @JvmOverloads constructor(
                 option.checked = false
                 // TODO : allowMultipleSelection else 다중 선택 케이스 작성하기
                 if (!allowMultipleSelection) value = option.value
-                view.setBackgroundResource(R.drawable.bg_button_disable)
             } else {
+                if (!allowMultipleSelection) value = option.value
                 options.forEach {
                     it.checked = false
                 }
