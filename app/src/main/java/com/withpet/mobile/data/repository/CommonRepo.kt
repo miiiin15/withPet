@@ -4,6 +4,7 @@ import com.withpet.mobile.data.api.NetworkService
 import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.api.response.VersionPayload
+import com.withpet.mobile.data.model.Someone
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,6 +56,30 @@ object CommonRepo {
                 }
 
                 override fun onFailure(call: Call<ApiResponse<MemberInfo>>, t: Throwable) {
+                    failure(t)
+                }
+            })
+    }
+    fun getMatchedList(
+        networkFail: (String) -> Unit,
+        success: (ApiResponse<List<Someone>>) -> Unit,
+        failure: (Throwable) -> Unit
+    ) {
+        NetworkService.getService().getMatchingList()
+            .enqueue(object : Callback<ApiResponse<List<Someone>>> {
+                override fun onResponse(
+                    call: Call<ApiResponse<List<Someone>>>,
+                    response: Response<ApiResponse<List<Someone>>>
+                ) {
+                    if (response.isSuccessful) {
+                        val data = response.body() ?: return
+                        success(data)
+                    } else {
+                        networkFail(response.code().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<List<Someone>>>, t: Throwable) {
                     failure(t)
                 }
             })
