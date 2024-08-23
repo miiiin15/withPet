@@ -123,6 +123,7 @@ class MainActivity : BaseActivity() {
             "initial" -> {
                 val intent = Intent(this, PetInfoActivity::class.java)
                 intent.putExtra("entry", "main")
+                intent.putExtra("memberInfoId", memberInfo.id)
                 petInfoActivityLauncher.launch(intent)
             }
 
