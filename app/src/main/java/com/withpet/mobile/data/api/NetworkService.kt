@@ -84,7 +84,7 @@ object NetworkService {
                 editor?.putStringSet("cookie", cookies)
                 editor?.apply()
             } else {
-                Logcat.d("쿠키 없음")
+//                Logcat.d("쿠키 없음")
             }
 
             // 응답 헤더에서 토큰을 추출하여 SharedPreferences에 저장
