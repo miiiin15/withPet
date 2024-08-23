@@ -102,9 +102,9 @@ class SomeoneList @JvmOverloads constructor(
             fun bind(someone: Someone, position: Int, itemCount: Int) {
                 val ITEM_MARGIN = (screenWidth - cardWidth) / 8 // 아이템 간의 여백을 16dp로 설정
 
-                addressText.text = someone.address
-                usernameText.text = someone.username
-                genderText.text = if (someone.gender == "Male") "남자" else "여자"
+                addressText.text = someone.regionName
+                usernameText.text = someone.nickName
+                genderText.text = if (someone.sexType == "Male") "남자" else "여자"
                 ageText.text = "${someone.age} 세"
 
                 // TODO: 프로필 이미지 설정

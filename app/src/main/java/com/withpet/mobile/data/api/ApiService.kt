@@ -1,9 +1,6 @@
 package com.withpet.mobile.data.api
 
-import com.withpet.mobile.data.api.response.ApiResponse
-import com.withpet.mobile.data.api.response.MemberInfo
-import com.withpet.mobile.data.api.response.PetAddRequest
-import com.withpet.mobile.data.api.response.VersionPayload
+import com.withpet.mobile.data.api.response.*
 import com.withpet.mobile.data.model.Someone
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -52,7 +49,7 @@ interface ApiService {
     // TODO : 반환 자료형 정의 할 것
     // 매칭 정보 조회
     @GET("api/v1/match")
-    fun getMatchingList(): Call<ApiResponse<Any>>
+    fun getMatchingList(): Call<ApiResponse<List<Someone>>>
 
     // 좋아요
     @POST("api/v1/like")
