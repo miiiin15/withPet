@@ -13,6 +13,11 @@
 
     <dimen name="margin_vertical_button">8dp</dimen>
 
+    <dimen name="header_bar_height">40dp</dimen>
+    <dimen name="header_bar_padding_horizontal">24dp</dimen>
+    <dimen name="header_bar_padding_vertical">16dp</dimen>
+
+
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_16">16dp</dimen>
     <dimen name="margin_20">20dp</dimen>

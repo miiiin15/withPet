@@ -10,18 +10,6 @@
 
     <include layout="@layout/content_main" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/bottom_to_button"
-        android:backgroundTint="@color/primary"
-        app:srcCompat="@android:drawable/ic_lock_power_off"
-        app:tint="@color/white" />
-
     <com.withpet.mobile.ui.custom.BottomNavigationBar
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"

@@ -4,13 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ui.fragment.main.MainFragment">
 
-    <Button
-        android:id="@+id/button_first"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그아웃" />
+        android:layout_marginTop="@dimen/header_bar_padding_vertical"
+        android:orientation="horizontal"
+        >
+
+        <!-- TextView는 왼쪽에 위치 -->
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="@dimen/top_to_header"
+            android:text="오늘은 누구와 함께\n산책을 해볼까요?" />
+
+        <!-- ImageView는 오른쪽에 위치 -->
+        <ImageView
+            android:id="@+id/iv_bell_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_horizontal"
+            android:src="@drawable/ic_bell"
+            android:layout_gravity="end" />
+    </LinearLayout>
+
+
+
+    <!-- 공간을 채우기 위한 View -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.withpet.mobile.ui.activity.main.SomeoneList
+        android:id="@+id/someoneList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <!-- 공간을 채우기 위한 View -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
