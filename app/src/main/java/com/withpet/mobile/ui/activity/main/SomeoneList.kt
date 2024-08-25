@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
+import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.ui.custom.CustomLikeButton
+import java.lang.Exception
 
 // SomeoneList 컴포넌트 정의
 class SomeoneList @JvmOverloads constructor(
@@ -34,7 +36,7 @@ class SomeoneList @JvmOverloads constructor(
         snapHelper.attachToRecyclerView(this)
     }
 
-    fun setSomeones(someones: Array<Someone>) {
+    fun setSomeones(someones: List<Someone>) {
         someoneAdapter.setSomeones(someones)
     }
 
@@ -45,10 +47,10 @@ class SomeoneList @JvmOverloads constructor(
     // 어댑터 클래스 정의
     inner class SomeoneAdapter : RecyclerView.Adapter<SomeoneAdapter.SomeoneViewHolder>() {
 
-        private var someones: Array<Someone> = arrayOf()
+        private var someones: List<Someone> = emptyList()
         private var itemClickListener: ((Someone) -> Unit)? = null
 
-        fun setSomeones(someones: Array<Someone>) {
+        fun setSomeones(someones: List<Someone>) {
             this.someones = someones
             notifyDataSetChanged()
         }
@@ -104,15 +106,36 @@ class SomeoneList @JvmOverloads constructor(
 
                 addressText.text = someone.regionName
                 usernameText.text = someone.nickName
-                genderText.text = if (someone.sexType == "Male") "남자" else "여자"
+                genderText.text = if (someone.sexType == "MALE") "남자" else "여자"
                 ageText.text = "${someone.age} 세"
 
                 // TODO: 프로필 이미지 설정
                 // 예: Glide.with(itemView).load(someone.profileImage).into(profileImage)
 
-                // TODO: actionButton click listener 설정
+                // TODO : 분기처리 마저하기
                 actionButton.setOnClickListener {
-                    actionButton.isLike = !actionButton.isLike
+                    try {
+                        if (actionButton.isLike) {
+                            CommonRepo.sendLike(
+                                someone.memberId.toString(),
+                                success = { switchLike() },
+                                failure = {},
+                                networkFail = {}
+                            )
+                        } else {
+                            CommonRepo.requestDislike(
+                                someone.memberId.toString(),
+                                success = { switchLike() },
+                                failure = {},
+                                networkFail = {}
+                            )
+                        }
+                    } catch (e: Exception) {
+
+                    } finally {
+
+                    }
+
                 }
 
                 // 첫 번째 또는 마지막 항목인 경우 layout_marginRight 설정
@@ -129,12 +152,14 @@ class SomeoneList @JvmOverloads constructor(
                         userInfoParams.leftMargin = marginHorizontal
                         userInfoParams.rightMargin = ITEM_MARGIN
                     }
+
                     itemCount - 1 -> {
                         params.leftMargin = ITEM_MARGIN // 아이템 간의 여백 설정
                         params.rightMargin = marginHorizontal
                         userInfoParams.leftMargin = ITEM_MARGIN
                         userInfoParams.rightMargin = marginHorizontal
                     }
+
                     else -> {
                         params.leftMargin = ITEM_MARGIN // 아이템 간의 여백 설정
                         params.rightMargin = ITEM_MARGIN // 아이템 간의 여백 설정
@@ -149,6 +174,10 @@ class SomeoneList @JvmOverloads constructor(
                 cardView.setOnClickListener {
                     itemClickListener?.invoke(someone)
                 }
+            }
+
+            fun switchLike(){
+                actionButton.isLike = !actionButton.isLike
             }
         }
     }

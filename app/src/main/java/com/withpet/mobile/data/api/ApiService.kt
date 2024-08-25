@@ -53,7 +53,7 @@ interface ApiService {
 
     // 좋아요
     @POST("api/v1/like")
-    fun requestLike(@Body params: RequestBody): Call<ApiResponse<Any>>
+    fun sendLike(@Body params: RequestBody): Call<ApiResponse<Any>>
 
     // 좋아요 취소
     @POST("api/v1/like")
