@@ -13,6 +13,7 @@ import com.withpet.mobile.data.repository.LocationRepo
 import com.withpet.mobile.databinding.ActivityLocationSearchBinding
 import com.withpet.mobile.utils.PermissionUtils
 import java.lang.Exception
+import java.text.DecimalFormat
 
 class LocationSearchActivity : BaseActivity() {
 
@@ -101,8 +102,13 @@ class LocationSearchActivity : BaseActivity() {
         val lastKnownLocation: Location? = locationManager.getLastKnownLocation(locationProvider)
 
         if (lastKnownLocation != null) {
-            val x = lastKnownLocation.longitude
-            val y = lastKnownLocation.latitude
+            // 소숫점 12자리로 포맷팅
+            val decimalFormat = DecimalFormat("#.############")
+
+            val x = decimalFormat.format(lastKnownLocation.longitude).toDouble()
+            val y = decimalFormat.format(lastKnownLocation.latitude).toDouble()
+
+
             saveLocation(x, y)
         } else {
             showAlert("현재 위치를 가져올 수 없습니다.")
@@ -113,7 +119,8 @@ class LocationSearchActivity : BaseActivity() {
         loadingDialog.show(supportFragmentManager, "")
         try {
             LocationRepo.saveLocation(x, y, success = {
-                showAlert(it.toString())
+                showSnackBar("동네 설정이 완료 됐어요!")
+                finish()
             },
                 networkFail = {
                     showAlert(it)
