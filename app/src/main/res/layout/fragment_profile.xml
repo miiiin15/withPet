@@ -6,10 +6,9 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
+    <com.withpet.mobile.ui.custom.CustomButton
+        android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="내 정보"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"/>
+        android:text="로그아웃" />
 </LinearLayout>
