@@ -25,6 +25,11 @@ class SomeoneList @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : RecyclerView(context, attrs) {
 
+    interface OnLikeButtonClickListener {
+        fun onLikeButtonClick(memberId: String)
+    }
+    private var likeButtonClickListener: OnLikeButtonClickListener? = null
+    private var viewHolder: SomeoneAdapter.SomeoneViewHolder? = null
     private val someoneAdapter = SomeoneAdapter()
 
     init {
@@ -42,6 +47,11 @@ class SomeoneList @JvmOverloads constructor(
 
     fun setOnItemClickListener(listener: (Someone) -> Unit) {
         someoneAdapter.setOnItemClickListener(listener)
+    }
+
+    // 클릭 리스너를 외부에서 설정할 수 있는 메서드
+    fun setOnLikeButtonClickListener(listener: OnLikeButtonClickListener) {
+        likeButtonClickListener = listener
     }
 
     // 어댑터 클래스 정의
@@ -114,28 +124,7 @@ class SomeoneList @JvmOverloads constructor(
 
                 // TODO : 분기처리 마저하기
                 actionButton.setOnClickListener {
-                    try {
-                        if (actionButton.isLike) {
-                            CommonRepo.sendLike(
-                                someone.memberId.toString(),
-                                success = { switchLike() },
-                                failure = {},
-                                networkFail = {}
-                            )
-                        } else {
-                            CommonRepo.requestDislike(
-                                someone.memberId.toString(),
-                                success = { switchLike() },
-                                failure = {},
-                                networkFail = {}
-                            )
-                        }
-                    } catch (e: Exception) {
-
-                    } finally {
-
-                    }
-
+                    likeButtonClickListener?.onLikeButtonClick(someone.memberId.toString())
                 }
 
                 // 첫 번째 또는 마지막 항목인 경우 layout_marginRight 설정
@@ -176,7 +165,40 @@ class SomeoneList @JvmOverloads constructor(
                 }
             }
 
-            fun switchLike(){
+            fun requestLike(memberId: String) {
+                try {
+                    if (actionButton.isLike) {
+                        CommonRepo.sendLike(
+                            memberId,
+                            success = { switchLike() },
+                            failure = {
+                                throw Exception("${it.message}")
+                            },
+                            networkFail = {
+                                throw Exception("${it}")
+                            }
+                        )
+                    } else {
+                        CommonRepo.requestDislike(
+                            memberId,
+                            success = { switchLike() },
+                            failure = {
+                                throw Exception("${it.message}")
+                            },
+                            networkFail = {
+                                throw Exception("${it}")
+                            }
+                        )
+                    }
+                } catch (e: Exception) {
+
+                } finally {
+                    // 항상 실행되는 블록 (필요한 경우)
+                }
+
+            }
+
+            fun switchLike() {
                 actionButton.isLike = !actionButton.isLike
             }
         }
