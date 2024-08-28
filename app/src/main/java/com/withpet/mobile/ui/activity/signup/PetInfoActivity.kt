@@ -160,6 +160,7 @@ class PetInfoActivity : BaseActivity() {
     // 진입 분기 판별
     private fun checkEntry() {
         val entry = intent.getStringExtra("entry")
+        // TODO : 일반 프로필 수정 분기 추가 할 것 + 일반 진입 시 api 로 기존 정보 조회 로직도 구현할 것
         if (entry == "main") {
             fromSignUp = false
         }
