@@ -21,7 +21,7 @@ class MainViewModel : ViewModel() {
     private val _failure = MutableLiveData<Throwable>()
     val failure: LiveData<Throwable> get() = _failure
 
-    private var isDataLoaded = false
+    var isDataLoaded = false
 
     // 데이터를 강제 갱신하거나 필요할 때만 API 호출
     fun fetchMatchedList(forceUpdate: Boolean = false) {
