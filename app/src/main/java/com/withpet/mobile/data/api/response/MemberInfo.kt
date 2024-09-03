@@ -6,5 +6,6 @@ data class MemberInfo(
     val nickName: String,
     val sexType: String,
     val age: Int,
-    val role: String
+    val role: String,
+    val region: RegionInfo
 )
