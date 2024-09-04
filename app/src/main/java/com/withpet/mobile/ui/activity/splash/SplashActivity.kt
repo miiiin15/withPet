@@ -75,7 +75,7 @@ class SplashActivity : BaseActivity() {
 
     private fun checkSharedPreferences() {
         // 유저 정보 전역값 초기화
-        UserSession.clear()
+        UserSession.clearUserInfo()
         // 로그인 정보가 존재하는지 확인하고, 있으면 자동 로그인 시도
         val loginId = sharedPreferences.getString("loginId", "")
         val password = sharedPreferences.getString("password", "")

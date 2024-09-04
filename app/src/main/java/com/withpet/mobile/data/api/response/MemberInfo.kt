@@ -7,5 +7,5 @@ data class MemberInfo(
     val sexType: String,
     val age: Int,
     val role: String,
-    val region: RegionInfo
+    val region: RegionInfo?
 )

@@ -127,8 +127,8 @@ class MainActivity : BaseActivity() {
                 petInfoActivityLauncher.launch(intent)
             }
 
-            "normal" -> UserSession.setMemberInfo(memberInfo)
-            "admin" -> UserSession.setMemberInfo(memberInfo)
+            "normal" -> UserSession.setUserInfo(memberInfo)
+            "admin" -> UserSession.setUserInfo(memberInfo)
             else -> null
         }
     }
