@@ -19,7 +19,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.withpet.mobile.databinding.CustomAlertBinding
 import com.withpet.mobile.databinding.CustomSnackbarBinding
 import com.withpet.mobile.ui.activity.Location.LocationSearchActivity
-import com.withpet.mobile.ui.activity.start.StartActivity
 import com.withpet.mobile.ui.custom.LoadingDialog
 
 //import com.save.protect.app.data.Constants.context
@@ -356,7 +355,8 @@ abstract class BaseActivity : AppCompatActivity() {
         })
     }
 
-    protected fun showPositionPopup() {
+
+    fun showRegionPopup() {
         // 팝업 내부에 동적으로 콘텐츠를 추가하는 예제
         val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
         val customView =

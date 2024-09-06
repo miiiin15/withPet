@@ -121,6 +121,7 @@ class LocationSearchActivity : BaseActivity() {
             LocationRepo.saveLocation(x, y, success = {
                 showSnackBar("동네 설정이 완료 됐어요!")
                 finish()
+                // TODO : 유저정보 저장 로직 실행할 것
             },
                 networkFail = {
                     showAlert(it)

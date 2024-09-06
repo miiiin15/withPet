@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.withpet.mobile.BaseActivity
+import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.model.Someone
+import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.FragmentMainBinding
 import com.withpet.mobile.ui.activity.main.SomeoneList
+import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
 import com.withpet.mobile.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
@@ -18,6 +21,7 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userInfo: MemberInfo
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,36 +36,69 @@ class MainFragment : Fragment() {
                 val someoneList: SomeoneList = binding.someoneList
                 someoneList.setSomeones(someones) // 데이터 설정
                 someoneList.setOnItemClickListener { someone ->
-                    showSomeoneInfoBottomSheet(someone)
+                    userInfo = UserSession.getUserInfo()
+
+                    UserSession.checkRegionInfo(
+                        onAvailable = { regionInfo ->
+                            showSomeoneInfoBottomSheet(someone)
+                        },
+                        onUnavailable = {
+                            (activity as? BaseActivity)?.showRegionPopup()
+                        }
+                    )
+
+
                 }
             }
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer { errorMsg ->
-            // BaseActivity를 통해 에러 메시지 표시
             (activity as? BaseActivity)?.showAlert(errorMsg)
         })
 
         viewModel.failure.observe(viewLifecycleOwner, Observer { throwable ->
-            // 실패 메시지 처리
             (activity as? BaseActivity)?.showAlert(throwable.message ?: "Unknown error")
         })
 
         // 벨 아이콘 클릭 리스너 설정
         binding.ivBellIcon.setOnClickListener {
-            // 아이콘 클릭 시 동작할 코드 작성
+            // TODO : 아이콘 클릭 시 동작할 코드 작성
             (activity as? BaseActivity)?.showAlert("알람 개발 중")
         }
 
-        // 프래그먼트가 생성될 때 데이터를 로드
-        viewModel.fetchMatchedList()
+        // onCreateView에서 데이터가 이미 로드되지 않았는지 확인
+        if (!viewModel.isDataLoaded) {
+            viewModel.fetchMatchedList()
+        }
 
         return binding.root
     }
 
     private fun showSomeoneInfoBottomSheet(someone: Someone) {
         // BottomSheet를 표시하는 코드
+        val bottomSheet = SomeoneInfoBottomSheet()
+
+        // Someone 객체의 데이터를 BottomSheet에 설정
+//        bottomSheet.setProfileImage(someone.profileImage) // profileImage는 Someone 객체에 있는 필드
+        bottomSheet.setUserName(someone.nickName)
+        bottomSheet.setUserAge(someone.age) // age가 Int라면 String으로 변환
+        bottomSheet.setUserGender(someone.sexType)
+        bottomSheet.setPetDescription(someone.introduction!!)
+        // TODO : 값 세팅 완료하기
+
+
+
+        bottomSheet.setOnGreetClickListener {
+            // 인사하기 버튼 클릭 시 동작 설정
+        }
+
+        bottomSheet.setOnLikeClickListener {
+            // 좋아요 버튼 클릭 시 동작 설정
+        }
+
+        bottomSheet.show(fragmentManager!!, bottomSheet.tag)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
