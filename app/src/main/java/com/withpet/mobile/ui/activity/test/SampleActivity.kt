@@ -54,9 +54,9 @@ class SampleActivity : BaseActivity() {
 
         // 아이콘과 텍스트 설정
 //        bottomSheet.setProfileImage(R.drawable.ic_profile) // 기본 이미지 설정, 필요시 변경
-        bottomSheet.setUserName(someone.nickName)
-        bottomSheet.setUserAge(someone.age)
-        bottomSheet.setUserGender(someone.sexType)
+//        bottomSheet.setUserName(someone.nickName)
+//        bottomSheet.setUserAge(someone.age)
+//        bottomSheet.setUserGender(someone.sexType)
 //        bottomSheet.setPetName("강아지") // 필요 시 실제 데이터로 변경
 //        bottomSheet.setPetDescription("강아지는 사랑스러운 반려동물입니다.") // 필요 시 실제 데이터로 변경
 

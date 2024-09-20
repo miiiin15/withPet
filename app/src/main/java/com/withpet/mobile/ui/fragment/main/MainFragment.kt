@@ -80,12 +80,7 @@ class MainFragment : Fragment() {
 
         // Someone 객체의 데이터를 BottomSheet에 설정
 //        bottomSheet.setProfileImage(someone.profileImage) // profileImage는 Someone 객체에 있는 필드
-        bottomSheet.setUserName(someone.nickName)
-        bottomSheet.setUserAge(someone.age) // age가 Int라면 String으로 변환
-        bottomSheet.setUserGender(someone.sexType)
-        bottomSheet.setPetDescription(someone.introduction!!)
-        // TODO : 값 세팅 완료하기
-
+        bottomSheet.setData(someone)
 
 
         bottomSheet.setOnGreetClickListener {

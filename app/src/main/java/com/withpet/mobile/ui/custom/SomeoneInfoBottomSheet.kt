@@ -1,6 +1,7 @@
 package com.withpet.mobile.ui.custom
 
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.databinding.CustomViewSomeoneInfoBinding
 
 class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
@@ -20,12 +22,9 @@ class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
     private var btnGreetClickListener: View.OnClickListener? = null
     private var btnLikeClickListener: View.OnClickListener? = null
 
+    private var data: Someone? = null
     private var profileImageResId: Int = 0
-    private var userName: String? = null
-    private var userGender: String? = null
-    private var userAge: String? = null
-    private var petName: String? = null
-    private var petDescription: String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +34,7 @@ class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,37 +52,18 @@ class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
 
         // 데이터 설정
         binding.imgProfile.setImageResource(profileImageResId)
-        binding.tvUserName.text = userName
-        binding.tvUserGender.text = userGender
-        binding.tvUserAge.text = userAge
-//        binding.tvPetName.text = petName
-//        binding.tvPetDesc.text = petDescription
+        binding.tvUserName.text = data?.nickName ?: "알수 없음"
+        binding.tvUserGender.text =
+            if (data?.sexType == "MALE") "남자" else if (data?.sexType == "FEMALE") "여자" else "알수 없음"
+        binding.tvUserAge.text = (data?.age ?: 0).toString() + "세"
+        binding.tvPetName.text = "알수 없음"
+        binding.tvPetGender.text =
+            if (data?.petSex == "남자") "남아" else if (data?.petSex == "여자") "여아" else "알수 없음"
+        binding.tvPetDesc.text = data?.introduction ?: "소개글 없음"
     }
 
-    // TODO : 메서드 합치기
-
-    fun setProfileImage(resourceId: Int) {
-        profileImageResId = resourceId
-    }
-
-    fun setUserName(userName: String) {
-        this.userName = userName
-    }
-
-    fun setUserGender(userGender: String) {
-        this.userGender = if (userGender == "Male") "남자" else "여자"
-    }
-
-    fun setUserAge(userAge: Int) {
-        this.userAge = "${userAge}세 "
-    }
-
-    fun setPetName(petName: String) {
-        this.petName = petName
-    }
-
-    fun setPetDescription(petDescription: String) {
-        this.petDescription = petDescription
+    fun setData(someone: Someone) {
+        data = someone
     }
 
     fun setOnGreetClickListener(listener: View.OnClickListener) {
@@ -96,7 +77,8 @@ class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialog.setOnShowListener {
-            val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as ViewGroup
+            val bottomSheet =
+                dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as ViewGroup
             BottomSheetBehavior.from(bottomSheet).apply {
                 state = BottomSheetBehavior.STATE_EXPANDED
                 isHideable = false
