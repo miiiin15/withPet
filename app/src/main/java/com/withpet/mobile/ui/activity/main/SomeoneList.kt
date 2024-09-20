@@ -86,7 +86,6 @@ class SomeoneList @JvmOverloads constructor(
             private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
             private val addressText: TextView = itemView.findViewById(R.id.addressText)
             private val usernameText: TextView = itemView.findViewById(R.id.usernameText)
-            private val genderText: TextView = itemView.findViewById(R.id.genderText)
             private val ageText: TextView = itemView.findViewById(R.id.ageText)
             private val actionButton: CustomLikeButton = itemView.findViewById(R.id.likeButton)
             private val profileImage: ImageView =
@@ -116,8 +115,7 @@ class SomeoneList @JvmOverloads constructor(
 
                 addressText.text = someone.regionName
                 usernameText.text = someone.nickName
-                genderText.text = if (someone.sexType == "MALE") "남자" else "여자"
-                ageText.text = "${someone.age} 세"
+                ageText.text = "${someone.age}세"
 
                 // TODO: 프로필 이미지 설정
                 // 예: Glide.with(itemView).load(someone.profileImage).into(profileImage)
