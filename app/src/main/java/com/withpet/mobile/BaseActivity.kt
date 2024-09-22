@@ -289,7 +289,7 @@ abstract class BaseActivity : AppCompatActivity() {
 //    }
 
     // 커스텀 스넥바 메시지
-    protected fun showSnackBar(
+    fun showSnackBar(
         message: String,
         buttonText: String? = null,
         duration: Int = Snackbar.LENGTH_SHORT,

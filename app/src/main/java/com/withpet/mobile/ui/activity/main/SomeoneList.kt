@@ -25,10 +25,10 @@ class SomeoneList @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : RecyclerView(context, attrs) {
 
-    interface OnLikeButtonClickListener {
-        fun onLikeButtonClick(memberId: String)
+    interface OnLikeRequestSuccess {
+        fun onLikeRequestSuccess(currentLike: Boolean, success: Boolean)
     }
-    private var likeButtonClickListener: OnLikeButtonClickListener? = null
+    private var likeButtonClickListener: OnLikeRequestSuccess? = null
     private var viewHolder: SomeoneAdapter.SomeoneViewHolder? = null
     private val someoneAdapter = SomeoneAdapter()
 
@@ -50,7 +50,7 @@ class SomeoneList @JvmOverloads constructor(
     }
 
     // 클릭 리스너를 외부에서 설정할 수 있는 메서드
-    fun setOnLikeButtonClickListener(listener: OnLikeButtonClickListener) {
+    fun setOnLikeButtonClickListener(listener: OnLikeRequestSuccess) {
         likeButtonClickListener = listener
     }
 
@@ -122,7 +122,15 @@ class SomeoneList @JvmOverloads constructor(
 
                 // TODO : 분기처리 마저하기
                 actionButton.setOnClickListener {
-                    likeButtonClickListener?.onLikeButtonClick(someone.memberId.toString())
+                    requestLike(
+                        memberId = someone.memberId.toString(),
+                        requestSuccess = { isSuccess ->
+                            likeButtonClickListener?.onLikeRequestSuccess(
+                                actionButton.isLike,
+                                isSuccess
+                            )
+                        }
+                    )
                 }
 
                 // 첫 번째 또는 마지막 항목인 경우 layout_marginRight 설정
@@ -163,28 +171,34 @@ class SomeoneList @JvmOverloads constructor(
                 }
             }
 
-            fun requestLike(memberId: String) {
+            fun requestLike(memberId: String, requestSuccess: (isSuccess: Boolean) -> Unit?) {
                 try {
-                    if (actionButton.isLike) {
+                    if (!actionButton.isLike) {
                         CommonRepo.sendLike(
                             memberId,
-                            success = { switchLike() },
+                            success = {
+                                requestSuccess(true)
+                                switchLike()
+                            },
                             failure = {
-                                throw Exception("${it.message}")
+                                requestSuccess(false)
                             },
                             networkFail = {
-                                throw Exception("${it}")
+                                requestSuccess(false)
                             }
                         )
                     } else {
                         CommonRepo.requestDislike(
                             memberId,
-                            success = { switchLike() },
+                            success = {
+                                requestSuccess(true)
+                                switchLike()
+                            },
                             failure = {
-                                throw Exception("${it.message}")
+                                requestSuccess(false)
                             },
                             networkFail = {
-                                throw Exception("${it}")
+                                requestSuccess(false)
                             }
                         )
                     }

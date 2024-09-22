@@ -46,9 +46,15 @@ class MainFragment : Fragment() {
                             (activity as? BaseActivity)?.showRegionPopup()
                         }
                     )
-
-
                 }
+                // Like 버튼 클릭 리스너 설정
+                someoneList.setOnLikeButtonClickListener(object :
+                    SomeoneList.OnLikeRequestSuccess {
+                    override fun onLikeRequestSuccess(currentLike: Boolean, success: Boolean) {
+                        (activity as? BaseActivity)?.showSnackBar(if (currentLike) "좋아요 취소 신청 : " else "좋아요 신청 : " + if (success) "성공" else "실패")
+                    }
+                }
+                )
             }
         })
 
