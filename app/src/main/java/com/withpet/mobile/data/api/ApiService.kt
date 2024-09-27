@@ -46,7 +46,6 @@ interface ApiService {
     @POST("api/v1/region")
     fun saveLocationList(@Body params: RequestBody): Call<ApiResponse<Any>>
 
-    // TODO : 반환 자료형 정의 할 것
     // 매칭 정보 조회
     @GET("api/v1/match")
     fun getMatchingList(): Call<ApiResponse<List<Someone>>>
@@ -59,6 +58,10 @@ interface ApiService {
     @POST("api/v1/like")
     fun requestDislike(@Query("likeProfileId") likeProfileId: String): Call<ApiResponse<Any>>
 
+    // 좋아요 리스트
+    @GET("api/v1/like")
+    fun getLikedList(): Call<ApiResponse<List<Someone>>>
+
     // 추천 코드 기반 위치 조회
     @GET("api/location/{recommenderCode}")
     fun getLocationList(@Path("recommenderCode") recommenderCode: String): Call<ApiResponse<MutableList<Any>>>
@@ -68,8 +71,6 @@ interface ApiService {
 //    fun requestPolicy(@Body params: RequestBody): Call<ApiResponse<List<Policy>>>
 
 
-//    @GET("api/lookup/auth/list")
-//    fun getAuthType(): Call<ApiResponse<List<AuthType>>>
 
 
 }

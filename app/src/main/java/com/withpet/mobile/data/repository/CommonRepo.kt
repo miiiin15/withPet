@@ -148,6 +148,31 @@ object CommonRepo {
             })
     }
 
+    fun getLikedList(
+        networkFail: (String) -> Unit,
+        success: (ApiResponse<List<Someone>>) -> Unit,
+        failure: (Throwable) -> Unit
+    ) {
+        NetworkService.getService().getLikedList()
+            .enqueue(object : Callback<ApiResponse<List<Someone>>> {
+                override fun onResponse(
+                    call: Call<ApiResponse<List<Someone>>>,
+                    response: Response<ApiResponse<List<Someone>>>
+                ) {
+                    if (response.isSuccessful) {
+                        val data = response.body() ?: return
+                        success(data)
+                    } else {
+                        networkFail(response.code().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<List<Someone>>>, t: Throwable) {
+                    failure(t)
+                }
+            })
+    }
+
 
 }
 
