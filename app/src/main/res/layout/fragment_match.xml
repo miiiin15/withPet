@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
+    <!-- 상단 고정 LinearLayout -->
     <LinearLayout
+        android:id="@+id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/header_bar_padding_vertical"
+        android:paddingBottom="@dimen/margin_16"
+        android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- TextView는 왼쪽에 위치 -->
         <TextView
@@ -18,40 +23,59 @@
             style="@style/TitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="36dp"
             android:layout_marginTop="@dimen/top_to_header"
+            android:layout_weight="1"
             android:text="같이 산책할래요?" />
 
         <!-- ImageView는 오른쪽에 위치 -->
         <ImageView
+            android:id="@+id/iv_hearth_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/ic_hearth" />
+
+        <ImageView
             android:id="@+id/iv_bell_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_marginRight="@dimen/margin_horizontal"
-            android:src="@drawable/ic_bell"
-            android:layout_gravity="end" />
+            android:src="@drawable/ic_bell" />
     </LinearLayout>
 
-
-
-    <!-- 공간을 채우기 위한 View -->
-    <View
-        android:layout_width="match_parent"
+    <!-- 스크롤 가능한 콘텐츠 영역 -->
+    <ScrollView
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:paddingBottom="24dp"
+        android:scrollIndicators="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_layout">
 
-    <com.withpet.mobile.ui.custom.LikedList
-        android:id="@+id/likedList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="32dp" />
-    <!-- 공간을 채우기 위한 View -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <com.withpet.mobile.ui.custom.MatchedList
+                android:id="@+id/matchedList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="32dp" />
 
-</LinearLayout>
+            <!-- 공간을 채우기 위한 View -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
