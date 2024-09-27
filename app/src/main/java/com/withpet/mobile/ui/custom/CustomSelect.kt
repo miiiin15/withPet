@@ -75,51 +75,59 @@ class CustomSelect @JvmOverloads constructor(
         val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
 
         when (type) {
-            "list" -> {
-                val customView =
-                    LayoutInflater.from(context).inflate(R.layout.custom_select_list, null)
-                contentFrame.addView(customView)
-
-                val recyclerView: RecyclerView = customView.findViewById(R.id.recyclerView)
-                recyclerView.layoutManager = LinearLayoutManager(context)
-                recyclerView.adapter = OptionAdapter(options) { selectedOption ->
-                    options.forEach { it.checked = it == selectedOption }
-                    setText(selectedOption.label)
-                    value = selectedOption.value
-                    hidePopup()
-                }
-            }
-            "gender" -> {
-                val customView =
-                    LayoutInflater.from(context).inflate(R.layout.custom_view_gender, null)
-                contentFrame.addView(customView)
-
-
-                val cardView1: MaterialCardView = customView.findViewById(R.id.card_view_1)
-                val cardView2: MaterialCardView = customView.findViewById(R.id.card_view_2)
-                // 첫 번째 카드뷰에 클릭 리스너 추가
-                cardView1.setOnClickListener {
-                    // 클릭 이벤트 처리
-                    setText("남성")
-                    value = "MALE"
-                    hidePopup()
-                }
-
-                // 두 번째 카드뷰에 클릭 리스너 추가
-                cardView2.setOnClickListener {
-                    // 클릭 이벤트 처리
-                    setText("여성")
-                    value = "FEMALE"
-                    hidePopup()
-                }
-            }
+            "list" -> inflateListOptionsView(contentFrame)
+            "gender" -> inflateGenderOptionsView(contentFrame)
             else -> {
                 text = null
                 value = ""
             }
         }
 
-        // Bottom sheet dialog 설정
+        setupBottomSheetDialog(bottomSheetView)
+    }
+
+    // 리스트 타입의 옵션을 설정하는 메서드
+    private fun inflateListOptionsView(contentFrame: FrameLayout) {
+        val customView = LayoutInflater.from(context).inflate(R.layout.custom_select_list, null)
+        contentFrame.addView(customView)
+
+        val recyclerView: RecyclerView = customView.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = OptionAdapter(options) { selectedOption ->
+            options.forEach { it.checked = it == selectedOption }
+            setText(selectedOption.label)
+            value = selectedOption.value
+            hidePopup()
+        }
+    }
+
+    // 성별을 선택하는 옵션을 설정하는 메서드.
+    private fun inflateGenderOptionsView(contentFrame: FrameLayout) {
+        val customView = LayoutInflater.from(context).inflate(R.layout.custom_view_gender, null)
+        contentFrame.addView(customView)
+
+        val cardView1: MaterialCardView = customView.findViewById(R.id.card_view_1)
+        val cardView2: MaterialCardView = customView.findViewById(R.id.card_view_2)
+
+        setCardViewClickListeners(cardView1, cardView2)
+    }
+
+    // 성별 선택 카드뷰의 클릭 이벤트 처리를 위한 메서드.
+    private fun setCardViewClickListeners(cardView1: MaterialCardView, cardView2: MaterialCardView) {
+        cardView1.setOnClickListener {
+            setText("남성")
+            value = "MALE"
+            hidePopup()
+        }
+        cardView2.setOnClickListener {
+            setText("여성")
+            value = "FEMALE"
+            hidePopup()
+        }
+    }
+
+    // Bottom Sheet 다이얼로그를 설정하고 초기화하는 메서드.
+    private fun setupBottomSheetDialog(bottomSheetView: View) {
         bottomSheetDialog = BottomSheetDialog(context).apply {
             setContentView(bottomSheetView)
             setOnShowListener {
@@ -131,17 +139,21 @@ class CustomSelect @JvmOverloads constructor(
             }
         }
 
-        // Bottom sheet behavior 초기화
+        setupBottomSheetBehavior(bottomSheetView)
+        bottomSheetDialog.show()
+    }
+
+    // Bottom Sheet의 동작을 정의하는 메서드
+    private fun setupBottomSheetBehavior(bottomSheetView: View) {
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
         val defaultHeight = (context.resources.displayMetrics.heightPixels * 0.4).toInt()
         bottomSheetBehavior.peekHeight = defaultHeight
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED // 초기 높이를 동일하게 설정
-        bottomSheetBehavior.isHideable = false // 슬라이드 비활성화
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBehavior.isHideable = false
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                // STATE_COLLAPSED 외의 상태로 변경되지 않도록 처리
                 if (newState != BottomSheetBehavior.STATE_EXPANDED) {
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                 }
@@ -151,12 +163,8 @@ class CustomSelect @JvmOverloads constructor(
                 // 슬라이드 이벤트 비활성화
             }
         })
-
-        // Bottom sheet 크기 조정
-        bottomSheetView.layoutParams.height = defaultHeight
-
-        bottomSheetDialog.show()
     }
+
 
     // 선택된 옵션의 값에 접근하기 위한 메서드
     fun getValue(): String? {
