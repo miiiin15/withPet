@@ -15,6 +15,9 @@ class MainViewModel : ViewModel() {
     private val _matchedList = MutableLiveData<ApiResponse<List<Someone>>>()
     val matchedList: LiveData<ApiResponse<List<Someone>>> get() = _matchedList
 
+    private val _likeMessage = MutableLiveData<String>()
+    val likeMessage: LiveData<String> get() = _likeMessage
+
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
@@ -62,6 +65,15 @@ class MainViewModel : ViewModel() {
     // 유저 상호작용에 의해 리스트가 변동될 때 데이터를 업데이트하는 메서드
     fun updateMatchedList(updatedList: ApiResponse<List<Someone>>) {
         _matchedList.value = updatedList
+    }
+
+    fun handleLikeRequest(currentLike: Boolean, success: Boolean) {
+        val message = if (currentLike) {
+            "좋아요 취소 신청 : " + if (success) "성공" else "실패"
+        } else {
+            "좋아요 신청 : " + if (success) "성공" else "실패"
+        }
+        _likeMessage.value = message
     }
 }
 

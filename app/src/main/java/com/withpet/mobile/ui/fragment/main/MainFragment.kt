@@ -51,11 +51,15 @@ class MainFragment : Fragment() {
                 someoneList.setOnLikeButtonClickListener(object :
                     SomeoneList.OnLikeRequestSuccess {
                     override fun onLikeRequestSuccess(currentLike: Boolean, success: Boolean) {
-                        (activity as? BaseActivity)?.showSnackBar(if (currentLike) "좋아요 취소 신청 : " else "좋아요 신청 : " + if (success) "성공" else "실패")
+                        viewModel.handleLikeRequest(currentLike, success)
                     }
                 }
                 )
             }
+        })
+
+        viewModel.likeMessage.observe(viewLifecycleOwner, Observer { message ->
+            (activity as? BaseActivity)?.showSnackBar(message)
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer { errorMsg ->
