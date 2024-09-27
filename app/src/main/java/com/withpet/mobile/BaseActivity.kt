@@ -137,11 +137,12 @@ abstract class BaseActivity : AppCompatActivity() {
 //        setOnClickListener(oneClick)
 //    }
 
-    // 1버튼 알림 대화상자
     fun showAlert(
         message: String,
         title: String? = null,
-        buttonText: String? = null,
+        positiveText: String? = null,
+        negativeText: String? = null,
+        onCancel: (() -> Unit)? = null,
         onPress: (() -> Unit)? = null
     ) {
         if (!isFinishing && !isDestroyed) {
@@ -152,66 +153,32 @@ abstract class BaseActivity : AppCompatActivity() {
 
                 val dialog = builder.create()
 
+                // 타이틀 설정
                 title?.let {
                     binding.llDlgTitleLayout.visibility = View.VISIBLE
                     binding.txvDlgTitle.text = it
                 }
 
-                binding.txvDlgContent.text = message
-                binding.btnDlgPositive.text = buttonText ?: "확인"
-                binding.btnDlgNegative.visibility = View.GONE
-
-                binding.btnDlgPositive.setOnClickListener {
-                    onPress?.invoke()
-                    dialog.dismiss()
-                }
-
-                dialog.setOnShowListener {
-                    val window = dialog.window
-                    window?.setBackgroundDrawableResource(android.R.color.transparent)
-                }
-
-                dialog.show()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    // 2버튼 알림 대화상자
-    protected fun showAlert(
-        message: String,
-        title: String? = null,
-        positiveText: String? = null,
-        negativeText: String? = null,
-        onPress: (() -> Unit)? = null,
-        onCancel: (() -> Unit)? = null
-    ) {
-        if (!isFinishing && !isDestroyed) {
-            try {
-                val binding = CustomAlertBinding.inflate(layoutInflater)
-                val builder = AlertDialog.Builder(this)
-                builder.setView(binding.root)
-
-                val dialog = builder.create()
-
-                title?.let {
-                    binding.llDlgTitleLayout.visibility = View.VISIBLE
-                    binding.txvDlgTitle.text = it
-                }
-
+                // 메시지와 긍정 버튼 텍스트 설정
                 binding.txvDlgContent.text = message
                 binding.btnDlgPositive.text = positiveText ?: "확인"
-                binding.btnDlgNegative.text = negativeText ?: "취소"
 
+                // 긍정 버튼 리스너 설정
                 binding.btnDlgPositive.setOnClickListener {
-                    onPress?.invoke()
+                    onPress?.invoke() // onPress 콜백 실행
                     dialog.dismiss()
                 }
 
-                binding.btnDlgNegative.setOnClickListener {
-                    onCancel?.invoke()
-                    dialog.dismiss()
+                // 부정적인 버튼 처리 (onCancel이 null인 경우 숨김)
+                if (onCancel != null) {
+                    binding.btnDlgNegative.text = negativeText ?: "취소"
+                    binding.btnDlgNegative.visibility = View.VISIBLE
+                    binding.btnDlgNegative.setOnClickListener {
+                        onCancel.invoke() // onCancel 콜백 실행
+                        dialog.dismiss()
+                    }
+                } else {
+                    binding.btnDlgNegative.visibility = View.GONE
                 }
 
                 dialog.setOnShowListener {
@@ -224,8 +191,9 @@ abstract class BaseActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-
     }
+
+
 
     protected fun showExitAlert() {
         if (!isFinishing && !isDestroyed) {
