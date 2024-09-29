@@ -8,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.databinding.CustomViewSomeoneInfoBinding
+import com.withpet.mobile.utils.Constants
 
 class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
 
@@ -51,12 +53,14 @@ class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
         }
 
         // 데이터 설정
-        binding.imgProfile.setImageResource(profileImageResId)
+        val fullImageUrl =
+            Constants.IMAGE_URL + "media" + data?.profileImage?.replace("\\", "/")
+        Glide.with(this).load(fullImageUrl).into(binding.imgProfile)
         binding.tvUserName.text = data?.nickName ?: "알수 없음"
         binding.tvUserGender.text =
             if (data?.sexType == "MALE") "남자" else if (data?.sexType == "FEMALE") "여자" else "알수 없음"
         binding.tvUserAge.text = (data?.age ?: 0).toString() + "세"
-        binding.tvPetName.text = "알수 없음"
+        binding.tvPetName.text = data?.petName ?: "알수 없음"
         binding.tvPetGender.text =
             if (data?.petSex == "남자") "남아" else if (data?.petSex == "여자") "여아" else "알수 없음"
         binding.tvPetDesc.text = data?.introduction ?: "소개글 없음"

@@ -12,5 +12,6 @@ object Constants {
 
     //개발서버
     const val SERVER_URL = "http://211.245.55.194:59020/"
+    const val IMAGE_URL = "http://211.245.55.194:59021/"
 
 }
