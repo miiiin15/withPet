@@ -8,6 +8,7 @@ data class Someone(
     val regionName: String,
     val profileImage: String?,
     val introduction: String?,
+    val petName : String,
     val petSize: String,
     val petSex: String,
     val petAge: Int,
