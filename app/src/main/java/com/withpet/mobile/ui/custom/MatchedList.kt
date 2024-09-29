@@ -10,9 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
+import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.utils.Constants
+import com.withpet.mobile.utils.Logcat
+import java.lang.Exception
 
 class MatchedList @JvmOverloads constructor(
     context: Context,
@@ -72,13 +77,18 @@ class MatchedList @JvmOverloads constructor(
 
         override fun getItemCount(): Int = someones.size
 
+        fun setLikeState(actionButton: CustomLikeButton, isLike: Boolean) {
+            actionButton.isLike = isLike
+        }
+
         inner class MatchedListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-            private val addressText: TextView = itemView.findViewById(R.id.addressText)
-            private val usernameText: TextView = itemView.findViewById(R.id.usernameText)
-            private val ageText: TextView = itemView.findViewById(R.id.ageText)
-            private val actionButton: CustomLikeButton = itemView.findViewById(R.id.likeButton)
-            private val profileImage: ImageView = itemView.findViewById(R.id.profileImage)
+            private val cardView: MaterialCardView = itemView.findViewById(R.id.match_cardView)
+            private val addressText: TextView = itemView.findViewById(R.id.match_addressText)
+            private val usernameText: TextView = itemView.findViewById(R.id.match_usernameText)
+            private val ageText: TextView = itemView.findViewById(R.id.match_ageText)
+            private val actionButton: CustomLikeButton =
+                itemView.findViewById(R.id.match_likeButton)
+            private val profileImage: ImageView = itemView.findViewById(R.id.match_profileImage)
 
             init {
                 // 아이템의 기본 크기 설정 (화면의 40%로)
@@ -98,6 +108,23 @@ class MatchedList @JvmOverloads constructor(
                 addressText.text = someone.regionName
                 usernameText.text = someone.nickName
                 ageText.text = "${someone.age}세"
+                actionButton.isLike = someone.like
+
+                val fullImageUrl =
+                    Constants.IMAGE_URL + "media" + someone.profileImage?.replace("\\", "/")
+                Glide.with(itemView).load(fullImageUrl).into(profileImage)
+
+                actionButton.setOnClickListener {
+                    requestLike(
+                        memberId = someone.memberId.toString(),
+                        requestSuccess = { isSuccess ->
+                            likeButtonClickListener?.onLikeRequestSuccess(
+                                actionButton.isLike,
+                                isSuccess
+                            )
+                        }
+                    )
+                }
 
                 // 화면 크기를 사용하여 정확한 여백 계산
                 val displayMetrics = itemView.context.resources.displayMetrics
@@ -144,13 +171,48 @@ class MatchedList @JvmOverloads constructor(
 
                 cardView.layoutParams = layoutParams
 
-                actionButton.setOnClickListener {
-                    likeButtonClickListener?.onLikeRequestSuccess(actionButton.isLike, true)
-                }
-
                 cardView.setOnClickListener {
                     itemClickListener?.invoke(someone)
                 }
+            }
+
+            fun requestLike(memberId: String, requestSuccess: (isSuccess: Boolean) -> Unit?) {
+                try {
+                    if (!actionButton.isLike) {
+                        CommonRepo.sendLike(
+                            memberId,
+                            success = {
+                                requestSuccess(true)
+                                setLikeState(actionButton, true)
+                            },
+                            failure = {
+                                requestSuccess(false)
+                            },
+                            networkFail = {
+                                requestSuccess(false)
+                            }
+                        )
+                    } else {
+                        CommonRepo.requestDislike(
+                            memberId,
+                            success = {
+                                requestSuccess(true)
+                                setLikeState(actionButton, false)
+                            },
+                            failure = {
+                                requestSuccess(false)
+                            },
+                            networkFail = {
+                                requestSuccess(false)
+                            }
+                        )
+                    }
+                } catch (e: Exception) {
+
+                } finally {
+                    // 항상 실행되는 블록 (필요한 경우)
+                }
+
             }
         }
 

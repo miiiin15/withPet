@@ -12,14 +12,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.ui.custom.CustomLikeButton
+import com.withpet.mobile.utils.Constants.IMAGE_URL
 import java.lang.Exception
 
-// SomeoneList 컴포넌트 정의
 class SomeoneList @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
@@ -29,7 +30,6 @@ class SomeoneList @JvmOverloads constructor(
         fun onLikeRequestSuccess(currentLike: Boolean, success: Boolean)
     }
     private var likeButtonClickListener: OnLikeRequestSuccess? = null
-    private var viewHolder: SomeoneAdapter.SomeoneViewHolder? = null
     private val someoneAdapter = SomeoneAdapter()
 
     init {
@@ -62,7 +62,7 @@ class SomeoneList @JvmOverloads constructor(
 
         fun setSomeones(someones: List<Someone>) {
             this.someones = someones
-            notifyDataSetChanged()
+            this.notifyDataSetChanged()
         }
 
         fun setOnItemClickListener(listener: (Someone) -> Unit) {
@@ -82,6 +82,10 @@ class SomeoneList @JvmOverloads constructor(
 
         override fun getItemCount(): Int = someones.size
 
+        fun setLikeState(actionButton: CustomLikeButton, isLike: Boolean) {
+            actionButton.isLike = isLike
+        }
+
         inner class SomeoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
             private val addressText: TextView = itemView.findViewById(R.id.addressText)
@@ -100,8 +104,6 @@ class SomeoneList @JvmOverloads constructor(
             val cardWidth = screenWidth - marginHorizontal * 5
 
             init {
-                // 화면 너비와 마진 값을 가져와서 MaterialCardView의 너비를 설정
-
                 // cardView의 레이아웃 파라미터를 설정
                 val layoutParams = cardView.layoutParams
                 layoutParams.width = cardWidth
@@ -116,11 +118,12 @@ class SomeoneList @JvmOverloads constructor(
                 addressText.text = someone.regionName
                 usernameText.text = someone.nickName
                 ageText.text = "${someone.age}세"
+                actionButton.isLike = someone.like
 
-                // TODO: 프로필 이미지 설정
-                // 예: Glide.with(itemView).load(someone.profileImage).into(profileImage)
 
-                // TODO : 분기처리 마저하기
+                val fullImageUrl = IMAGE_URL + "media" + someone.profileImage?.replace("\\", "/")
+                Glide.with(itemView).load(fullImageUrl).into(profileImage)
+
                 actionButton.setOnClickListener {
                     requestLike(
                         memberId = someone.memberId.toString(),
@@ -178,7 +181,7 @@ class SomeoneList @JvmOverloads constructor(
                             memberId,
                             success = {
                                 requestSuccess(true)
-                                switchLike()
+                                setLikeState(actionButton, true)
                             },
                             failure = {
                                 requestSuccess(false)
@@ -192,7 +195,7 @@ class SomeoneList @JvmOverloads constructor(
                             memberId,
                             success = {
                                 requestSuccess(true)
-                                switchLike()
+                                setLikeState(actionButton, false)
                             },
                             failure = {
                                 requestSuccess(false)
@@ -210,9 +213,6 @@ class SomeoneList @JvmOverloads constructor(
 
             }
 
-            fun switchLike() {
-                actionButton.isLike = !actionButton.isLike
-            }
         }
     }
 }

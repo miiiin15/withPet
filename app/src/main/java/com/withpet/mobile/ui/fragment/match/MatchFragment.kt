@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
@@ -59,6 +60,19 @@ class MatchFragment : Fragment() {
             }
 
         }
+
+        viewModel.likeMessage.observe(viewLifecycleOwner, Observer { message ->
+            (activity as? BaseActivity)?.showSnackBar(message)
+        })
+
+        viewModel.error.observe(viewLifecycleOwner, Observer { errorMsg ->
+            (activity as? BaseActivity)?.showAlert(errorMsg)
+        })
+
+        viewModel.failure.observe(viewLifecycleOwner, Observer { throwable ->
+            (activity as? BaseActivity)?.showAlert(throwable.message ?: "Unknown error")
+        })
+
 // 벨 아이콘 클릭 리스너 설정
         binding.ivBellIcon.setOnClickListener {
             // TODO : 아이콘 클릭 시 동작할 코드 작성
@@ -83,7 +97,6 @@ class MatchFragment : Fragment() {
         val bottomSheet = SomeoneInfoBottomSheet()
 
         // Someone 객체의 데이터를 BottomSheet에 설정
-//        bottomSheet.setProfileImage(someone.profileImage) // profileImage는 Someone 객체에 있는 필드
         bottomSheet.setData(someone)
 
 
