@@ -55,8 +55,8 @@ interface ApiService {
     fun sendLike(@Body params: RequestBody): Call<ApiResponse<Any>>
 
     // 좋아요 취소
-    @POST("api/v1/like")
-    fun requestDislike(@Query("likeProfileId") likeProfileId: String): Call<ApiResponse<Any>>
+    @DELETE("api/v1/like/{likeProfileId}")
+    fun sendDislike(@Path("likeProfileId") likeProfileId: String): Call<ApiResponse<Any>>
 
     // 좋아요 리스트
     @GET("api/v1/like")

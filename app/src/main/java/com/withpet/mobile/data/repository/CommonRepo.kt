@@ -128,7 +128,7 @@ object CommonRepo {
         failure: (Throwable) -> Unit
     ) {
 
-        NetworkService.getService().requestDislike(likeProfileId)
+        NetworkService.getService().sendDislike(likeProfileId)
             .enqueue(object : Callback<ApiResponse<Any>> {
                 override fun onResponse(
                     call: Call<ApiResponse<Any>>,
