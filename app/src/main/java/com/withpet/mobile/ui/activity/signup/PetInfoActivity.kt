@@ -17,7 +17,6 @@ import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.custom.IsValidListener
 import com.withpet.mobile.ui.custom.RadioItem
 import com.withpet.mobile.ui.custom.SelectItem
-import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.utils.SharedPreferencesUtil
 import com.withpet.mobile.utils.ValidationUtils
 
@@ -79,11 +78,10 @@ class PetInfoActivity : BaseActivity() {
     }
 
     private fun setButtons() {
-
-
-        binding.btnSubmitPetInfo.setEnable(false)
+    binding.btnSubmitPetInfo.setEnable(false)
         binding.btnSubmitPetInfo.setOnClickListener {
             loadingDialog.show(supportFragmentManager, "")
+            val petName = binding.etPetName.text.toString()
             val petSize = binding.selectPetSize.getValue() ?: ""
             val petSex = binding.rgSexType.getValue() ?: ""
             val petAge = safeStringToInt(binding.etPetAge.text.toString())
@@ -94,6 +92,7 @@ class PetInfoActivity : BaseActivity() {
             val id = if (fromSignUp) intent.getStringExtra("signupId")?.toDouble()?.toInt()
                 ?: 0 else intent.getIntExtra("memberInfoId", 0)
             val petAddRequest = PetAddRequest(
+                name = petName,
                 size = petSize,
                 sex = petSex,
                 age = petAge,
@@ -132,6 +131,12 @@ class PetInfoActivity : BaseActivity() {
 
     // TODO : profileImage 어떻게 쏴야하는지 확인하기
     private fun setInputListener() {
+        binding.etPetName.setIsValidListener(object : IsValidListener {
+            override fun isValid(text: String): Boolean {
+                setButtonEnable()
+                return text.isNotEmpty()
+            }
+        })
         binding.etPetAge.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 setButtonEnable()
@@ -144,14 +149,13 @@ class PetInfoActivity : BaseActivity() {
                 return ValidationUtils.isValidDescription(text)
             }
         })
-
-
     }
 
     private fun setButtonEnable() {
         binding.btnSubmitPetInfo.setEnable(
-            binding.selectPetSize.getValue()!!
-                .isNotEmpty() && binding.etPetAge.text!!.isNotEmpty() && ValidationUtils.isValidDescription(
+            binding.etPetName.text!!.isNotEmpty() &&
+                    binding.selectPetSize.getValue()!!
+                        .isNotEmpty() && binding.etPetAge.text!!.isNotEmpty() && ValidationUtils.isValidDescription(
                 binding.etPetIntroduction.text.toString()
             )
         )

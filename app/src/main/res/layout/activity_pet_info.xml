@@ -51,6 +51,16 @@
 
             </LinearLayout>
 
+            <com.withpet.mobile.ui.custom.CustomInput
+                android:id="@+id/et_petName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                app:labelText="이름"
+                app:errorText="이름을 입력해주세요"
+                android:hint="이름"
+                android:inputType="text" />
+
             <com.withpet.mobile.ui.custom.CustomOption
                 android:id="@+id/select_petSize"
                 android:layout_width="match_parent"
