@@ -11,7 +11,7 @@
         android:layout_height="250dp"
         android:background="@color/disable"
         app:cardCornerRadius="15dp"
-        app:cardElevation="0dp">
+        app:cardElevation="1dp">
 
         <!-- 프로필 이미지 영역 -->
         <ImageView
