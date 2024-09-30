@@ -61,7 +61,9 @@ class SomeoneList @JvmOverloads constructor(
         private var itemClickListener: ((Someone) -> Unit)? = null
 
         fun setSomeones(someones: List<Someone>) {
-            this.someones = someones
+            val length = 5
+            // 앞 5개의 요소만 선택, 만약 리스트 크기가 5보다 작으면 전체 리스트 선택
+            this.someones = if (someones.size > length) someones.subList(0, length) else someones
             this.notifyDataSetChanged()
         }
 
