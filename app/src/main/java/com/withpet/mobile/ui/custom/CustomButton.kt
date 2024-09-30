@@ -6,6 +6,10 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.withpet.mobile.R
 
+enum class ButtonType {
+    NORMAL,
+    WHITE
+}
 
 class CustomButton @JvmOverloads constructor(
     context: Context,
@@ -13,8 +17,21 @@ class CustomButton @JvmOverloads constructor(
     defStyleAttr: Int = android.R.attr.buttonStyle
 ) : AppCompatButton(context, attrs, defStyleAttr) {
 
+    private var buttonType: ButtonType = ButtonType.NORMAL
+
     init {
         init(attrs)
+        context.theme.obtainStyledAttributes(attrs, R.styleable.CustomButton, 0, 0).apply {
+            try {
+                val type = getString(R.styleable.CustomButton_buttonType) ?: "NORMAL"
+                val buttonType = runCatching { enumValueOf<ButtonType>(type.toUpperCase()) }
+                    .getOrElse { ButtonType.NORMAL }
+
+                setButtonType(buttonType)
+            } finally {
+                recycle()
+            }
+        }
     }
 
     private fun init(attrs: AttributeSet?) {
@@ -25,11 +42,8 @@ class CustomButton @JvmOverloads constructor(
 
             // 텍스트 설정
             setTextStyle(textValue)
-
         }
-
-        background = ContextCompat.getDrawable(context, R.drawable.selector_custom_button)
-        setTextColor(ContextCompat.getColor(context, R.color.white))
+        applyButtonDesign()
     }
 
 
@@ -41,5 +55,28 @@ class CustomButton @JvmOverloads constructor(
 
     fun setEnable(isEnabled: Boolean) {
         this.isEnabled = isEnabled
+    }
+
+    fun setButtonType(type: ButtonType) {
+        buttonType = type
+        applyButtonDesign()
+    }
+
+    private fun applyButtonDesign() {
+        when (buttonType) {
+            ButtonType.NORMAL -> {
+                background = ContextCompat.getDrawable(context, R.drawable.selector_custom_button)
+                setTextColor(ContextCompat.getColor(context, R.color.white))
+            }
+            ButtonType.WHITE -> {
+                background =
+                    ContextCompat.getDrawable(context, R.drawable.selector_custom_button_white)
+                setTextColor(ContextCompat.getColor(context, R.color.primary))
+            }
+            else -> {
+                background = ContextCompat.getDrawable(context, R.drawable.selector_custom_button)
+                setTextColor(ContextCompat.getColor(context, R.color.white))
+            }
+        }
     }
 }

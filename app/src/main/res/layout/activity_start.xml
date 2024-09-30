@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,9 +17,9 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/TitleText"
-            android:layout_marginHorizontal="36dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="36dp"
             android:text="마음 맞는\n산책 친구가\n필요할 때는?" />
 
         <RelativeLayout
@@ -40,9 +41,9 @@
                 android:id="@+id/img_logo_big"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_marginRight="-48dp"
                 android:layout_above="@+id/img_logo_small"
                 android:layout_alignParentEnd="true"
+                android:layout_marginRight="-48dp"
                 android:rotation="-45"
                 android:src="@drawable/img_logo" />
 
@@ -60,8 +61,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
             android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_weight="2"
             android:orientation="vertical">
             <!-- 밀어내기용 View-->
             <View
@@ -73,9 +74,10 @@
                 android:id="@+id/button_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginBottom="8dp"
-                android:text="시작하기" />
+                android:text="시작하기"
+                app:buttonType="WHITE"
+                />
 
             <!-- 가입하기 버튼 -->
             <com.withpet.mobile.ui.custom.CustomButton
@@ -83,7 +85,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-
                 android:layout_marginBottom="@dimen/bottom_to_button"
                 android:text="가입하기" />
         </LinearLayout>
