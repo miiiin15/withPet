@@ -51,9 +51,7 @@ open class CustomEditText @JvmOverloads constructor(
         // inputType이 textPassword, numberPassword 또는 number일 경우에도 초기 설정 적용
         if (inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
             inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) ||
-            inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD ||
-            inputType == (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD) ||
-            inputType == InputType.TYPE_CLASS_NUMBER
+            inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD
         ) {
             transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
             setInitialUnderlineColor()
