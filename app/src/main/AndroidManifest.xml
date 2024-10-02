@@ -35,6 +35,7 @@
         <activity android:name=".ui.activity.signup.SignupActivity" />
         <activity android:name=".ui.activity.signup.PetInfoActivity" />
         <activity android:name=".ui.activity.Location.LocationSearchActivity" />
+        <activity android:name=".ui.activity.liked.LikedListActivity" />
 
         <activity android:name=".ui.test.TestActivity" />
         <activity android:name=".ui.test.SampleActivity" />
