@@ -16,7 +16,7 @@
 
     <style name="TitleText">
         <item name="android:textColor">@color/txt3</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -29,6 +29,12 @@
     <style name="CustomInputTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">16sp</item> <!-- 입력된 값의 글자 크기 -->
         <item name="android:textColor">@color/txt1</item> <!-- 입력된 값의 색상 -->
+    </style>
+
+
+    <style name="IconStyle">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
     </style>
 
     <!-- Progress Dialog -->

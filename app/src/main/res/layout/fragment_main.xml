@@ -28,8 +28,7 @@
         <!-- ImageView는 오른쪽에 위치 -->
         <ImageView
             android:id="@+id/iv_bell_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/IconStyle"
             android:layout_marginRight="@dimen/margin_horizontal"
             android:src="@drawable/ic_bell"
             android:layout_gravity="end" />
