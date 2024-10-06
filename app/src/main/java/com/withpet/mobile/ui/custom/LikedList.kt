@@ -31,7 +31,7 @@ class LikedList @JvmOverloads constructor(
     private val someoneAdapter = LikedListAdapter()
 
     init {
-        layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         adapter = someoneAdapter
 
         // PagerSnapHelper 추가

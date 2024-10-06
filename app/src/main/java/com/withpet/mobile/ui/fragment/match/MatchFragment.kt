@@ -1,5 +1,6 @@
 package com.withpet.mobile.ui.fragment.match
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.FragmentMatchBinding
+import com.withpet.mobile.ui.activity.liked.LikedListActivity
 import com.withpet.mobile.ui.activity.main.SomeoneList
 import com.withpet.mobile.ui.custom.MatchedList
 import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
@@ -80,8 +82,8 @@ class MatchFragment : Fragment() {
         }
 
         binding.ivHearthIcon.setOnClickListener {
-            // TODO : 아이콘 클릭 시 동작할 코드 작성
-            (activity as? BaseActivity)?.showAlert("좋아요 목록 개발 중")
+            val intent = Intent(requireContext(), LikedListActivity::class.java)
+            startActivity(intent)
         }
 
         // onCreateView에서 데이터가 이미 로드되지 않았는지 확인

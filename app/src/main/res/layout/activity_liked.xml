@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <!-- ViewModel 선언 -->
+        <variable
+            name="viewModel"
+            type="com.withpet.mobile.viewmodel.LikedViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/navigation_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:headerTitle="@{viewModel.headerTitle}" />
+
+        <TextView
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_horizontal"
+            android:layout_marginVertical="@dimen/top_to_header"
+            android:text="좋아요한 메이트에요" />
+
+        <com.withpet.mobile.ui.custom.LikedList
+            android:id="@+id/liked_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="좋아요한 메이트가 없어요.\n메이트에게 관심을 표현해보세요!"
+            android:textSize="16sp"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</layout>
