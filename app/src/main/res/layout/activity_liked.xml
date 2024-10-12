@@ -24,8 +24,8 @@
             style="@style/TitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_horizontal"
             android:layout_marginVertical="@dimen/top_to_header"
+            android:layout_marginLeft="@dimen/margin_horizontal"
             android:text="좋아요한 메이트에요" />
 
         <com.withpet.mobile.ui.custom.LikedList
@@ -37,8 +37,8 @@
             android:id="@+id/emptyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
             android:layout_gravity="center"
+            android:layout_marginTop="150dp"
             android:gravity="center"
             android:text="좋아요한 메이트가 없어요.\n메이트에게 관심을 표현해보세요!"
             android:textSize="16sp"

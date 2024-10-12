@@ -3,20 +3,17 @@ package com.withpet.mobile.ui.custom
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
-import com.withpet.mobile.data.repository.CommonRepo
-import java.lang.Exception
 
 class LikedList @JvmOverloads constructor(
     context: Context,
@@ -81,35 +78,20 @@ class LikedList @JvmOverloads constructor(
         override fun getItemCount(): Int = someones.size
 
         inner class LikedListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-            private val addressText: TextView = itemView.findViewById(R.id.addressText)
-            private val usernameText: TextView = itemView.findViewById(R.id.usernameText)
-            private val ageText: TextView = itemView.findViewById(R.id.ageText)
-            private val actionButton: CustomLikeButton = itemView.findViewById(R.id.likeButton)
+            private val itemView: LinearLayout = itemView.findViewById(R.id.likedItemView)
+            private val addressText: TextView = itemView.findViewById(R.id.liked_addressText)
+            private val usernameText: TextView = itemView.findViewById(R.id.liked_usernameText)
+            private val ageText: TextView = itemView.findViewById(R.id.liked_ageText)
             private val profileImage: ImageView =
-                itemView.findViewById(R.id.profileImage) // 프로필 이미지뷰
-            private val userInfoLayout: ViewGroup =
-                itemView.findViewById(R.id.userInfoLayout) // 사용자 정보 레이아웃
+                itemView.findViewById(R.id.liked_profileImage) // 프로필 이미지뷰
 
-            val displayMetrics: DisplayMetrics = itemView.context.resources.displayMetrics
-            val screenWidth = displayMetrics.widthPixels
-            val marginHorizontal =
-                itemView.context.resources.getDimensionPixelSize(R.dimen.margin_horizontal)
-            val cardWidth = screenWidth - marginHorizontal * 5
 
             init {
-                // 화면 너비와 마진 값을 가져와서 MaterialCardView의 너비를 설정
 
-                // cardView의 레이아웃 파라미터를 설정
-                val layoutParams = cardView.layoutParams
-                layoutParams.width = cardWidth
-                layoutParams.height = cardWidth
-                cardView.layoutParams = layoutParams
             }
 
             @SuppressLint("SetTextI18n")
             fun bind(someone: Someone, position: Int, itemCount: Int) {
-                val ITEM_MARGIN = (screenWidth - cardWidth) / 8 // 아이템 간의 여백을 16dp로 설정
 
                 addressText.text = someone.regionName
                 usernameText.text = someone.nickName
@@ -118,99 +100,18 @@ class LikedList @JvmOverloads constructor(
                 // TODO: 프로필 이미지 설정
                 // 예: Glide.with(itemView).load(someone.profileImage).into(profileImage)
 
-                // TODO : 분기처리 마저하기
-                actionButton.setOnClickListener {
-                    requestLike(
-                        memberId = someone.memberId.toString(),
-                        requestSuccess = { isSuccess ->
-                            likeButtonClickListener?.onLikeRequestSuccess(
-                                actionButton.isLike,
-                                isSuccess
-                            )
-                        }
-                    )
-                }
+                // TODO : 삭제 버튼 리스너
+//                deleteButton.setOnClickListener {
+//                }
 
-                // 첫 번째 또는 마지막 항목인 경우 layout_marginRight 설정
-                val params = cardView.layoutParams as ViewGroup.MarginLayoutParams
-                val userInfoParams = userInfoLayout.layoutParams as ViewGroup.MarginLayoutParams
-                val displayMetrics: DisplayMetrics = itemView.context.resources.displayMetrics
-                val screenWidth = displayMetrics.widthPixels
-                val marginHorizontal = (screenWidth - cardView.layoutParams.width) / 2
 
-                when (position) {
-                    0 -> {
-                        params.leftMargin = marginHorizontal
-                        params.rightMargin = ITEM_MARGIN // 아이템 간의 여백 설정
-                        userInfoParams.leftMargin = marginHorizontal
-                        userInfoParams.rightMargin = ITEM_MARGIN
-                    }
-
-                    itemCount - 1 -> {
-                        params.leftMargin = ITEM_MARGIN // 아이템 간의 여백 설정
-                        params.rightMargin = marginHorizontal
-                        userInfoParams.leftMargin = ITEM_MARGIN
-                        userInfoParams.rightMargin = marginHorizontal
-                    }
-
-                    else -> {
-                        params.leftMargin = ITEM_MARGIN // 아이템 간의 여백 설정
-                        params.rightMargin = ITEM_MARGIN // 아이템 간의 여백 설정
-                        userInfoParams.leftMargin = ITEM_MARGIN
-                        userInfoParams.rightMargin = ITEM_MARGIN
-                    }
-                }
-                cardView.layoutParams = params
-                userInfoLayout.layoutParams = userInfoParams
 
                 // 카드뷰 클릭 리스너 설정
-                cardView.setOnClickListener {
+                itemView.setOnClickListener {
                     itemClickListener?.invoke(someone)
                 }
             }
 
-            fun requestLike(memberId: String, requestSuccess: (isSuccess: Boolean) -> Unit?) {
-                try {
-                    if (!actionButton.isLike) {
-                        CommonRepo.sendLike(
-                            memberId,
-                            success = {
-                                requestSuccess(true)
-                                switchLike()
-                            },
-                            failure = {
-                                requestSuccess(false)
-                            },
-                            networkFail = {
-                                requestSuccess(false)
-                            }
-                        )
-                    } else {
-                        CommonRepo.requestDislike(
-                            memberId,
-                            success = {
-                                requestSuccess(true)
-                                switchLike()
-                            },
-                            failure = {
-                                requestSuccess(false)
-                            },
-                            networkFail = {
-                                requestSuccess(false)
-                            }
-                        )
-                    }
-                } catch (e: Exception) {
-
-                } finally {
-                    // 항상 실행되는 블록 (필요한 경우)
-                }
-
-            }
-
-            fun switchLike() {
-                actionButton.isLike = !actionButton.isLike
-            }
         }
     }
 }
