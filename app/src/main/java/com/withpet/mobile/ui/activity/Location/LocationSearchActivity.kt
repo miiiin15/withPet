@@ -89,7 +89,9 @@ class LocationSearchActivity : BaseActivity() {
             getCurrentLocation()
         } else {
             // 권한이 없을 경우 로그 출력 또는 사용자에게 권한 요청
-            showAlert("위치 권한이 허용되지 않았습니다.")
+            showAlert("위치 권한이 허용되지 않았습니다."){
+                PermissionUtils.requestLocationPermission(this)
+            }
         }
     }
 
@@ -119,8 +121,9 @@ class LocationSearchActivity : BaseActivity() {
         loadingDialog.show(supportFragmentManager, "")
         try {
             LocationRepo.saveLocation(x, y, success = {
-                showSnackBar("동네 설정이 완료 됐어요!")
-                finish()
+                showSnackBar("동네 설정이 완료 됐어요!"){
+                    finish()
+                }
                 // TODO : 유저정보 저장 로직 실행할 것
             },
                 networkFail = {

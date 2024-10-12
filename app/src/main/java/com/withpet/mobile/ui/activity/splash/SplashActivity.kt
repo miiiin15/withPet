@@ -17,10 +17,11 @@ import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivitySplashBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.activity.start.StartActivity
+import com.withpet.mobile.utils.PermissionUtils
 
 class SplashActivity : BaseActivity() {
     companion object {
-        private const val PERMISSION_REQUEST_ID = 11
+        const val PERMISSION_REQUEST_ID = 11
         private var requestPermissionGranted = false
     }
 
@@ -82,63 +83,9 @@ class SplashActivity : BaseActivity() {
         if (!loginId.isNullOrBlank() && !password.isNullOrBlank()) {
             logIn(loginId, password)
         } else {
-            initPermissions()
-        }
-    }
-
-    private fun initPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val permissionCamera = checkSelfPermission(Manifest.permission.CAMERA)
-            val permissionLocation = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-
-            val permissionWriteStorage = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            } else {
-                PackageManager.PERMISSION_GRANTED // Android 13 이상에서는 무시
+            PermissionUtils.initPermissions(this, this) {
+                grantedPermissions()
             }
-
-            val permissionReadStorage = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-            } else {
-                PackageManager.PERMISSION_GRANTED // Android 13 이상에서는 무시
-            }
-
-            if (permissionCamera == PackageManager.PERMISSION_DENIED ||
-                permissionWriteStorage == PackageManager.PERMISSION_DENIED ||
-                permissionReadStorage == PackageManager.PERMISSION_DENIED ||
-                permissionLocation == PackageManager.PERMISSION_DENIED
-            ) {
-                val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    arrayOf(
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_VIDEO,
-                        Manifest.permission.READ_MEDIA_AUDIO,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                } else {
-                    arrayOf(
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                }
-                requestPermissions(permissions, PERMISSION_REQUEST_ID)
-            } else {
-                requestPermissionGranted = true
-                navigateToLogin()
-            }
-        } else {
-            Log.e("권한", "PermissionGrant run with old way")
-            requestPermissionGranted = true
-            navigateToLogin()
         }
     }
 
@@ -157,7 +104,9 @@ class SplashActivity : BaseActivity() {
                 checkSharedPreferences()
             } else {
                 Toast.makeText(this, "권한이 필요합니다.", Toast.LENGTH_SHORT).show()
-                initPermissions()
+                PermissionUtils.initPermissions(this, this) {
+                    grantedPermissions()
+                }
             }
         }
     }
@@ -186,6 +135,11 @@ class SplashActivity : BaseActivity() {
         } finally {
             loadingDialog.dismiss()
         }
+    }
+
+    private fun grantedPermissions() {
+        requestPermissionGranted = true
+        navigateToLogin()
     }
 
     private fun navigateToLogin() {
