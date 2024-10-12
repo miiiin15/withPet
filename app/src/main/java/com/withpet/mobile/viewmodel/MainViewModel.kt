@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.MutableLiveData
+import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.session.UserSession
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,14 +17,14 @@ class MainViewModel : ViewModel() {
     private val _matchedList = MutableLiveData<ApiResponse<List<Someone>>>()
     val matchedList: LiveData<ApiResponse<List<Someone>>> get() = _matchedList
 
-    private val _likeMessage = MutableLiveData<String>()
-    val likeMessage: LiveData<String> get() = _likeMessage
-
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
     private val _failure = MutableLiveData<Throwable>()
     val failure: LiveData<Throwable> get() = _failure
+
+    val likeMessage = MutableLiveData<String>()
+    val address = MutableLiveData<String>()
 
     var isDataLoaded = false
 
@@ -73,7 +75,18 @@ class MainViewModel : ViewModel() {
         } else {
             "좋아요 신청 : " + if (success) "성공" else "실패"
         }
-        _likeMessage.value = message
+        likeMessage.value = message
+    }
+
+    fun fetchAdressText(onUnavailable: ()-> Unit){
+        UserSession.checkRegionInfo(
+            onAvailable = { regionInfo ->
+                address.value = regionInfo.regionName
+            },
+            onUnavailable = {
+                onUnavailable.invoke()
+            }
+        )
     }
 }
 
