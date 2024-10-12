@@ -69,12 +69,12 @@ class MainActivity : BaseActivity() {
 
 
     private fun setNavigationBar() {
+
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
         binding.bottomNavigationBar.setOnCategorySelectedListener(object :
             BottomNavigationBar.OnCategorySelectedListener {
             override fun onCategorySelected(category: Category) {
-
                 when (category) {
                     Category.MAIN -> navController.navigate(R.id.action_global_mainFragment)
                     Category.CHAT -> navController.navigate(R.id.action_global_chatFragment)
@@ -121,6 +121,7 @@ class MainActivity : BaseActivity() {
     private fun checkRole(memberInfo: MemberInfo) {
         when (memberInfo.role) {
             "initial" -> {
+                UserSession.setUserInfo(memberInfo)
                 val intent = Intent(this, PetInfoActivity::class.java)
                 intent.putExtra("entry", "main")
                 intent.putExtra("memberInfoId", memberInfo.id)
