@@ -37,12 +37,12 @@
             android:id="@+id/emptyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="150dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="좋아요한 메이트가 없어요.\n메이트에게 관심을 표현해보세요!"
             android:textSize="16sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
 
 </layout>

@@ -53,7 +53,9 @@ class LikedListActivity : BaseActivity() {
         }
 
         viewModel.error.observe(this, Observer { errorMsg ->
-            showAlert(errorMsg)
+            showAlert(errorMsg){
+                binding.emptyText.visibility = View.VISIBLE
+            }
         })
 
         viewModel.failure.observe(this, Observer { throwable ->
