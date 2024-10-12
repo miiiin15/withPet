@@ -14,6 +14,7 @@ import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.FragmentMatchBinding
+import com.withpet.mobile.ui.activity.Location.LocationSearchActivity
 import com.withpet.mobile.ui.activity.liked.LikedListActivity
 import com.withpet.mobile.ui.activity.main.SomeoneList
 import com.withpet.mobile.ui.custom.MatchedList
@@ -35,12 +36,24 @@ class MatchFragment : Fragment() {
         _binding = FragmentMatchBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
+        setupViewModel()
+
+        setupUI()
+
+        return binding.root
+    }
+
+    private fun setupViewModel() {
+
+        viewModel.fetchAdressText() {
+            (activity as? BaseActivity)?.showRegionPopup()
+        }
+
         viewModel.matchedList.observe(viewLifecycleOwner) { response ->
             response?.payload?.let { someones ->
                 val someoneList: MatchedList = binding.matchedList
                 someoneList.setSomeones(someones) // 데이터 설정
                 someoneList.setOnItemClickListener { someone ->
-                    userInfo = UserSession.getUserInfo()
 
                     UserSession.checkRegionInfo(
                         onAvailable = { regionInfo ->
@@ -75,7 +88,18 @@ class MatchFragment : Fragment() {
             (activity as? BaseActivity)?.showAlert(throwable.message ?: "Unknown error")
         })
 
-// 벨 아이콘 클릭 리스너 설정
+        viewModel.address.observe(viewLifecycleOwner, Observer { adress ->
+            adress.let { it -> binding.tvLocation.text = it }
+        })
+
+        // onCreateView에서 데이터가 이미 로드되지 않았는지 확인
+        if (!viewModel.isDataLoaded) {
+            viewModel.fetchMatchedList()
+        }
+    }
+
+    private fun setupUI() {
+
         binding.ivBellIcon.setOnClickListener {
             // TODO : 아이콘 클릭 시 동작할 코드 작성
             (activity as? BaseActivity)?.showAlert("알람 개발 중")
@@ -86,12 +110,10 @@ class MatchFragment : Fragment() {
             startActivity(intent)
         }
 
-        // onCreateView에서 데이터가 이미 로드되지 않았는지 확인
-        if (!viewModel.isDataLoaded) {
-            viewModel.fetchMatchedList()
+        binding.tvLocation.setOnClickListener {
+            val intent = Intent(requireContext(), LocationSearchActivity::class.java)
+            startActivity(intent)
         }
-
-        return binding.root
     }
 
     private fun showSomeoneInfoBottomSheet(someone: Someone) {
