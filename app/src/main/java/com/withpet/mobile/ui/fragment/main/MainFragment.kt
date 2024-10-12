@@ -36,7 +36,6 @@ class MainFragment : Fragment() {
                 val someoneList: SomeoneList = binding.someoneList
                 someoneList.setSomeones(someones) // 데이터 설정
                 someoneList.setOnItemClickListener { someone ->
-                    userInfo = UserSession.getUserInfo()
 
                     UserSession.checkRegionInfo(
                         onAvailable = { regionInfo ->
