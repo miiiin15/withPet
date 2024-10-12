@@ -97,7 +97,7 @@ object CommonRepo {
         failure: (Throwable) -> Unit
     ){
 
-        val jsonBody = "{\"loginId\": \"${likeProfileId}\"}"
+        val jsonBody = "{\"likeProfileId\": \"${likeProfileId}\"}"
         val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
         NetworkService.getService().sendLike(requestBody)
