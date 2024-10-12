@@ -15,8 +15,8 @@ class UserSession {
         }
 
         // 유저 정보를 가져오는 메서드
-        fun getUserInfo(): MemberInfo {
-            return userInfo ?: throw IllegalStateException("유저정보가 없습니다.")
+        fun getUserInfo(): MemberInfo? {
+            return userInfo
         }
 
         // 유저 정보 초기화 메서드
