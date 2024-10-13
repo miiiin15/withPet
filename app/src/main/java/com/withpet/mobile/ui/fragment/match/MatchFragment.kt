@@ -1,10 +1,12 @@
 package com.withpet.mobile.ui.fragment.match
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +21,7 @@ import com.withpet.mobile.ui.activity.liked.LikedListActivity
 import com.withpet.mobile.ui.activity.main.SomeoneList
 import com.withpet.mobile.ui.custom.MatchedList
 import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
+import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.viewmodel.MainViewModel
 
 class MatchFragment : Fragment() {
@@ -28,6 +31,16 @@ class MatchFragment : Fragment() {
 
     private val binding get() = _binding!!
     private lateinit var userInfo: MemberInfo
+
+    private val likedListLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val isItemDeleted = result.data?.getBooleanExtra("isItemDeleted", false) ?: false
+                if (isItemDeleted) {
+                    viewModel.fetchMatchedList(true)
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,12 +120,14 @@ class MatchFragment : Fragment() {
 
         binding.ivHearthIcon.setOnClickListener {
             val intent = Intent(requireContext(), LikedListActivity::class.java)
-            startActivity(intent)
+            likedListLauncher.launch(intent)
         }
 
         binding.tvLocation.setOnClickListener {
-            val intent = Intent(requireContext(), LocationSearchActivity::class.java)
-            startActivity(intent)
+            // TODO : 위치 저장시 서버에 데이터가 업데이트가 아닌 누적되는 오류 발견하여 주석
+            (activity as BaseActivity).showAlert("위치 설정 이동 주석 처리")
+//            val intent = Intent(requireContext(), LocationSearchActivity::class.java)
+//            startActivity(intent)
         }
     }
 

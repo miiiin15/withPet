@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.utils.Logcat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -24,16 +25,16 @@ class LikedViewModel : ViewModel() {
     var isDataLoaded = false
 
 
-    private val _headerTitle = MutableLiveData<String>("")
-    val headerTitle: LiveData<String> get() = _headerTitle
+    var headerTitle = MutableLiveData<String>("")
+    val disLikeMessage = MutableLiveData<String>()
 
-    fun updateHeaderTitle(newTitle: String) {
-        _headerTitle.value = newTitle
+    fun setHeaderTitle(newTitle: String) {
+        headerTitle.value = newTitle
     }
 
 
-    fun fetchLikedList(forceUpdate: Boolean = false){
-        if (forceUpdate || !isDataLoaded){
+    fun fetchLikedList(forceUpdate: Boolean = false) {
+        if (forceUpdate || !isDataLoaded) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     CommonRepo.getLikedList(
@@ -46,6 +47,7 @@ class LikedViewModel : ViewModel() {
                         success = { response ->
                             // Main thread에서 UI 업데이트
                             viewModelScope.launch(Dispatchers.Main) {
+                                Logcat.e("${response.payload}")
                                 _likedList.value = response
                                 isDataLoaded = true // 데이터가 로드되었음을 표시
                             }
@@ -57,7 +59,7 @@ class LikedViewModel : ViewModel() {
                             }
                         }
                     )
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     viewModelScope.launch(Dispatchers.Main) {
                         _error.value = e.message
                     }
@@ -66,4 +68,7 @@ class LikedViewModel : ViewModel() {
         }
     }
 
+    fun handleDeleteRequest(success: Boolean) {
+        disLikeMessage.value = "좋아요에서 삭제" + if (success) "됐어요" else " 실패"
+    }
 }

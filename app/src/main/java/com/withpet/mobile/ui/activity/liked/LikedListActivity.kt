@@ -1,5 +1,7 @@
 package com.withpet.mobile.ui.activity.liked
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -9,10 +11,13 @@ import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.databinding.ActivityLikedBinding
 import com.withpet.mobile.ui.custom.LikedList
+import com.withpet.mobile.utils.Logcat
+import com.withpet.mobile.utils.NavigationClickHandler
 import com.withpet.mobile.viewmodel.LikedViewModel
 
-class LikedListActivity : BaseActivity() {
+class LikedListActivity : BaseActivity(), NavigationClickHandler {
     private val viewModel: LikedViewModel by viewModels()
+    private var isItemDeleted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +30,17 @@ class LikedListActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.likedNavigationHeader.clickHandler = this
+
+        binding.likedList.setOnDeleteButtonClickListener(object : LikedList.OnDeleteRequestSuccess {
+            override fun onDeleteRequestSuccess(success: Boolean) {
+                isItemDeleted = success
+                viewModel.handleDeleteRequest(success)
+            }
+        })
+
         // 특정 이벤트에서 headerText 업데이트
-        viewModel.updateHeaderTitle("좋아요 목록")
+        viewModel.setHeaderTitle("좋아요 목록")
 
         // onCreateView에서 데이터가 이미 로드되지 않았는지 확인
         if (!viewModel.isDataLoaded) {
@@ -46,14 +60,13 @@ class LikedListActivity : BaseActivity() {
                 val likedList: LikedList = binding.likedList
                 likedList.setLikedList(mateList)
                 likedList.setOnItemClickListener { mate ->
-
                     // TODO : 좋아요한 목록 클릭 리스너
                 }
             }
         }
 
         viewModel.error.observe(this, Observer { errorMsg ->
-            showAlert(errorMsg){
+            showAlert(errorMsg) {
                 binding.emptyText.visibility = View.VISIBLE
             }
         })
@@ -62,5 +75,26 @@ class LikedListActivity : BaseActivity() {
             showAlert(throwable.message ?: "Unknown error")
         })
 
+        viewModel.disLikeMessage.observe(this, Observer {
+            showSnackBar(it)
+        })
+    }
+    fun back(){
+        val resultIntent = Intent()
+        resultIntent.putExtra("isItemDeleted", isItemDeleted)  // 결과로 Boolean 값 전달
+        setResult(Activity.RESULT_OK, resultIntent)
+        super.onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        back()
+    }
+
+
+    override fun onLeftIconClick() {
+        back()
+    }
+
+    override fun onRightIconClick() {
     }
 }
