@@ -71,9 +71,9 @@ class MainViewModel : ViewModel() {
 
     fun handleLikeRequest(currentLike: Boolean, success: Boolean) {
         val message = if (currentLike) {
-            "좋아요 취소 신청 : " + if (success) "성공" else "실패"
+            "좋아요에서 삭제" + if (success) "됐어요" else " 실패"
         } else {
-            "좋아요 신청 : " + if (success) "성공" else "실패"
+            "좋아요에 저장" + if (success) "했어요!" else " 실패"
         }
         likeMessage.value = message
     }
