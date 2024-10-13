@@ -7,8 +7,9 @@ import androidx.core.content.ContextCompat
 import com.withpet.mobile.R
 
 enum class ButtonType {
-    NORMAL,
-    WHITE
+    PRIYMARY,
+    WHITE,
+    GREY
 }
 
 class CustomButton @JvmOverloads constructor(
@@ -17,7 +18,7 @@ class CustomButton @JvmOverloads constructor(
     defStyleAttr: Int = android.R.attr.buttonStyle
 ) : AppCompatButton(context, attrs, defStyleAttr) {
 
-    private var buttonType: ButtonType = ButtonType.NORMAL
+    private var buttonType: ButtonType = ButtonType.PRIYMARY
 
     init {
         init(attrs)
@@ -25,7 +26,7 @@ class CustomButton @JvmOverloads constructor(
             try {
                 val type = getString(R.styleable.CustomButton_buttonType) ?: "NORMAL"
                 val buttonType = runCatching { enumValueOf<ButtonType>(type.toUpperCase()) }
-                    .getOrElse { ButtonType.NORMAL }
+                    .getOrElse { ButtonType.PRIYMARY }
 
                 setButtonType(buttonType)
             } finally {
@@ -64,7 +65,7 @@ class CustomButton @JvmOverloads constructor(
 
     private fun applyButtonDesign() {
         when (buttonType) {
-            ButtonType.NORMAL -> {
+            ButtonType.PRIYMARY -> {
                 background = ContextCompat.getDrawable(context, R.drawable.selector_custom_button)
                 setTextColor(ContextCompat.getColor(context, R.color.white))
             }
@@ -72,6 +73,11 @@ class CustomButton @JvmOverloads constructor(
                 background =
                     ContextCompat.getDrawable(context, R.drawable.selector_custom_button_white)
                 setTextColor(ContextCompat.getColor(context, R.color.primary))
+            }
+            ButtonType.GREY -> {
+                background =
+                    ContextCompat.getDrawable(context, R.drawable.selector_custom_button_grey)
+                setTextColor(ContextCompat.getColor(context, R.color.grey1))
             }
             else -> {
                 background = ContextCompat.getDrawable(context, R.drawable.selector_custom_button)
