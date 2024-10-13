@@ -1,49 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
         <!-- 바인딩할 문자열 속성 선언 -->
         <variable
             name="headerTitle"
             type="String" />
+
+        <variable
+            name="clickHandler"
+            type="com.withpet.mobile.utils.NavigationClickHandler" />
     </data>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="28dp"
-    android:paddingHorizontal="@dimen/margin_horizontal"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
 
-    <!-- 왼쪽 끝의 아이콘 버튼 -->
-    <ImageView
-        android:id="@+id/leftIconButton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_arrow_left" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/margin_horizontal">
 
-    <!-- 중앙의 타이틀 텍스트 -->
-    <TextView
-        android:id="@+id/headerText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:padding="4dp"
-        android:text="@{headerTitle}"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="18sp" />
+        <!-- 왼쪽 끝의 아이콘 버튼 -->
+        <ImageView
+            android:id="@+id/leftIconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{() -> clickHandler.onLeftIconClick()}"
+            android:paddingRight="12dp"
+            android:src="@drawable/ic_arrow_left" />
 
-    <!-- 오른쪽 끝의 아이콘 버튼 -->
-    <ImageView
-        android:id="@+id/rightIconButton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@null" /> <!-- src 속성 비워둠 -->
+        <!-- 중앙의 타이틀 텍스트 -->
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:text="@{headerTitle}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <!-- 오른쪽 끝의 아이콘 버튼 -->
+        <ImageView
+            android:id="@+id/rightIconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{() -> clickHandler.onRightIconClick()}"
+            android:paddingLeft="12dp"
+            android:src="@null"
+            android:visibility="gone" /> <!-- src 속성 비워둠 -->
+
+    </LinearLayout>
 </layout>

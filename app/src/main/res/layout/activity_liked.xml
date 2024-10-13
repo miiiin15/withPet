@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <include
+            android:id="@+id/liked_navigation_header"
             layout="@layout/navigation_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +31,7 @@
 
         <com.withpet.mobile.ui.custom.LikedList
             android:id="@+id/liked_list"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
