@@ -47,9 +47,7 @@ object PetRepo {
                             val data = response.body() ?: return
                             success(data)
                         } else {
-                            // TODO : 테스트 끝나면 지우기
-//                            networkFail(response.code().toString())
-                            networkFail(response.toString())
+                            networkFail(response.code().toString())
                         }
                     } finally {
                         finally()

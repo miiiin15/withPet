@@ -63,11 +63,9 @@ class BottomNavigationBar @JvmOverloads constructor(
             if (category == _selectedCategory) {
                 iconView?.setColorFilter(ContextCompat.getColor(context, R.color.primary))
                 textView?.setTextColor(ContextCompat.getColor(context, R.color.primary))
-                // TODO: 선택된 상태의 아이콘 설정
             } else {
                 iconView?.setColorFilter(ContextCompat.getColor(context, R.color.disable))
                 textView?.setTextColor(ContextCompat.getColor(context, R.color.disable))
-                // TODO: 선택되지 않은 상태의 아이콘 설정
             }
         }
     }

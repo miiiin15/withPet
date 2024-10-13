@@ -72,10 +72,12 @@ class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
 
     fun setOnGreetClickListener(listener: View.OnClickListener) {
         btnGreetClickListener = listener
+        // TODO : 인사하기 동작 구현
     }
 
     fun setOnLikeClickListener(listener: View.OnClickListener) {
         btnLikeClickListener = listener
+        // TODO : 좋아요 연결
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

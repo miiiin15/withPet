@@ -35,7 +35,6 @@ class SampleActivity : BaseActivity() {
 
         // 카테고리 클릭 리스너 설정 (필요 시)
         bottomNavigationBar.setOnClickListener {
-            // TODO: 카테고리 클릭 시 동작 설정
         }
     }
 
