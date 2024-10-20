@@ -105,6 +105,14 @@ class MatchFragment : Fragment() {
             adress.let { it -> binding.tvLocation.text = it }
         })
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                (activity as? BaseActivity)?.loadingDialog?.show(childFragmentManager, "")
+            } else {
+                (activity as? BaseActivity)?.loadingDialog?.dismiss()
+            }
+        }
+
         // onCreateView에서 데이터가 이미 로드되지 않았는지 확인
         if (!viewModel.isDataLoaded) {
             viewModel.fetchMatchedList()

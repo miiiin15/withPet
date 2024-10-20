@@ -23,6 +23,7 @@ class MainViewModel : ViewModel() {
     private val _failure = MutableLiveData<Throwable>()
     val failure: LiveData<Throwable> get() = _failure
 
+    val isLoading = MutableLiveData<Boolean>(false)
     val likeMessage = MutableLiveData<String>()
     val address = MutableLiveData<String>()
 
@@ -31,6 +32,7 @@ class MainViewModel : ViewModel() {
     // 데이터를 강제 갱신하거나 필요할 때만 API 호출
     fun fetchMatchedList(forceUpdate: Boolean = false) {
         if (forceUpdate || !isDataLoaded) {
+            isLoading.value = true
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     CommonRepo.getMatchedList(
@@ -38,6 +40,7 @@ class MainViewModel : ViewModel() {
                             // Main thread에서 UI 업데이트
                             viewModelScope.launch(Dispatchers.Main) {
                                 _error.value = errorMsg
+                                isLoading.value = false
                             }
                         },
                         success = { response ->
@@ -45,6 +48,7 @@ class MainViewModel : ViewModel() {
                             viewModelScope.launch(Dispatchers.Main) {
                                 _matchedList.value = response
                                 isDataLoaded = true // 데이터가 로드되었음을 표시
+                                isLoading.value = false
                             }
                         },
                         failure = { throwable ->
@@ -58,6 +62,7 @@ class MainViewModel : ViewModel() {
                     // 예외 처리
                     viewModelScope.launch(Dispatchers.Main) {
                         _error.value = e.message
+                        isLoading.value = false
                     }
                 }
             }
