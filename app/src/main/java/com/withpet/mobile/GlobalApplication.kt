@@ -4,8 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.withpet.mobile.utils.DataProvider
+import dagger.hilt.android.HiltAndroidApp
 
-
+@HiltAndroidApp
 class GlobalApplication : Application() {
     override fun onCreate() {
         super.onCreate()
