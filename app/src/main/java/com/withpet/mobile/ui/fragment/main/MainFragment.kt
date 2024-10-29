@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.withpet.mobile.BaseActivity
@@ -15,10 +16,12 @@ import com.withpet.mobile.databinding.FragmentMainBinding
 import com.withpet.mobile.ui.activity.main.SomeoneList
 import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
 import com.withpet.mobile.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var userInfo: MemberInfo
@@ -28,7 +31,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         // SomeoneList 설정
         viewModel.matchedList.observe(viewLifecycleOwner, Observer { response ->
@@ -68,6 +70,14 @@ class MainFragment : Fragment() {
         viewModel.failure.observe(viewLifecycleOwner, Observer { throwable ->
             (activity as? BaseActivity)?.showAlert(throwable.message ?: "Unknown error")
         })
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                (activity as? BaseActivity)?.loadingDialog?.show(childFragmentManager, "")
+            } else {
+                (activity as? BaseActivity)?.loadingDialog?.dismiss()
+            }
+        }
 
         // 벨 아이콘 클릭 리스너 설정
         binding.ivBellIcon.setOnClickListener {

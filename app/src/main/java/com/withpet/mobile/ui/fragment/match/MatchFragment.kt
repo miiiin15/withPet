@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.withpet.mobile.BaseActivity
@@ -23,10 +24,12 @@ import com.withpet.mobile.ui.custom.MatchedList
 import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
 import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MatchFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private var _binding: FragmentMatchBinding? = null
 
     private val binding get() = _binding!!
@@ -47,7 +50,6 @@ class MatchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMatchBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         setupViewModel()
 
