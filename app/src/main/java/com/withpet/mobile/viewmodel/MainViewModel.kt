@@ -9,10 +9,15 @@ import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.data.session.UserSession
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val commonRepo: CommonRepo
+) : ViewModel() {
 
     private val _matchedList = MutableLiveData<ApiResponse<List<Someone>>>()
     val matchedList: LiveData<ApiResponse<List<Someone>>> get() = _matchedList
