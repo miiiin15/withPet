@@ -23,7 +23,10 @@ import com.withpet.mobile.databinding.ActivityMainBinding
 import com.withpet.mobile.ui.activity.signup.PetInfoActivity
 import com.withpet.mobile.ui.custom.BottomNavigationBar
 import com.withpet.mobile.ui.custom.CustomButton
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
