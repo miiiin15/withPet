@@ -1,6 +1,7 @@
 package com.withpet.mobile.di
 
 import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.repository.SignInRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -13,11 +14,16 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 // 의존성 그래프를 구축할 때 사용
 object RepositoryModule {
+//    필요할 때 Hilt가 자동으로 이 함수에서 해당 객체를 가져와 주입합니다.
+    @Provides
+    @Singleton
+    fun provideCommonRepo(): CommonRepo {
+        return CommonRepo
+    }
 
     @Provides
     @Singleton
-    // CommonRepo가 필요할 때 Hilt가 자동으로 이 함수에서 해당 객체를 가져와 주입합니다.
-    fun provideCommonRepo(): CommonRepo {
-        return CommonRepo
+    fun provideSignInRepo(): SignInRepo {
+        return SignInRepo
     }
 }

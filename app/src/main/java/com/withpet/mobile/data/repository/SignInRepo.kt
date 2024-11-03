@@ -13,44 +13,26 @@ import retrofit2.Response
 
 object SignInRepo {
 
-    fun checkDuplicate(
-        loginId: String,
-        networkFail: (String) -> Unit = {},
-        success: (ApiResponse<Any>) -> Unit,
-        failure: (Throwable) -> Unit
-    ) {
-
-        NetworkService.getService().getCheckDuplicate(loginId)
-            .enqueue(object : Callback<ApiResponse<Any>> {
-                override fun onResponse(
-                    call: Call<ApiResponse<Any>>,
-                    response: Response<ApiResponse<Any>>
-                ) {
-                    if (response.isSuccessful) {
-                        val data = response.body() ?: return
-                        success(data)
-                    } else {
-                        networkFail(response.code().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
-                    failure(t)
-                }
-            })
+    suspend fun checkDuplicate(loginId: String): ApiResponse<Any> {
+        return try {
+            val response = NetworkService.getService().getCheckDuplicate(loginId).execute()
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Empty response body")
+            } else {
+                throw Exception("Network Error: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
-    fun signUp(
+    suspend fun signUp(
         loginId: String,
         password: String,
         nickName: String,
         age: Int,
-        sexType: String,
-        networkFail: (String) -> Unit,
-        success: (ApiResponse<Any>) -> Unit,
-        failure: (Throwable) -> Unit
-    ) {
-        // 요청 데이터 생성
+        sexType: String
+    ): ApiResponse<Any> {
         val requestData = mapOf(
             "loginId" to loginId,
             "password" to password,
@@ -61,62 +43,31 @@ object SignInRepo {
 
         val requestBody = Gson().toJson(requestData).toRequestBody("application/json".toMediaType())
 
-        // NetworkService에서 Retrofit 인터페이스를 통해 회원가입 요청을 보냄
-        NetworkService.getService().requestSignUp(requestBody)
-            .enqueue(object : Callback<ApiResponse<Any>> {
-                override fun onResponse(
-                    call: Call<ApiResponse<Any>>,
-                    response: Response<ApiResponse<Any>>
-                ) {
-                    if (response.isSuccessful) {
-                        val data = response.body() ?: return
-                        success(data)
-                    } else {
-                        networkFail(response.code().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
-                    failure(t)
-                }
-            })
+        return try {
+            val response = NetworkService.getService().requestSignUp(requestBody).execute()
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Empty response body")
+            } else {
+                throw Exception("Network Error: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
-    fun logIn(
-        loginId: String,
-        password: String,
-        networkFail: (String) -> Unit,
-        success: (ApiResponse<Any>) -> Unit,
-        failure: (Throwable) -> Unit
-    ) {
-
+    suspend fun logIn(loginId: String, password: String): ApiResponse<Any> {
         val jsonBody = "{\"loginId\": \"${loginId.trim()}\", \"password\": \"${password.trim()}\"}"
         val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
 
-        NetworkService.getService().requestSignIn(requestBody)
-            .enqueue(object : Callback<ApiResponse<Any>> {
-                override fun onResponse(
-                    call: Call<ApiResponse<Any>>,
-                    response: Response<ApiResponse<Any>>
-                ) {
-                    if (response.isSuccessful) {
-                        val data = response.body()
-                        if (data != null) {
-                            success(data)
-                            DataProvider.isLogin = true
-                        } else {
-                            networkFail("Empty response body")
-                        }
-                    } else {
-                        val data = response.errorBody()?.string() ?: return
-                        networkFail(data)
-                    }
-                }
-
-                override fun onFailure(call: Call<ApiResponse<Any>>, t: Throwable) {
-                    failure(t)
-                }
-            })
+        return try {
+            val response = NetworkService.getService().requestSignIn(requestBody).execute()
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Empty response body")
+            } else {
+                throw Exception("Network Error: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            throw e
+        }
     }
-
 }
