@@ -11,10 +11,11 @@ import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.databinding.ActivityLikedBinding
 import com.withpet.mobile.ui.custom.LikedList
-import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.utils.NavigationClickHandler
 import com.withpet.mobile.viewmodel.LikedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LikedListActivity : BaseActivity(), NavigationClickHandler {
     private val viewModel: LikedViewModel by viewModels()
     private var isItemDeleted: Boolean = false
