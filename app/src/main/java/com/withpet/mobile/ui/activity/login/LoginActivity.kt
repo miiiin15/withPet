@@ -53,30 +53,30 @@ class LoginActivity : BaseActivity() {
     private fun logIn(loginId: String, password: String) {
         loadingDialog.show(supportFragmentManager, "")
         try {
-            SignInRepo.logIn(
-                loginId = loginId,
-                password = password,
-
-                success = {
-                    if (it.payload == true) {
-                        val intent = Intent(this, MainActivity::class.java).apply {
-                            flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        }
-                        SharedPreferencesUtil.saveLoginInfo(this, loginId, password)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        showAlert("로그인 실패: ${it.result.message}")
-                    }
-                },
-                networkFail = {
-                    showAlert("로그인 네트워크 실패: $it")
-                },
-                failure = {
-                    showAlert("로그인 에러: ${it.message}")
-                }
-            )
+//            SignInRepo.logIn(
+//                loginId = loginId,
+//                password = password,
+//
+//                success = {
+//                    if (it.payload == true) {
+//                        val intent = Intent(this, MainActivity::class.java).apply {
+//                            flags =
+//                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                        }
+//                        SharedPreferencesUtil.saveLoginInfo(this, loginId, password)
+//                        startActivity(intent)
+//                        finish()
+//                    } else {
+//                        showAlert("로그인 실패: ${it.result.message}")
+//                    }
+//                },
+//                networkFail = {
+//                    showAlert("로그인 네트워크 실패: $it")
+//                },
+//                failure = {
+//                    showAlert("로그인 에러: ${it.message}")
+//                }
+//            )
         } catch (e: Exception) {
         } finally {
             loadingDialog.dismiss()

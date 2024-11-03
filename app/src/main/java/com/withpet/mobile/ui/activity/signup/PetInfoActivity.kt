@@ -20,6 +20,7 @@ import com.withpet.mobile.ui.custom.SelectItem
 import com.withpet.mobile.utils.SharedPreferencesUtil
 import com.withpet.mobile.utils.ValidationUtils
 
+
 class PetInfoActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPetInfoBinding
@@ -171,31 +172,31 @@ class PetInfoActivity : BaseActivity() {
     }
 
     private fun logIn(loginId: String, password: String) {
-        SignInRepo.logIn(
-            loginId = loginId,
-            password = password,
-            networkFail = {
-                Toast.makeText(this, "네트워크 실패: $it", Toast.LENGTH_SHORT).show()
-            },
-            success = {
-                if (it.result.code == 200) {
-                    SharedPreferencesUtil.saveLoginInfo(this, loginId, password)
-                    Toast.makeText(this, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java).apply {
-                        // 새로운 Activity가 시작되면서 기존의 Activity를 모두 종료하고 새 Activity를 최상단에 위치시킵니다.
-                        flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    }
-                    startActivity(intent)
-                    finish() // 현재 Activity 종료
-                } else {
-                    showAlert("실패: ${it.result.message}")
-                }
-            },
-            failure = {
-                showAlert("에러: ${it.message}")
-            }
-        )
+//        SignInRepo.logIn(
+//            loginId = loginId,
+//            password = password,
+//            networkFail = {
+//                Toast.makeText(this, "네트워크 실패: $it", Toast.LENGTH_SHORT).show()
+//            },
+//            success = {
+//                if (it.result.code == 200) {
+//                    SharedPreferencesUtil.saveLoginInfo(this, loginId, password)
+//                    Toast.makeText(this, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
+//                    val intent = Intent(this, MainActivity::class.java).apply {
+//                        // 새로운 Activity가 시작되면서 기존의 Activity를 모두 종료하고 새 Activity를 최상단에 위치시킵니다.
+//                        flags =
+//                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    }
+//                    startActivity(intent)
+//                    finish() // 현재 Activity 종료
+//                } else {
+//                    showAlert("실패: ${it.result.message}")
+//                }
+//            },
+//            failure = {
+//                showAlert("에러: ${it.message}")
+//            }
+//        )
     }
 
     private fun safeStringToInt(str: String?, defaultValue: Int = 0): Int {

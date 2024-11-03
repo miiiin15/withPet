@@ -114,23 +114,23 @@ class SplashActivity : BaseActivity() {
     private fun logIn(loginId: String, password: String) {
         loadingDialog.show(supportFragmentManager, "")
         try {
-            SignInRepo.logIn(
-                loginId = loginId,
-                password = password,
-                success = {
-                    if (it.result.code == 200) {
-                        navigateToMainActivity()
-                    } else {
-                        showAlert("로그인 실패: ${it.result.message}")
-                    }
-                },
-                networkFail = {
-                    showAlert("로그인 네트워크 실패: $it")
-                },
-                failure = {
-                    showAlert("로그인 에러: ${it.message}")
-                }
-            )
+//            SignInRepo.logIn(
+//                loginId = loginId,
+//                password = password,
+//                success = {
+//                    if (it.result.code == 200) {
+//                        navigateToMainActivity()
+//                    } else {
+//                        showAlert("로그인 실패: ${it.result.message}")
+//                    }
+//                },
+//                networkFail = {
+//                    showAlert("로그인 네트워크 실패: $it")
+//                },
+//                failure = {
+//                    showAlert("로그인 에러: ${it.message}")
+//                }
+//            )
         } catch (e: Exception) {
         } finally {
             loadingDialog.dismiss()
