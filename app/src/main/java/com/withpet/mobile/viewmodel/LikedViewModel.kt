@@ -4,26 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.withpet.mobile.BaseViewModel
 import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.utils.Logcat
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LikedViewModel : ViewModel() {
+@HiltViewModel
+class LikedViewModel @Inject constructor(
+    private val commonRepo: CommonRepo
+) : BaseViewModel() {
 
     private val _likedList = MutableLiveData<ApiResponse<List<Someone>>>()
     val likedList: LiveData<ApiResponse<List<Someone>>> get() = _likedList
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> get() = _error
-
-    private val _failure = MutableLiveData<Throwable>()
-    val failure: LiveData<Throwable> get() = _failure
-
     var isDataLoaded = false
-
 
     var headerTitle = MutableLiveData<String>("")
     val disLikeMessage = MutableLiveData<String>()
@@ -32,39 +32,25 @@ class LikedViewModel : ViewModel() {
         headerTitle.value = newTitle
     }
 
-
-    fun fetchLikedList(forceUpdate: Boolean = false) {
-        if (forceUpdate || !isDataLoaded) {
-            viewModelScope.launch(Dispatchers.IO) {
-                try {
-                    CommonRepo.getLikedList(
-                        networkFail = { errorMsg ->
-                            // Main thread에서 UI 업데이트
-                            viewModelScope.launch(Dispatchers.Main) {
-                                _error.value = errorMsg
-                            }
-                        },
-                        success = { response ->
-                            // Main thread에서 UI 업데이트
-                            viewModelScope.launch(Dispatchers.Main) {
-                                Logcat.e("${response.payload}")
-                                _likedList.value = response
-                                isDataLoaded = true // 데이터가 로드되었음을 표시
-                            }
-                        },
-                        failure = { throwable ->
-                            // Main thread에서 UI 업데이트
-                            viewModelScope.launch(Dispatchers.Main) {
-                                _failure.value = throwable
-                            }
-                        }
-                    )
-                } catch (e: Exception) {
-                    viewModelScope.launch(Dispatchers.Main) {
-                        _error.value = e.message
+    override fun fetchData(): Job = fetchLikedList()
+    fun fetchLikedList(forceUpdate: Boolean = false): Job {
+        return if (forceUpdate || !isDataLoaded) {
+            launchDataLoad {
+                val response = commonRepo.getLikedList(
+                    networkFail = { errorMsg ->
+                        _error.postValue(errorMsg)  // _error는 BaseViewModel에서 관리
+                    },
+                    success = { response ->
+                        _likedList.postValue(response)  // 데이터 업데이트
+                        isDataLoaded = true  // 데이터가 로드되었음을 표시
+                    },
+                    failure = { throwable ->
+                        _failure.postValue(throwable)
                     }
-                }
+                )
             }
+        } else {
+            Job()  // 이미 로드된 경우, 빈 Job 반환
         }
     }
 
