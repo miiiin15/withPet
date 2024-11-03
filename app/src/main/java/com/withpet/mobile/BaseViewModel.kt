@@ -18,7 +18,7 @@ abstract class BaseViewModel : ViewModel() {
     protected val _failure = MutableLiveData<Throwable>()
     val failure: LiveData<Throwable> get() = _failure
 
-    abstract fun fetchData(): Job
+    open fun fetchData(): Job = Job()
 
     protected fun launchDataLoad(block: suspend () -> Unit): Job {
         _isLoading.value = true
