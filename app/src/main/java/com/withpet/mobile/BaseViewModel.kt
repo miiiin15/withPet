@@ -20,6 +20,7 @@ abstract class BaseViewModel : ViewModel() {
 
     open fun fetchData(): Job = Job()
 
+    // TODO : NetworkOnMainThreadException 스레드 정리 및 observe 후속 액션 확인하기
     protected fun launchDataLoad(block: suspend () -> Unit): Job {
         _isLoading.value = true
         return viewModelScope.launch {
