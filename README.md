@@ -1,16 +1,14 @@
 
-# 🐾 프로젝트 소개 - withPet ![Watchers](https://img.shields.io/github/watchers/miiiin15/withPet?style=social)
+# 🐾 프로젝트 소개 ![Watchers](https://img.shields.io/github/watchers/miiiin15/withPet?style=social)
+![헤더](https://capsule-render.vercel.app/api?type=rect&height=100&color=FCC419&text=위드펫%20🐾&fontColor=ffffff&animation=fadeIn&fontSize=45&desc=마음에%20맞는%20산책%20친구를%20찾다&descAlignY=80&fontAlignY=40&descSize=20&textBg=false)
 
 
 
-
-
-![image](https://github.com/user-attachments/assets/c53df6b8-e12f-4fbf-9fc7-bc100f070130)
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/miiiin15/withPet?color=%23FCC419&label=Monthly%20Commit)
 ![Weekly Commits](https://img.shields.io/github/commit-activity/w/miiiin15/withPet?color=%23FCC419&label=Weekly%20Commits)
 ![GitHub last commit](https://img.shields.io/github/last-commit/miiiin15/withPet?color=%23FCC419&label=Last%20Commit)
-![Repository Size](https://img.shields.io/github/repo-size/miiiin15/withPet?color=%23FCC419)
+![Repository Size](https://img.shields.io/github/repo-size/miiiin15/withPet?color=%23FCC419) 
 
 이 프로젝트는 사용자의 편의성을 높이고 반려동물과의 삶을 더욱 풍요롭게 만드는 것을 목표로 합니다.
 
@@ -28,12 +26,12 @@
 # 🛠️ 기술 스택
 
 - **언어**: Kotlin
-- **아키텍처 패턴**: [📝MVVM](https://velog.io/@gg04253/withPet7) (Model-View-ViewModel)
+- **아키텍처 패턴**: [📝MVVM](https://velog.io/@gg04253/withPet9) (Model-View-ViewModel)
+- **의존성 주입**: [📝Hilt](https://velog.io/@gg04253/withPet8) (DI)
 - **Jetpack 라이브러리**: ViewModel, LiveData, Navigation 등
 - **네트워킹**: Retrofit
 - **이미지 로딩**: Glide
 - **테스트 앱 배포**: Firebase App Distribution
-
 
 # ✨ 주요 기능
 
@@ -58,7 +56,33 @@
 
 ![](https://velog.velcdn.com/images/gg04253/post/f678c328-bf0c-46bb-af5b-52d222680a7d/image.gif)
 
+# 📲 실행 방법
 
+~서버 담당자 개인 사정으로 서버 상시운영은 하고있지 않습니다.~
+
+1. **환경 요구 사항**
+   - **Java Development Kit (JDK)**: 1.8 이상
+   - **Gradle**: 프로젝트에 포함된 `gradle-wrapper.properties` 파일에서 버전을 확인하십시오.
+   - **Android SDK**: 최소 SDK 21 이상, 타겟 SDK 30 이상
+   - **Kotlin**: 버전 1.5 이상
+
+2. **프로젝트 클론 및 설정**
+   ```bash
+   git clone https://github.com/miiiin15/withPet.git
+   cd withPet
+   ```
+
+3. **Android Studio에서 프로젝트 열기**
+   - Android Studio를 열고 `File > Open`을 통해 클론한 프로젝트를 선택합니다.
+   - 필요한 Gradle 종속성 파일이 자동으로 다운로드됩니다.
+
+4. **Gradle 파일 동기화**
+   - `build.gradle` 파일과 함께 필요한 플러그인 및 종속성을 동기화합니다.
+   - 동기화 과정에서 문제가 발생하면 Android SDK와 JDK 버전을 확인하고, 요구 사항에 맞게 설정합니다.
+
+5. **프로젝트 빌드 및 실행**
+   - Android Studio의 `Run` 버튼을 클릭하여 프로젝트를 빌드하고 실행합니다.
+   - **에뮬레이터** 또는 **실제 기기**에서 테스트할 수 있습니다.
 
 # 🗂️ 프로젝트 구조
 
