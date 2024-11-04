@@ -1,7 +1,16 @@
 
-# 🐾 프로젝트 소개 - withPet
+# 🐾 프로젝트 소개 - withPet ![Watchers](https://img.shields.io/github/watchers/miiiin15/withPet?style=social)
+
+
+
+
+
 ![image](https://github.com/user-attachments/assets/c53df6b8-e12f-4fbf-9fc7-bc100f070130)
 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/miiiin15/withPet?color=%23FCC419&label=Monthly%20Commit)
+![Weekly Commits](https://img.shields.io/github/commit-activity/w/miiiin15/withPet?color=%23FCC419&label=Weekly%20Commits)
+![GitHub last commit](https://img.shields.io/github/last-commit/miiiin15/withPet?color=%23FCC419&label=Last%20Commit)
+![Repository Size](https://img.shields.io/github/repo-size/miiiin15/withPet?color=%23FCC419)
 
 이 프로젝트는 사용자의 편의성을 높이고 반려동물과의 삶을 더욱 풍요롭게 만드는 것을 목표로 합니다.
 
