@@ -17,7 +17,6 @@ import com.withpet.mobile.viewmodel.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
-
 @AndroidEntryPoint
 class SignupActivity : BaseActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -157,6 +156,7 @@ class SignupActivity : BaseActivity() {
                 binding.selectGender.visibility = View.VISIBLE
             }
             InputState.EMAIL_INPUT -> {
+                viewModel.validateInput(binding.selectGender.getValue()!!, InputState.GENDER_INPUT)
                 binding.tvTitle.text = "이메일을 입력해주세요"
                 binding.layoutIdForm.visibility = View.VISIBLE
                 binding.etLoginId.visibility = View.VISIBLE

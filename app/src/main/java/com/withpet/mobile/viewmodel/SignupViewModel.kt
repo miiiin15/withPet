@@ -8,6 +8,8 @@ import com.withpet.mobile.data.enums.InputState
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.utils.ValidationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -118,21 +120,36 @@ class SignupViewModel @Inject constructor(
         launchDataLoad {
             try {
                 val result = repository.checkDuplicate(loginId)
-                if (result.payload == false) {
-                    _checkIdResult.value = IdCheckResult(IdCheckStatus.VALID, "사용 가능한 아이디입니다.")
+                val idCheckResult = if (result.payload == false) {
+                    IdCheckResult(IdCheckStatus.VALID, "사용 가능한 아이디입니다.")
                 } else {
-                    _checkIdResult.value = IdCheckResult(IdCheckStatus.INVALID, "중복된 아이디입니다.")
+                    IdCheckResult(IdCheckStatus.INVALID, "중복된 아이디입니다.")
+                }
+                withContext(Dispatchers.Main) {
+                    _checkIdResult.value = idCheckResult
                 }
             } catch (e: Exception) {
-                _checkIdResult.value = IdCheckResult(IdCheckStatus.ERROR, "중복 검사 실패: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    _checkIdResult.value = IdCheckResult(IdCheckStatus.ERROR, "중복 검사 실패: ${e.message}")
+                }
             }
         }
     }
 
+
     private fun signUp() {
+        // TODO : 회원가입은 되지만 후속처리가 백그라운드 스레드에서 나오기 때문에 오류가 발생함 매칭리스트와 비교헤서 api요청 템플릿 맞춰볼걸
         launchDataLoad {
-            val result = repository.signUp(loginId, password, nickName, age, gender)
-            _signupId.value = result.payload.toString()  // 회원가입 성공 시 ID 업데이트
+            try {
+                val result = repository.signUp(loginId, password, nickName, age, gender)
+                if (result.result.code == 200) {
+                    _signupId.value = result.payload.toString()  // 회원가입 성공 시 ID 업데이트
+                } else {
+                    _validationMessage.postValue("회원가입 실패: ${result.result.message}")
+                }
+            } catch (e: Exception) {
+                _validationMessage.postValue("회원가입 중 오류 발생: ${e.message}")
+            }
         }
     }
 }

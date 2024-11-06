@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -22,14 +24,18 @@ abstract class BaseViewModel : ViewModel() {
 
     // TODO : NetworkOnMainThreadException 스레드 정리 및 observe 후속 액션 확인하기
     protected fun launchDataLoad(block: suspend () -> Unit): Job {
-        _isLoading.value = true
-        return viewModelScope.launch {
+        _isLoading.postValue(true)
+        return viewModelScope.launch(Dispatchers.IO) {  // IO 스레드에서 실행
             try {
                 block()
             } catch (e: Exception) {
-                _error.value = e.message
+                withContext(Dispatchers.Main) {  // 메인 스레드에서 에러 업데이트
+                    _error.value = e.message
+                }
             } finally {
-                _isLoading.value = false
+                withContext(Dispatchers.Main) {  // 메인 스레드에서 로딩 상태 업데이트
+                    _isLoading.value = false
+                }
             }
         }
     }
