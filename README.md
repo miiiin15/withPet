@@ -29,7 +29,7 @@
 - **아키텍처 패턴**: [📝MVVM](https://velog.io/@gg04253/withPet9) (Model-View-ViewModel)
 - **의존성 주입**: [📝Hilt](https://velog.io/@gg04253/withPet8) (DI)
 - **Jetpack 라이브러리**: ViewModel, LiveData, Navigation 등
-- **네트워킹**: Retrofit
+- **네트워킹**: retrofit2
 - **이미지 로딩**: Glide
 - **테스트 앱 배포**: Firebase App Distribution
 
