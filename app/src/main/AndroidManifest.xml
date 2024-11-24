@@ -18,9 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.activity.splash.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,8 +37,6 @@
         <activity android:name=".ui.activity.Location.LocationSearchActivity" />
         <activity android:name=".ui.activity.liked.LikedListActivity" />
 
-        <activity android:name=".ui.test.TestActivity" />
-        <activity android:name=".ui.test.SampleActivity" />
     </application>
 
     <!-- 권한 목록 -->
