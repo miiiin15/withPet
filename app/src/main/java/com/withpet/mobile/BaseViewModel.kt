@@ -22,20 +22,15 @@ abstract class BaseViewModel : ViewModel() {
 
     open fun fetchData(): Job = Job()
 
-    // TODO : NetworkOnMainThreadException 스레드 정리 및 observe 후속 액션 확인하기
     protected fun launchDataLoad(block: suspend () -> Unit): Job {
         _isLoading.postValue(true)
-        return viewModelScope.launch(Dispatchers.IO) {  // IO 스레드에서 실행
+        return viewModelScope.launch(Dispatchers.IO) {
             try {
                 block()
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {  // 메인 스레드에서 에러 업데이트
-                    _error.value = e.message
-                }
+                _error.postValue(e.message)
             } finally {
-                withContext(Dispatchers.Main) {  // 메인 스레드에서 로딩 상태 업데이트
-                    _isLoading.value = false
-                }
+                _isLoading.postValue(false)
             }
         }
     }
