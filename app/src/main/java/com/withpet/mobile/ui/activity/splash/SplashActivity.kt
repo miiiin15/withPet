@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.BuildConfig
 import com.withpet.mobile.data.repository.CommonRepo
@@ -17,8 +18,12 @@ import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivitySplashBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.activity.start.StartActivity
+import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.utils.PermissionUtils
+import com.withpet.mobile.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     companion object {
         const val PERMISSION_REQUEST_ID = 11
@@ -27,6 +32,7 @@ class SplashActivity : BaseActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding: ActivitySplashBinding
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +42,28 @@ class SplashActivity : BaseActivity() {
 
         sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
         binding.tvAppVersion.text = "버전 ${BuildConfig.VERSION_NAME}"
+        setViewModel()
 
-        // 버전을 확인하고 이후 sharedPreferences를 검사하고 로직을 진행
         checkVersionAndNavigate()
 
         // TODO : 서버 문제시 뚫기 위한 테스트 코드
         binding.imgAppIconCenter.setOnClickListener {
-            navigateToLogin()
+            navigate("login")
         }
 
+    }
+
+    private fun setViewModel() {
+        viewModel.error.observe(this) {
+            showAlert(it)
+        }
+        viewModel.isLoading.observe(this) {
+            if (it) {
+                loadingDialog.show(supportFragmentManager, "")
+            } else {
+                loadingDialog.dismiss()
+            }
+        }
     }
 
     private fun checkVersionAndNavigate() {
@@ -81,7 +100,9 @@ class SplashActivity : BaseActivity() {
         val loginId = sharedPreferences.getString("loginId", "")
         val password = sharedPreferences.getString("password", "")
         if (!loginId.isNullOrBlank() && !password.isNullOrBlank()) {
-            logIn(loginId, password)
+            viewModel.logIn(loginId, password) {
+                navigate("main")
+            }
         } else {
             PermissionUtils.initPermissions(this, this) {
                 grantedPermissions()
@@ -111,44 +132,29 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private fun logIn(loginId: String, password: String) {
-        loadingDialog.show(supportFragmentManager, "")
-        try {
-//            SignInRepo.logIn(
-//                loginId = loginId,
-//                password = password,
-//                success = {
-//                    if (it.result.code == 200) {
-//                        navigateToMainActivity()
-//                    } else {
-//                        showAlert("로그인 실패: ${it.result.message}")
-//                    }
-//                },
-//                networkFail = {
-//                    showAlert("로그인 네트워크 실패: $it")
-//                },
-//                failure = {
-//                    showAlert("로그인 에러: ${it.message}")
-//                }
-//            )
-        } catch (e: Exception) {
-        } finally {
-            loadingDialog.dismiss()
-        }
-    }
-
     private fun grantedPermissions() {
         requestPermissionGranted = true
-        navigateToLogin()
+        navigate("login")
     }
 
-    private fun navigateToLogin() {
-        startActivity(Intent(this, StartActivity::class.java))
-        finish()
-    }
+    private fun navigate(type: String) {
+        var intent: Intent? = null
+        when (type) {
+            "login" -> {
+                intent = Intent(this, StartActivity::class.java)
+            }
 
-    private fun navigateToMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+            "main" -> {
+                intent = Intent(this, MainActivity::class.java)
+            }
+
+            else -> {
+                Logcat.e("올바르지 않은 값")
+            }
+        }
+        if (intent != null) {
+            startActivity(intent)
+            finish()
+        }
     }
 }

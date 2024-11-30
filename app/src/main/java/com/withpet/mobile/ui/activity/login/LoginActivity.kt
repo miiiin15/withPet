@@ -2,16 +2,21 @@ package com.withpet.mobile.ui.activity.login
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivityLoginBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.custom.IsValidListener
 import com.withpet.mobile.utils.SharedPreferencesUtil
+import com.withpet.mobile.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,10 +27,19 @@ class LoginActivity : BaseActivity() {
         binding.btnSignIn.setOnClickListener {
             val loginId = binding.etLoginId.text.toString()
             val password = binding.etPassword.text.toString()
-            logIn(loginId, password)
+            viewModel.logIn(loginId, password) {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                SharedPreferencesUtil.saveLoginInfo(this, loginId, password)
+                startActivity(intent)
+                finish()
+            }
         }
 
         setInputListener()
+        setViewModel()
     }
 
     private fun setInputListener() {
@@ -46,40 +60,21 @@ class LoginActivity : BaseActivity() {
 
     }
 
-    private fun setButtonEnable() {
-        binding.btnSignIn.setEnable(binding.etLoginId.text!!.isNotEmpty() && binding.etPassword.text!!.isNotEmpty())
+
+    private fun setViewModel() {
+        viewModel.error.observe(this) {
+            showAlert(it)
+        }
+        viewModel.isLoading.observe(this){
+            if (it){
+                loadingDialog.show(supportFragmentManager, "")
+            }else{
+                loadingDialog.dismiss()
+            }
+        }
     }
 
-    private fun logIn(loginId: String, password: String) {
-        loadingDialog.show(supportFragmentManager, "")
-        try {
-//            SignInRepo.logIn(
-//                loginId = loginId,
-//                password = password,
-//
-//                success = {
-//                    if (it.payload == true) {
-//                        val intent = Intent(this, MainActivity::class.java).apply {
-//                            flags =
-//                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                        }
-//                        SharedPreferencesUtil.saveLoginInfo(this, loginId, password)
-//                        startActivity(intent)
-//                        finish()
-//                    } else {
-//                        showAlert("로그인 실패: ${it.result.message}")
-//                    }
-//                },
-//                networkFail = {
-//                    showAlert("로그인 네트워크 실패: $it")
-//                },
-//                failure = {
-//                    showAlert("로그인 에러: ${it.message}")
-//                }
-//            )
-        } catch (e: Exception) {
-        } finally {
-            loadingDialog.dismiss()
-        }
+    private fun setButtonEnable() {
+        binding.btnSignIn.setEnable(binding.etLoginId.text!!.isNotEmpty() && binding.etPassword.text!!.isNotEmpty())
     }
 }

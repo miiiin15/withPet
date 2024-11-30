@@ -11,6 +11,7 @@ import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.data.session.UserSession
+import com.withpet.mobile.utils.DataProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,18 +22,18 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val signInRepo: SignInRepo
 ) : BaseViewModel() {
-
     fun logIn(loginId: String, password: String, onSuccess: () -> Unit) {
         launchDataLoad {
             try {
                 val result = signInRepo.logIn(loginId, password)
                 if (result.payload == true) {
+                    DataProvider.isLogin = true
                     onSuccess.invoke()
                 } else {
-                    throw Error(result.result.message)
+                    throw Exception(result.result.message)
                 }
             } catch (e: Exception) {
-                throw Error(e.message)
+                throw Exception(e.message)
             }
         }
     }
