@@ -1,19 +1,15 @@
 package com.withpet.mobile.ui.activity.splash
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.BuildConfig
 import com.withpet.mobile.data.repository.CommonRepo
-import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivitySplashBinding
 import com.withpet.mobile.ui.activity.MainActivity
@@ -41,13 +37,13 @@ class SplashActivity : BaseActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-        binding.tvAppVersion.text = "버전 ${BuildConfig.VERSION_NAME}"
+        binding.versionTextView.text = "버전 ${BuildConfig.VERSION_NAME}"
         setViewModel()
 
         checkVersionAndNavigate()
 
         // TODO : 서버 문제시 뚫기 위한 테스트 코드
-        binding.imgAppIconCenter.setOnClickListener {
+        binding.appIconImageView.setOnClickListener {
             navigate("login")
         }
 

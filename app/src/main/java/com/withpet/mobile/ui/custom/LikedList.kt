@@ -87,13 +87,13 @@ class LikedList @JvmOverloads constructor(
         override fun getItemCount(): Int = someones.size
 
         inner class LikedListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val infoView: LinearLayout = itemView.findViewById(R.id.likedInfoView)
-            private val addressText: TextView = itemView.findViewById(R.id.liked_addressText)
-            private val usernameText: TextView = itemView.findViewById(R.id.liked_usernameText)
-            private val ageText: TextView = itemView.findViewById(R.id.liked_ageText)
+            private val infoView: LinearLayout = itemView.findViewById(R.id.liked_info_view)
+            private val addressText: TextView = itemView.findViewById(R.id.liked_address_text_view)
+            private val usernameText: TextView = itemView.findViewById(R.id.liked_user_name_text_view)
+            private val ageText: TextView = itemView.findViewById(R.id.liked_age_text_view)
             private val profileImage: ImageView =
-                itemView.findViewById(R.id.liked_profileImage) // 프로필 이미지뷰
-            private val deleteButton: CustomButton = itemView.findViewById(R.id.liked_deleteButton)
+                itemView.findViewById(R.id.liked_profile_image_view) // 프로필 이미지뷰
+            private val deleteButton: CustomButton = itemView.findViewById(R.id.liked_delete_button)
 
 
             init {

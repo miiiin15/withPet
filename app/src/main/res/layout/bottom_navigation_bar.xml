@@ -10,7 +10,7 @@
     android:weightSum="5">
 
     <LinearLayout
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_home_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -19,14 +19,14 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/nav_home_icon"
+            android:id="@+id/nav_home_icon_image_voew"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_home"
             android:tag="MAIN_icon" />
 
         <TextView
-            android:id="@+id/nav_home_text"
+            android:id="@+id/nav_home_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tag="MAIN_text"
@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/nav_chat"
+        android:id="@+id/nav_chat_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -45,14 +45,14 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/nav_chat_icon"
+            android:id="@+id/nav_chat_icon_image_view"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_message"
             android:tag="CHAT_icon" />
 
         <TextView
-            android:id="@+id/nav_chat_text"
+            android:id="@+id/nav_chat_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tag="CHAT_text"
@@ -62,7 +62,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/nav_walk"
+        android:id="@+id/nav_walk_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -71,14 +71,14 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/nav_walk_icon"
+            android:id="@+id/nav_walk_icon_image_view"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_walk"
             android:tag="WALK_icon" />
 
         <TextView
-            android:id="@+id/nav_walk_text"
+            android:id="@+id/nav_walk_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tag="WALK_text"
@@ -88,7 +88,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/nav_match"
+        android:id="@+id/nav_match_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -97,14 +97,14 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/nav_match_icon"
+            android:id="@+id/nav_match_icon_image_view"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_matching"
             android:tag="MATCH_icon" />
 
         <TextView
-            android:id="@+id/nav_match_text"
+            android:id="@+id/nav_match_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tag="MATCH_text"
@@ -114,7 +114,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/nav_my"
+        android:id="@+id/nav_my_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -123,14 +123,14 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/nav_my_icon"
+            android:id="@+id/nav_my_icon_image_view"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:src="@drawable/ic_menu_my"
             android:tag="PROFILE_icon" />
 
         <TextView
-            android:id="@+id/nav_my_text"
+            android:id="@+id/nav_my_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tag="PROFILE_text"

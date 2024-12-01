@@ -16,7 +16,6 @@ import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.repository.CommonRepo
 import com.withpet.mobile.utils.Constants
-import com.withpet.mobile.utils.Logcat
 import java.lang.Exception
 
 class MatchedList @JvmOverloads constructor(
@@ -82,13 +81,13 @@ class MatchedList @JvmOverloads constructor(
         }
 
         inner class MatchedListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val cardView: MaterialCardView = itemView.findViewById(R.id.match_cardView)
-            private val addressText: TextView = itemView.findViewById(R.id.match_addressText)
-            private val usernameText: TextView = itemView.findViewById(R.id.match_usernameText)
-            private val ageText: TextView = itemView.findViewById(R.id.match_ageText)
+            private val cardView: MaterialCardView = itemView.findViewById(R.id.match_card_view)
+            private val addressTextView: TextView = itemView.findViewById(R.id.match_address_text_view)
+            private val usernameTextView: TextView = itemView.findViewById(R.id.match_user_name_text_view)
+            private val ageTextView: TextView = itemView.findViewById(R.id.match_age_text_view)
             private val actionButton: CustomLikeButton =
-                itemView.findViewById(R.id.match_likeButton)
-            private val profileImage: ImageView = itemView.findViewById(R.id.match_profileImage)
+                itemView.findViewById(R.id.match_like_button)
+            private val profileImageView: ImageView = itemView.findViewById(R.id.match_profile_image_view)
 
             init {
                 // 아이템의 기본 크기 설정 (화면의 40%로)
@@ -105,14 +104,14 @@ class MatchedList @JvmOverloads constructor(
 
             @SuppressLint("SetTextI18n")
             fun bind(someone: Someone, position: Int, itemCount: Int) {
-                addressText.text = someone.regionName
-                usernameText.text = someone.nickName
-                ageText.text = "${someone.age}세"
+                addressTextView.text = someone.regionName
+                usernameTextView.text = someone.nickName
+                ageTextView.text = "${someone.age}세"
                 actionButton.isLike = someone.like
 
                 val fullImageUrl =
                     Constants.IMAGE_URL + "media" + someone.profileImage?.replace("\\", "/")
-                Glide.with(itemView).load(fullImageUrl).into(profileImage)
+                Glide.with(itemView).load(fullImageUrl).into(profileImageView)
 
                 actionButton.setOnClickListener {
                     requestLike(
@@ -135,9 +134,9 @@ class MatchedList @JvmOverloads constructor(
 
                 val layoutParams = cardView.layoutParams as ViewGroup.MarginLayoutParams
                 val addressTextLayoutParams =
-                    addressText.layoutParams as ViewGroup.MarginLayoutParams
+                    addressTextView.layoutParams as ViewGroup.MarginLayoutParams
                 val usernameTextLayoutParams =
-                    usernameText.layoutParams as ViewGroup.MarginLayoutParams
+                    usernameTextView.layoutParams as ViewGroup.MarginLayoutParams
 
                 // 첫 번째 줄의 왼쪽 아이템 또는 첫 번째 아이템
                 if (position == 0) {

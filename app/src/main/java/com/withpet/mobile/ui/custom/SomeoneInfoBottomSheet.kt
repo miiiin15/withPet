@@ -40,30 +40,30 @@ class SomeoneInfoBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.iconClose.setOnClickListener {
+        binding.closeIconImageView.setOnClickListener {
             dismiss()
         }
 
-        binding.btnGreet.setOnClickListener {
+        binding.greetButton.setOnClickListener {
             btnGreetClickListener?.onClick(it)
         }
 
-        binding.btnLike.setOnClickListener {
+        binding.likeButton.setOnClickListener {
             btnLikeClickListener?.onClick(it)
         }
 
         // 데이터 설정
         val fullImageUrl =
             Constants.IMAGE_URL + "media" + data?.profileImage?.replace("\\", "/")
-        Glide.with(this).load(fullImageUrl).into(binding.imgProfile)
-        binding.tvUserName.text = data?.nickName ?: "알수 없음"
-        binding.tvUserGender.text =
+        Glide.with(this).load(fullImageUrl).into(binding.profileImageView)
+        binding.userNameTextView.text = data?.nickName ?: "알수 없음"
+        binding.userGenderTextView.text =
             if (data?.sexType == "MALE") "남자" else if (data?.sexType == "FEMALE") "여자" else "알수 없음"
-        binding.tvUserAge.text = (data?.age ?: 0).toString() + "세"
-        binding.tvPetName.text = data?.petName ?: "알수 없음"
-        binding.tvPetGender.text =
+        binding.userAgeTextView.text = (data?.age ?: 0).toString() + "세"
+        binding.petNameTextView.text = data?.petName ?: "알수 없음"
+        binding.petGenderTextView.text =
             if (data?.petSex == "남자") "남아" else if (data?.petSex == "여자") "여아" else "알수 없음"
-        binding.tvPetDesc.text = data?.introduction ?: "소개글 없음"
+        binding.petIntroductionTextView.text = data?.introduction ?: "소개글 없음"
     }
 
     fun setData(someone: Someone) {

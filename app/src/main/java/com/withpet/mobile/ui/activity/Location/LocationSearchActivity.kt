@@ -33,23 +33,23 @@ class LocationSearchActivity : BaseActivity() {
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.outsideView.windowToken, 0)
-                binding.inputSearchText.clearFocus()
+                binding.searchInput.clearFocus()
             }
             true
         }
 
         // 검색 버튼 클릭 리스너 설정
-        binding.ivSearchButton.setOnClickListener {
-            performSearch(binding.inputSearchText.text.toString())
+        binding.searchButton.setOnClickListener {
+            performSearch(binding.searchInput.text.toString())
         }
 
         // "현재 위치로 찾기" 버튼 클릭 리스너 설정
-        binding.btnFindCurrentLocation.setOnClickListener {
+        binding.findCurrentLocationButton.setOnClickListener {
             findLocationUsingCurrentPosition()
         }
 
         // ListView 클릭 리스너 설정
-        binding.lvSearchResults.setOnItemClickListener { parent, view, position, id ->
+        binding.resultList.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
             onAddressSelected(selectedItem)
         }
@@ -65,20 +65,20 @@ class LocationSearchActivity : BaseActivity() {
 
         if (results.isEmpty()) {
             // 9. 검색 결과가 없을 경우
-            binding.tvNoResults.visibility = View.VISIBLE
-            binding.lvSearchResults.visibility = View.GONE
+            binding.noResultsTextView.visibility = View.VISIBLE
+            binding.resultList.visibility = View.GONE
         } else {
             // 8. 결과값을 리스트뷰에 세팅
             val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, results)
-            binding.lvSearchResults.adapter = adapter
+            binding.resultList.adapter = adapter
 
             // 검색 결과가 있을 경우
-            binding.tvNoResults.visibility = View.GONE
-            binding.lvSearchResults.visibility = View.VISIBLE
+            binding.noResultsTextView.visibility = View.GONE
+            binding.resultList.visibility = View.VISIBLE
         }
 
         // 11. 입력한 값을 텍스트뷰에 세팅
-        binding.tvInputtedAddress.text = query
+        binding.inputtedAddressTextView.text = query
     }
 
     // 10. "현재 위치로 찾기" 버튼 클릭 리스너

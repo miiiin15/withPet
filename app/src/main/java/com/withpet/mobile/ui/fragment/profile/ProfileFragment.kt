@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.withpet.mobile.R
 import com.withpet.mobile.databinding.FragmentProfileBinding
 import com.withpet.mobile.ui.activity.splash.SplashActivity
 import com.withpet.mobile.utils.SharedPreferencesUtil
@@ -22,7 +21,7 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         // 로그아웃 버튼 클릭 리스너 설정
-        binding.btnLogout.setOnClickListener {
+        binding.logoutButton.setOnClickListener {
             performLogout()
         }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/outsideView"
+    android:id="@+id/outside_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/title_text_view"
             style="@style/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         android:orientation="vertical">
 
         <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/et_password"
+            android:id="@+id/password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
@@ -42,7 +42,7 @@
             app:errorText="8자 이상 16자 이하, 하나 이상의 숫자 포함 해주세요" />
 
         <LinearLayout
-            android:id="@+id/layout_id_form"
+            android:id="@+id/id_form_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
@@ -50,7 +50,7 @@
             android:visibility="gone">
 
             <com.withpet.mobile.ui.custom.CustomInput
-                android:id="@+id/et_loginId"
+                android:id="@+id/login_id_input"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -59,7 +59,7 @@
                 app:errorText="이메일 형식에 맞게 입력해주세요" />
 
             <com.withpet.mobile.ui.custom.CustomButton
-                android:id="@+id/btn_checkDuplication"
+                android:id="@+id/check_duplication_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
@@ -68,7 +68,7 @@
         </LinearLayout>
 
         <com.withpet.mobile.ui.custom.CustomSelect
-            android:id="@+id/select_gender"
+            android:id="@+id/gender_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
@@ -76,7 +76,7 @@
             android:visibility="gone" />
 
         <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/et_age"
+            android:id="@+id/age_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
@@ -86,7 +86,7 @@
             app:errorText="올바른 나이를 입력해주세요" />
 
         <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/et_nickName"
+            android:id="@+id/nick_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
@@ -97,7 +97,7 @@
     </LinearLayout>
 
     <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_signUp"
+        android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

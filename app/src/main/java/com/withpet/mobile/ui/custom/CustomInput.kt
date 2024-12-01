@@ -2,7 +2,6 @@ package com.withpet.mobile.ui.custom
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -13,20 +12,20 @@ class CustomInput @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val customEditText: CustomEditText
-    private val label: AppCompatTextView
-    private val errorText: AppCompatTextView
+    private val labelTextView: AppCompatTextView
+    private val errorTextView: AppCompatTextView
 
     init {
 
         orientation = VERTICAL
 
         // label과 errorText 초기화
-        label = AppCompatTextView(context).apply {
+        labelTextView = AppCompatTextView(context).apply {
             visibility = GONE
             textSize = 12f
             setTextColor(ContextCompat.getColor(context, R.color.label))
         }
-        errorText = AppCompatTextView(context).apply {
+        errorTextView = AppCompatTextView(context).apply {
             visibility = GONE
             textSize = 12f
             setTextColor(ContextCompat.getColor(context, R.color.error))
@@ -37,15 +36,15 @@ class CustomInput @JvmOverloads constructor(
 
         customEditText.onValidListener = {
             if (it) {
-                errorText.visibility = GONE
+                errorTextView.visibility = GONE
             } else {
-                errorText.visibility = VISIBLE
+                errorTextView.visibility = VISIBLE
             }
         }
 
         // label을 상단에 추가
         addView(
-            label, LayoutParams(
+            labelTextView, LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
             )
@@ -61,7 +60,7 @@ class CustomInput @JvmOverloads constructor(
 
         // errorText를 하단에 추가
         addView(
-            errorText, LayoutParams(
+            errorTextView, LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
             )
@@ -80,7 +79,7 @@ class CustomInput @JvmOverloads constructor(
                 setLabel(labelText)
                 setErrorText(errorTextValue)
                 // 초기 상태는 에러 상태가 아니기 때문에 우선 숨김
-                errorText.visibility = GONE
+                errorTextView.visibility = GONE
             } finally {
                 recycle()
             }
@@ -90,20 +89,20 @@ class CustomInput @JvmOverloads constructor(
     // label 설정 메서드
     fun setLabel(text: String?) {
         if (!text.isNullOrEmpty()) {
-            label.text = text
-            label.visibility = VISIBLE
+            labelTextView.text = text
+            labelTextView.visibility = VISIBLE
         } else {
-            label.visibility = GONE
+            labelTextView.visibility = GONE
         }
     }
 
     // errorText 설정 메서드
     fun setErrorText(text: String?) {
         if (!text.isNullOrEmpty()) {
-            errorText.text = text
-            errorText.visibility = VISIBLE
+            errorTextView.text = text
+            errorTextView.visibility = VISIBLE
         } else {
-            errorText.visibility = GONE
+            errorTextView.visibility = GONE
         }
     }
 

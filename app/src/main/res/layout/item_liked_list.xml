@@ -10,7 +10,7 @@
 
     <!-- 왼쪽 끝부터 삭제 버튼 직전까지 묶은 LinearLayout -->
     <LinearLayout
-        android:id="@+id/likedInfoView"
+        android:id="@+id/liked_info_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -29,7 +29,7 @@
             app:cardElevation="1dp">
 
             <ImageView
-                android:id="@+id/liked_profileImage"
+                android:id="@+id/liked_profile_image_view"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:background="@drawable/shape_someone_info_circle"
@@ -45,7 +45,7 @@
 
             <!-- 주소 텍스트 -->
             <TextView
-                android:id="@+id/liked_addressText"
+                android:id="@+id/liked_address_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
@@ -62,7 +62,7 @@
 
                 <!-- 유저네임 텍스트 -->
                 <TextView
-                    android:id="@+id/liked_usernameText"
+                    android:id="@+id/liked_user_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="닉네임"
@@ -72,7 +72,7 @@
 
                 <!-- 유저네임 텍스트 -->
                 <TextView
-                    android:id="@+id/liked_ageText"
+                    android:id="@+id/liked_age_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -86,7 +86,7 @@
 
     <!-- 삭제 버튼 -->
     <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/liked_deleteButton"
+        android:id="@+id/liked_delete_button"
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:text="삭제"

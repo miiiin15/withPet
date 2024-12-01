@@ -12,19 +12,19 @@ class CustomOption @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val customSelect: CustomSelect
-    private val label: AppCompatTextView
-    private val errorText: AppCompatTextView
+    private val labelTextView: AppCompatTextView
+    private val errorTextView: AppCompatTextView
 
     init {
         orientation = VERTICAL
 
         // label과 errorText 초기화
-        label = AppCompatTextView(context).apply {
+        labelTextView = AppCompatTextView(context).apply {
             visibility = GONE
             textSize = 12f
             setTextColor(ContextCompat.getColor(context, R.color.label))
         }
-        errorText = AppCompatTextView(context).apply {
+        errorTextView = AppCompatTextView(context).apply {
             visibility = GONE
             textSize = 12f
             setTextColor(ContextCompat.getColor(context, R.color.error))
@@ -33,7 +33,7 @@ class CustomOption @JvmOverloads constructor(
         customSelect = CustomSelect(context, attrs, defStyleAttr)
 
         // label을 상단에 추가
-        addView(label, LayoutParams(
+        addView(labelTextView, LayoutParams(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
         ))
@@ -45,7 +45,7 @@ class CustomOption @JvmOverloads constructor(
         ))
 
         // errorText를 하단에 추가
-        addView(errorText, LayoutParams(
+        addView(errorTextView, LayoutParams(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
         ))
@@ -88,20 +88,20 @@ class CustomOption @JvmOverloads constructor(
     // label 설정 메서드
     fun setLabel(text: String?) {
         if (!text.isNullOrEmpty()) {
-            label.text = text
-            label.visibility = VISIBLE
+            labelTextView.text = text
+            labelTextView.visibility = VISIBLE
         } else {
-            label.visibility = GONE
+            labelTextView.visibility = GONE
         }
     }
 
     // errorText 설정 메서드
     fun setErrorText(text: String?) {
         if (!text.isNullOrEmpty()) {
-            errorText.text = text
-            errorText.visibility = VISIBLE
+            errorTextView.text = text
+            errorTextView.visibility = VISIBLE
         } else {
-            errorText.visibility = GONE
+            errorTextView.visibility = GONE
         }
     }
 

@@ -133,7 +133,7 @@ open class CustomEditText @JvmOverloads constructor(
     private fun setUnderlineColor(colorResId: Int) {
         val drawable = background
         if (drawable is LayerDrawable) {
-            val underline = drawable.findDrawableByLayerId(R.id.underLine) as? GradientDrawable
+            val underline = drawable.findDrawableByLayerId(R.id.underline) as? GradientDrawable
             underline?.setColor(ContextCompat.getColor(context, colorResId))
         } else {
             background?.mutate()?.setTint(ContextCompat.getColor(context, colorResId))

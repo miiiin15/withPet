@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/outsideView"
+    android:id="@+id/outside_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/margin_horizontal"
@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/title_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="이메일과 비밀번호를\n입력하세요"
@@ -31,7 +31,7 @@
         android:orientation="vertical">
 
         <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/et_loginId"
+            android:id="@+id/login_id_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
@@ -39,7 +39,7 @@
             android:inputType="text" />
 
         <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/et_password"
+            android:id="@+id/password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_signIn"
+        android:id="@+id/signin_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

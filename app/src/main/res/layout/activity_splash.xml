@@ -7,7 +7,7 @@
 
 
     <LinearLayout
-        android:id="@+id/img_app_icon_center"
+        android:id="@+id/app_icon_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -22,7 +22,7 @@
         android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/img_app_icon_center"
+        android:layout_below="@id/app_icon_image_view"
         android:paddingVertical="12dp"
         android:layout_centerHorizontal="true"
         android:text="마음에 맞는 산책 친구를 찾다"
@@ -31,7 +31,7 @@
         android:textSize="16dp" />
 
     <TextView
-        android:id="@+id/tv_app_version"
+        android:id="@+id/version_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_app_name"
@@ -43,20 +43,20 @@
 
 
     <ImageView
-        android:id="@+id/img_logo_big"
+        android:id="@+id/big_logo_image_view"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginLeft="-48dp"
-        android:layout_below="@+id/img_app_icon_center"
+        android:layout_below="@+id/app_icon_image_view"
         android:layout_alignParentStart="true"
         android:rotation="45"
         android:src="@drawable/img_logo" />
 
     <ImageView
-        android:id="@+id/img_logo_small"
+        android:id="@+id/small_logo_image_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:rotation="-45"
-        android:layout_below="@+id/img_logo_big"
+        android:layout_below="@+id/big_logo_image_view"
         android:src="@drawable/img_logo" />
 </RelativeLayout>

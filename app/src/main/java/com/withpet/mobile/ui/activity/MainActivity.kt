@@ -3,13 +3,10 @@ package com.withpet.mobile.ui.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.AppCompatButton
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,7 +19,6 @@ import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivityMainBinding
 import com.withpet.mobile.ui.activity.signup.PetInfoActivity
 import com.withpet.mobile.ui.custom.BottomNavigationBar
-import com.withpet.mobile.ui.custom.CustomButton
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -51,12 +47,12 @@ class MainActivity : BaseActivity() {
         // OnBackPressedDispatcher를 사용하여 뒤로가기 버튼을 처리
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val currentCategory = binding.bottomNavigationBar.getCategory()
+                val currentCategory = binding.bottomNavigation.getCategory()
 
                 if (currentCategory != Category.MAIN) {
                     // 현재 카테고리가 MAIN이 아니면 MAIN 프래그먼트로 이동
-                    binding.bottomNavigationBar.setCategory(Category.MAIN)
-                    findNavController(R.id.nav_host_fragment_content_main).navigate(
+                    binding.bottomNavigation.setCategory(Category.MAIN)
+                    findNavController(R.id.nav_host_fragment).navigate(
                         R.id.action_global_mainFragment,
                         null,
                         navOptions
@@ -73,9 +69,9 @@ class MainActivity : BaseActivity() {
 
     private fun setNavigationBar() {
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val navController = findNavController(R.id.nav_host_fragment)
 
-        binding.bottomNavigationBar.setOnCategorySelectedListener(object :
+        binding.bottomNavigation.setOnCategorySelectedListener(object :
             BottomNavigationBar.OnCategorySelectedListener {
             override fun onCategorySelected(category: Category) {
                 when (category) {

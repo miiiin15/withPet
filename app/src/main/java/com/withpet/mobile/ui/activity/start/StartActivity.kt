@@ -19,11 +19,11 @@ class StartActivity : BaseActivity() {
     }
 
     private fun setupClickListener() {
-        binding.buttonStart.setOnClickListener {
+        binding.startButton.setOnClickListener {
             handleButtonClick(ButtonType.START)
         }
 
-        binding.buttonRegister.setOnClickListener {
+        binding.registerButton.setOnClickListener {
             handleButtonClick(ButtonType.REGISTER)
         }
 

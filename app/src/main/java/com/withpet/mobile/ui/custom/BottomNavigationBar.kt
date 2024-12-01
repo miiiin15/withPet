@@ -38,11 +38,11 @@ class BottomNavigationBar @JvmOverloads constructor(
     init {
         View.inflate(context, R.layout.bottom_navigation_bar, this)
         // 클릭 리스너를 각 카테고리 레이아웃에 설정
-        findViewById<LinearLayout>(R.id.nav_home).setOnClickListener(this)
-        findViewById<LinearLayout>(R.id.nav_chat).setOnClickListener(this)
-        findViewById<LinearLayout>(R.id.nav_match).setOnClickListener(this)
-        findViewById<LinearLayout>(R.id.nav_walk).setOnClickListener(this)
-        findViewById<LinearLayout>(R.id.nav_my).setOnClickListener(this)
+        findViewById<LinearLayout>(R.id.nav_home_layout).setOnClickListener(this)
+        findViewById<LinearLayout>(R.id.nav_chat_layout).setOnClickListener(this)
+        findViewById<LinearLayout>(R.id.nav_match_layout).setOnClickListener(this)
+        findViewById<LinearLayout>(R.id.nav_walk_layout).setOnClickListener(this)
+        findViewById<LinearLayout>(R.id.nav_my_layout).setOnClickListener(this)
         updateNavigationBar()
     }
 
@@ -81,35 +81,35 @@ class BottomNavigationBar @JvmOverloads constructor(
     // 네비게이션 아이템 클릭 리스너
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.nav_home -> {
+            R.id.nav_home_layout -> {
                 if (_selectedCategory != Category.MAIN) {
                     _selectedCategory = Category.MAIN
                     listener?.onCategorySelected(_selectedCategory)
                 }
             }
 
-            R.id.nav_chat -> {
+            R.id.nav_chat_layout -> {
                 if (_selectedCategory != Category.CHAT) {
                     _selectedCategory = Category.CHAT
                     listener?.onCategorySelected(_selectedCategory)
                 }
             }
 
-            R.id.nav_match -> {
+            R.id.nav_match_layout -> {
                 if (_selectedCategory != Category.MATCH) {
                     _selectedCategory = Category.MATCH
                     listener?.onCategorySelected(_selectedCategory)
                 }
             }
 
-            R.id.nav_walk -> {
+            R.id.nav_walk_layout -> {
                 if (_selectedCategory != Category.WALK) {
                     _selectedCategory = Category.WALK
                     listener?.onCategorySelected(_selectedCategory)
                 }
             }
 
-            R.id.nav_my -> {
+            R.id.nav_my_layout -> {
                 if (_selectedCategory != Category.PROFILE) {
                     _selectedCategory = Category.PROFILE
                     listener?.onCategorySelected(_selectedCategory)

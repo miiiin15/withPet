@@ -1,5 +1,6 @@
 package com.withpet.mobile.ui.custom
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -118,6 +119,7 @@ class CustomDialog : Dialog {
         }
 
         // 커스텀 다이얼로그 생성
+        @SuppressLint("MissingInflatedId")
         fun create(): AlertDialog {
             val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -132,23 +134,23 @@ class CustomDialog : Dialog {
 
             // 타이틀 설정
             if (title != null) {
-                (layout.findViewById<View>(R.id.llDlgTitleLayout) as LinearLayout).visibility =
+                (layout.findViewById<View>(R.id.alert_title_layout) as LinearLayout).visibility =
                     View.VISIBLE
-                (layout.findViewById<View>(R.id.txvDlgTitle) as TextView).text = title
+                (layout.findViewById<View>(R.id.alert_title_text_view) as TextView).text = title
             } else {
-                (layout.findViewById<View>(R.id.llDlgTitleLayout) as LinearLayout).visibility =
+                (layout.findViewById<View>(R.id.alert_title_layout) as LinearLayout).visibility =
                     View.GONE
-                (layout.findViewById<View>(R.id.txvDlgTitle) as TextView).visibility = View.GONE
+                (layout.findViewById<View>(R.id.alert_title_text_view) as TextView).visibility = View.GONE
             }
 
             // 긍정 버튼 설정
             if (positiveButtonClickListener != null) {
                 if (positiveButtonText != null) {
-                    (layout.findViewById<View>(R.id.btnDlgPositive) as Button).text =
+                    (layout.findViewById<View>(R.id.alert_positive_button) as Button).text =
                         positiveButtonText
                 }
                 if (positiveButtonClickListener != null) {
-                    (layout.findViewById<View>(R.id.btnDlgPositive) as Button).setOnClickListener {
+                    (layout.findViewById<View>(R.id.alert_positive_button) as Button).setOnClickListener {
                         positiveButtonClickListener!!.onClick(
                             dialog,
                             DialogInterface.BUTTON_POSITIVE
@@ -157,19 +159,19 @@ class CustomDialog : Dialog {
                 }
             } else {
                 // 긍정 버튼이 없으면 GONE으로 설정
-                layout.findViewById<View>(R.id.btnDlgPositive).visibility = View.GONE
+                layout.findViewById<View>(R.id.alert_positive_button).visibility = View.GONE
             }
 
             // 취소 버튼 설정
             if (negativeButtonClickListener != null) {
                 if (negativeButtonText != null) {
                     // 부정 버튼 텍스트 설정
-                    (layout.findViewById<View>(R.id.btnDlgNegative) as Button).text =
+                    (layout.findViewById<View>(R.id.alert_negative_button) as Button).text =
                         negativeButtonText
                 }
                 if (negativeButtonClickListener != null) {
                     // 부정 버튼 리스너 설정
-                    (layout.findViewById<View>(R.id.btnDlgNegative) as Button).setOnClickListener {
+                    (layout.findViewById<View>(R.id.alert_negative_button) as Button).setOnClickListener {
                         negativeButtonClickListener!!.onClick(
                             dialog,
                             DialogInterface.BUTTON_NEGATIVE
@@ -178,18 +180,18 @@ class CustomDialog : Dialog {
                 }
             } else {
                 // 부정 버튼이 없는 경우 가시성을 GONE으로 설정
-                layout.findViewById<View>(R.id.btnDlgNegative).visibility = View.GONE
+                layout.findViewById<View>(R.id.alert_negative_button).visibility = View.GONE
             }
 
             // 콘텐츠 메시지 설정
             if (message != null) {
                 // 메시지 설정
-                (layout.findViewById<View>(R.id.txvDlgContent) as TextView).text = message
+                (layout.findViewById<View>(R.id.alert_message_text_view) as TextView).text = message
             } else if (contentView != null) {
                 // 메시지가 없는 경우
                 // 컨텐츠뷰를 대화상자에 추가
-                (layout.findViewById<View>(R.id.llDlgContentLayout) as android.widget.LinearLayout).removeAllViews()
-                (layout.findViewById<View>(R.id.llDlgContentLayout) as android.widget.LinearLayout).addView(
+                (layout.findViewById<View>(R.id.alert_content_layout) as android.widget.LinearLayout).removeAllViews()
+                (layout.findViewById<View>(R.id.alert_content_layout) as android.widget.LinearLayout).addView(
                     contentView
                 )
             }

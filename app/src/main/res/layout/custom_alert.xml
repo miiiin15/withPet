@@ -24,7 +24,7 @@
             android:padding="16dp">
 
             <LinearLayout
-                android:id="@+id/llDlgTitleLayout"
+                android:id="@+id/alert_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="12dp"
@@ -33,7 +33,7 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/txvDlgTitle"
+                    android:id="@+id/alert_title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/txt3"
@@ -53,14 +53,14 @@
                     app:maxHeight="@dimen/height_dlg_max_300">
 
                     <LinearLayout
-                        android:id="@+id/llDlgContentLayout"
+                        android:id="@+id/alert_content_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/txvDlgContent"
+                            android:id="@+id/alert_message_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -80,7 +80,7 @@
                 android:paddingTop="16dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnDlgPositive"
+                    android:id="@+id/alert_positive_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button_enable"
@@ -91,7 +91,7 @@
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnDlgNegative"
+                    android:id="@+id/alert_negative_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"

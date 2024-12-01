@@ -5,10 +5,9 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/BottomSheetTitleText"
+        style="@style/PopupTitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginHorizontal="48dp"
         android:text="성별을 선택해주세요" />
 
@@ -20,7 +19,7 @@
         android:paddingBottom="12dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_view_1"
+            android:id="@+id/first_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/margin_horizontal"
@@ -57,7 +56,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_view_2"
+            android:id="@+id/second_card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/margin_horizontal"

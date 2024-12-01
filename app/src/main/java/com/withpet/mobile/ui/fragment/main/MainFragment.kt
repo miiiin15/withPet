@@ -1,5 +1,6 @@
 package com.withpet.mobile.ui.fragment.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.model.Someone
@@ -80,7 +80,7 @@ class MainFragment : Fragment() {
         }
 
         // 벨 아이콘 클릭 리스너 설정
-        binding.ivBellIcon.setOnClickListener {
+        binding.bellIconImageView.setOnClickListener {
             // TODO : 아이콘 클릭 시 동작할 코드 작성
             (activity as? BaseActivity)?.showAlert("알람 개발 중")
         }
@@ -93,6 +93,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     private fun showSomeoneInfoBottomSheet(someone: Someone) {
         // BottomSheet를 표시하는 코드
         val bottomSheet = SomeoneInfoBottomSheet()

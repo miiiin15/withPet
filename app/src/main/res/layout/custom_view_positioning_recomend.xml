@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/someoneInfo"
+        android:id="@+id/position_popup_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            style="@style/BottomSheetTitleText"
+            style="@style/PopupTitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="가까운 친구를 보실래요?  😎" />
@@ -40,7 +40,7 @@
             >
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_move_setting_position"
+                android:id="@+id/position_popup_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_vertical_button"
@@ -51,7 +51,7 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_hide_position_popup"
+                android:id="@+id/position_popup_cancel_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"

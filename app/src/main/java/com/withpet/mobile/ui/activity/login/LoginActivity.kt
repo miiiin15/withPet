@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.withpet.mobile.BaseActivity
-import com.withpet.mobile.data.repository.SignInRepo
 import com.withpet.mobile.databinding.ActivityLoginBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.custom.IsValidListener
@@ -23,10 +22,10 @@ class LoginActivity : BaseActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnSignIn.setEnable(false)
-        binding.btnSignIn.setOnClickListener {
-            val loginId = binding.etLoginId.text.toString()
-            val password = binding.etPassword.text.toString()
+        binding.signinButton.setEnable(false)
+        binding.signinButton.setOnClickListener {
+            val loginId = binding.loginIdInput.text.toString()
+            val password = binding.passwordInput.text.toString()
             viewModel.logIn(loginId, password) {
                 val intent = Intent(this, MainActivity::class.java).apply {
                     flags =
@@ -43,14 +42,14 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun setInputListener() {
-        binding.etLoginId.setIsValidListener(object : IsValidListener {
+        binding.loginIdInput.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 setButtonEnable()
                 // TODO : ID 규칙 추가하기
                 return text.isNotEmpty()
             }
         })
-        binding.etPassword.setIsValidListener(object : IsValidListener {
+        binding.passwordInput.setIsValidListener(object : IsValidListener {
             override fun isValid(text: String): Boolean {
                 setButtonEnable()
                 // TODO : 비밀번호 규칙 추가하기
@@ -75,6 +74,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun setButtonEnable() {
-        binding.btnSignIn.setEnable(binding.etLoginId.text!!.isNotEmpty() && binding.etPassword.text!!.isNotEmpty())
+        binding.signinButton.setEnable(binding.loginIdInput.text!!.isNotEmpty() && binding.passwordInput.text!!.isNotEmpty())
     }
 }

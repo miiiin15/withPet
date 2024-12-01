@@ -1,5 +1,6 @@
 package com.withpet.mobile.ui.fragment.match
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -10,19 +11,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.withpet.mobile.BaseActivity
-import com.withpet.mobile.R
 import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.model.Someone
 import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.FragmentMatchBinding
-import com.withpet.mobile.ui.activity.Location.LocationSearchActivity
 import com.withpet.mobile.ui.activity.liked.LikedListActivity
-import com.withpet.mobile.ui.activity.main.SomeoneList
 import com.withpet.mobile.ui.custom.MatchedList
 import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
-import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -104,7 +100,7 @@ class MatchFragment : Fragment() {
         })
 
         viewModel.address.observe(viewLifecycleOwner, Observer { adress ->
-            adress.let { it -> binding.tvLocation.text = it }
+            adress.let { it -> binding.locationTextView.text = it }
         })
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -123,17 +119,17 @@ class MatchFragment : Fragment() {
 
     private fun setupUI() {
 
-        binding.ivBellIcon.setOnClickListener {
+        binding.bellIconImageView.setOnClickListener {
             // TODO : 아이콘 클릭 시 동작할 코드 작성
             (activity as? BaseActivity)?.showAlert("알람 개발 중")
         }
 
-        binding.ivHearthIcon.setOnClickListener {
+        binding.hearthIconImageView.setOnClickListener {
             val intent = Intent(requireContext(), LikedListActivity::class.java)
             likedListLauncher.launch(intent)
         }
 
-        binding.tvLocation.setOnClickListener {
+        binding.locationTextView.setOnClickListener {
             // TODO : 위치 저장시 서버에 데이터가 업데이트가 아닌 누적되는 오류 발견하여 주석
             (activity as BaseActivity).showAlert("위치 설정 이동 주석 처리")
 //            val intent = Intent(requireContext(), LocationSearchActivity::class.java)
@@ -141,6 +137,7 @@ class MatchFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     private fun showSomeoneInfoBottomSheet(someone: Someone) {
         // BottomSheet를 표시하는 코드
         val bottomSheet = SomeoneInfoBottomSheet()

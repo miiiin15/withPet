@@ -22,7 +22,7 @@
 
         <!-- 왼쪽 끝의 아이콘 버튼 -->
         <ImageView
-            android:id="@+id/leftIconButton"
+            android:id="@+id/left_icon_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
@@ -33,7 +33,7 @@
 
         <!-- 중앙의 타이틀 텍스트 -->
         <TextView
-            android:id="@+id/headerText"
+            android:id="@+id/header_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -47,7 +47,7 @@
 
         <!-- 오른쪽 끝의 아이콘 버튼 -->
         <ImageView
-            android:id="@+id/rightIconButton"
+            android:id="@+id/right_icon_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"

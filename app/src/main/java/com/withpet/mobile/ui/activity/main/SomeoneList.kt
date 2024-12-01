@@ -89,15 +89,15 @@ class SomeoneList @JvmOverloads constructor(
         }
 
         inner class SomeoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-            private val addressText: TextView = itemView.findViewById(R.id.addressText)
-            private val usernameText: TextView = itemView.findViewById(R.id.usernameText)
-            private val ageText: TextView = itemView.findViewById(R.id.ageText)
-            private val actionButton: CustomLikeButton = itemView.findViewById(R.id.likeButton)
+            private val cardView: MaterialCardView = itemView.findViewById(R.id.someon_card_view)
+            private val addressText: TextView = itemView.findViewById(R.id.someone_address_text_view)
+            private val usernameText: TextView = itemView.findViewById(R.id.someone_name_text_view)
+            private val ageText: TextView = itemView.findViewById(R.id.someone_age_text_view)
+            private val actionButton: CustomLikeButton = itemView.findViewById(R.id.someone_like_button)
             private val profileImage: ImageView =
-                itemView.findViewById(R.id.profileImage) // 프로필 이미지뷰
+                itemView.findViewById(R.id.someone_profile_image_view) // 프로필 이미지뷰
             private val userInfoLayout: ViewGroup =
-                itemView.findViewById(R.id.userInfoLayout) // 사용자 정보 레이아웃
+                itemView.findViewById(R.id.someone_user_info_layout) // 사용자 정보 레이아웃
 
             val displayMetrics: DisplayMetrics = itemView.context.resources.displayMetrics
             val screenWidth = displayMetrics.widthPixels

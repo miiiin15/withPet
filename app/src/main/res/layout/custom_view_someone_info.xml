@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/icon_close"
+                android:id="@+id/close_icon_image_view"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_margin="12dp"
@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/image_card"
+                android:id="@+id/image_card_view"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginTop="12dp"
@@ -39,10 +39,10 @@
                 app:cardElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/icon_close">
+                app:layout_constraintTop_toBottomOf="@id/close_icon_image_view">
 
                 <ImageView
-                    android:id="@+id/img_profile"
+                    android:id="@+id/profile_image_view"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:background="@drawable/shape_someone_info_circle"
@@ -50,18 +50,18 @@
             </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
-                android:id="@+id/userInfoLayout"
+                android:id="@+id/someone_user_info_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_card">
+                app:layout_constraintTop_toBottomOf="@+id/image_card_view">
 
                 <!-- 유저네임 텍스트 -->
                 <TextView
-                    android:id="@+id/tv_user_name"
+                    android:id="@+id/user_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="12dp"
@@ -78,7 +78,7 @@
 
                     <!-- 성별 텍스트 -->
                     <TextView
-                        android:id="@+id/tv_user_gender"
+                        android:id="@+id/user_gender_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="성별"
@@ -87,7 +87,7 @@
 
                     <!-- 유저 나이 텍스트 -->
                     <TextView
-                        android:id="@+id/tv_user_age"
+                        android:id="@+id/user_age_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
@@ -100,23 +100,23 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider"
+                android:id="@+id/divider_view"
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_marginTop="24dp"
                 android:background="@color/grey2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userInfoLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/someone_user_info_layout" />
 
             <LinearLayout
-                android:id="@+id/someoneInfo"
+                android:id="@+id/someone_info_popup_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/margin_horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/divider">
+                app:layout_constraintTop_toBottomOf="@+id/divider_view">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_pet_gender"
+                        android:id="@+id/pet_gender_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
@@ -165,7 +165,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_pet_name"
+                        android:id="@+id/pet_name_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
@@ -190,7 +190,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_pet_desc"
+                        android:id="@+id/pet_introduction_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -205,24 +205,24 @@
                     android:orientation="horizontal">
 
                     <com.withpet.mobile.ui.custom.CustomButton
-                        android:id="@+id/btn_like"
+                        android:id="@+id/like_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/bottom_to_button"
                         android:layout_weight="1"
                         android:text="♥︎"
                         app:buttonType="GREY"
-                        app:layout_constraintTop_toBottomOf="@+id/someoneInfo" />
+                        app:layout_constraintTop_toBottomOf="@+id/position_popup_layout" />
 
                     <com.withpet.mobile.ui.custom.CustomButton
-                        android:id="@+id/btn_greet"
+                        android:id="@+id/greet_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="24dp"
                         android:layout_marginBottom="@dimen/bottom_to_button"
                         android:layout_weight="4"
                         android:text="인사하기"
-                        app:layout_constraintTop_toBottomOf="@+id/someoneInfo" />
+                        app:layout_constraintTop_toBottomOf="@+id/position_popup_layout" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

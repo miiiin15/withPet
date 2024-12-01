@@ -16,7 +16,7 @@
 
         <!-- TextView는 왼쪽에 위치 -->
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/title_text_view"
             style="@style/TitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
 
         <!-- ImageView는 오른쪽에 위치 -->
         <ImageView
-            android:id="@+id/iv_bell_icon"
+            android:id="@+id/bell_icon_image_view"
             style="@style/IconStyle"
             android:layout_marginRight="@dimen/margin_horizontal"
             android:src="@drawable/ic_bell"
@@ -43,7 +43,7 @@
         android:layout_weight="1" />
 
     <com.withpet.mobile.ui.activity.main.SomeoneList
-        android:id="@+id/someoneList"
+        android:id="@+id/someone_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

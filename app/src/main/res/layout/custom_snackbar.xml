@@ -10,7 +10,7 @@
     >
 
     <TextView
-        android:id="@+id/tx_snackbar_message"
+        android:id="@+id/snackbar_message_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -21,7 +21,7 @@
         android:textSize="14dp" />
 
     <Button
-        android:id="@+id/btn_snackbar"
+        android:id="@+id/snackbar_button"
         android:background="?android:attr/selectableItemBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

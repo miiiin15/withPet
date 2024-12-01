@@ -53,9 +53,9 @@ class LikedListActivity : BaseActivity(), NavigationClickHandler {
             responce?.payload?.let { mateList ->
 
                 if (mateList.isNotEmpty()) {
-                    binding.emptyText.visibility = View.GONE
+                    binding.emptyTextView.visibility = View.GONE
                 } else {
-                    binding.emptyText.visibility = View.VISIBLE
+                    binding.emptyTextView.visibility = View.VISIBLE
                 }
 
                 val likedList: LikedList = binding.likedList
@@ -68,7 +68,7 @@ class LikedListActivity : BaseActivity(), NavigationClickHandler {
 
         viewModel.error.observe(this, Observer { errorMsg ->
             showAlert(errorMsg) {
-                binding.emptyText.visibility = View.VISIBLE
+                binding.emptyTextView.visibility = View.VISIBLE
             }
         })
 

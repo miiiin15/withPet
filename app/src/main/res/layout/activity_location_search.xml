@@ -1,75 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/outsideView"
+    android:id="@+id/outside_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/margin_horizontal"
     android:paddingTop="@dimen/top_to_header"
     >
-
-    <!-- 상단 텍스트뷰: "동네를 설정해주세요" -->
     <TextView
-        android:id="@+id/tv_set_location_title"
+        android:id="@+id/locationTitleTextView"
         style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="동네를 설정해주세요" />
-
-    <!-- 검색 영역 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="24dp"
         android:orientation="horizontal">
-
-        <!-- 검색 버튼 -->
         <ImageView
-            android:id="@+id/iv_search_button"
+            android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="Search Button"
             android:padding="18dp"
             android:src="@drawable/ic_search" />
-
-        <!-- 텍스트 입력 영역 -->
         <com.withpet.mobile.ui.custom.CustomInput
-            android:id="@+id/input_search_text"
+            android:id="@+id/searchInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="동네를 입력해주세요" />
     </LinearLayout>
-
-    <!-- "현재 위치로 찾기" 버튼 -->
     <com.withpet.mobile.ui.custom.CustomButton
-        android:id="@+id/btn_find_current_location"
+        android:id="@+id/findCurrentLocationButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="현재 위치로 찾기" />
-
-    <!-- 입력된 주소를 표시할 텍스트뷰 -->
     <TextView
-        android:id="@+id/tv_inputted_address"
+        android:id="@+id/inputtedAddressTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text=""
         android:textColor="@android:color/black"
         android:textSize="14sp" />
-
-    <!-- 검색 결과를 표시할 리스트뷰 -->
     <ListView
-        android:id="@+id/lv_search_results"
+        android:id="@+id/resultList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
-
-    <!-- 검색 결과가 없을 경우 표시할 텍스트뷰 -->
     <TextView
-        android:id="@+id/tv_no_results"
+        android:id="@+id/noResultsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

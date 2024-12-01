@@ -4,7 +4,7 @@
             <solid android:color="@android:color/transparent" />
         </shape>
     </item>
-    <item android:id="@+id/underLine"
+    <item android:id="@+id/underline"
         android:left="-10dp"
         android:right="-10dp"
         android:top="47.5dp">

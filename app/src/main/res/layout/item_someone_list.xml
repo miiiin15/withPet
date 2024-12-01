@@ -6,33 +6,30 @@
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView"
+        android:id="@+id/someon_card_view"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@color/disable"
         app:cardCornerRadius="15dp"
         app:cardElevation="1dp">
 
-        <!-- 프로필 이미지 영역 -->
         <ImageView
-            android:id="@+id/profileImage"
+            android:id="@+id/someone_profile_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/disable"
             android:scaleType="centerCrop" />
 
-        <!-- 오른쪽 아래 둥근 버튼 -->
         <com.withpet.mobile.ui.custom.CustomLikeButton
-            android:id="@+id/likeButton"
+            android:id="@+id/someone_like_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="12dp"
             android:onClick="TODO" />
 
-        <!-- 주소 텍스트 -->
         <TextView
-            android:id="@+id/addressText"
+            android:id="@+id/someone_address_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|start"
@@ -46,7 +43,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
-        android:id="@+id/userInfoLayout"
+        android:id="@+id/someone_user_info_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -58,9 +55,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- 유저네임 텍스트 -->
             <TextView
-                android:id="@+id/usernameText"
+                android:id="@+id/someone_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="닉네임"
@@ -68,9 +64,8 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <!-- 유저네임 텍스트 -->
             <TextView
-                android:id="@+id/ageText"
+                android:id="@+id/someone_age_text_view"
                 android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

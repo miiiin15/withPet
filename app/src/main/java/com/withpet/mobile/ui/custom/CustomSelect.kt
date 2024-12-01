@@ -1,5 +1,6 @@
 package com.withpet.mobile.ui.custom
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -72,7 +73,7 @@ class CustomSelect @JvmOverloads constructor(
         setUnderlineColor(R.color.primary)
         val bottomSheetView =
             LayoutInflater.from(context).inflate(R.layout.custom_bottom_sheet_container, null)
-        val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
+        val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame_layout)
 
         when (type) {
             "list" -> inflateListOptionsView(contentFrame)
@@ -91,7 +92,7 @@ class CustomSelect @JvmOverloads constructor(
         val customView = LayoutInflater.from(context).inflate(R.layout.custom_select_list, null)
         contentFrame.addView(customView)
 
-        val recyclerView: RecyclerView = customView.findViewById(R.id.recyclerView)
+        val recyclerView: RecyclerView = customView.findViewById(R.id.select_list_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = OptionAdapter(options) { selectedOption ->
             options.forEach { it.checked = it == selectedOption }
@@ -102,12 +103,13 @@ class CustomSelect @JvmOverloads constructor(
     }
 
     // 성별을 선택하는 옵션을 설정하는 메서드.
+    @SuppressLint("MissingInflatedId")
     private fun inflateGenderOptionsView(contentFrame: FrameLayout) {
-        val customView = LayoutInflater.from(context).inflate(R.layout.custom_view_gender, null)
+        val customView = LayoutInflater.from(context).inflate(R.layout.gender_custom_view, null)
         contentFrame.addView(customView)
 
-        val cardView1: MaterialCardView = customView.findViewById(R.id.card_view_1)
-        val cardView2: MaterialCardView = customView.findViewById(R.id.card_view_2)
+        val cardView1: MaterialCardView = customView.findViewById(R.id.first_card_view)
+        val cardView2: MaterialCardView = customView.findViewById(R.id.second_card_view)
 
         setCardViewClickListeners(cardView1, cardView2)
     }
@@ -179,7 +181,7 @@ class CustomSelect @JvmOverloads constructor(
     private fun setUnderlineColor(colorResId: Int) {
         val drawable = background
         if (drawable is LayerDrawable) {
-            val underline = drawable.findDrawableByLayerId(R.id.underLine) as? GradientDrawable
+            val underline = drawable.findDrawableByLayerId(R.id.underline) as? GradientDrawable
             underline?.setColor(ContextCompat.getColor(context, colorResId))
         } else {
             background?.mutate()?.setTint(ContextCompat.getColor(context, colorResId))
@@ -222,7 +224,7 @@ class CustomSelect @JvmOverloads constructor(
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_option, parent, false)
+                .inflate(R.layout.option_item, parent, false)
             return OptionViewHolder(view)
         }
 
@@ -234,7 +236,7 @@ class CustomSelect @JvmOverloads constructor(
         override fun getItemCount(): Int = options.size
 
         inner class OptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val label: TextView = itemView.findViewById(R.id.option_label)
+            private val label: TextView = itemView.findViewById(R.id.option_label_text_view)
 
             fun bind(option: SelectItem) {
                 label.text = option.label

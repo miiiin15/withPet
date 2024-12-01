@@ -38,7 +38,7 @@ class LoadingDialog : DialogFragment() {
 
         binding.lifecycleOwner = this
 
-        binding.pgb.let {
+        binding.loadingImageView.let {
             Glide.with(this).load(R.raw.load).into(it)
         }
 

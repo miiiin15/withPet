@@ -1,5 +1,6 @@
 package com.withpet.mobile
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -155,30 +156,30 @@ abstract class BaseActivity : AppCompatActivity() {
 
                 // 타이틀 설정
                 title?.let {
-                    binding.llDlgTitleLayout.visibility = View.VISIBLE
-                    binding.txvDlgTitle.text = it
+                    binding.alertTitleLayout.visibility = View.VISIBLE
+                    binding.alertTitleTextView.text = it
                 }
 
                 // 메시지와 긍정 버튼 텍스트 설정
-                binding.txvDlgContent.text = message
-                binding.btnDlgPositive.text = positiveText ?: "확인"
+                binding.alertMessageTextView.text = message
+                binding.alertPositiveButton.text = positiveText ?: "확인"
 
                 // 긍정 버튼 리스너 설정
-                binding.btnDlgPositive.setOnClickListener {
+                binding.alertPositiveButton.setOnClickListener {
                     onPress?.invoke() // onPress 콜백 실행
                     dialog.dismiss()
                 }
 
                 // 부정적인 버튼 처리 (onCancel이 null인 경우 숨김)
                 if (onCancel != null) {
-                    binding.btnDlgNegative.text = negativeText ?: "취소"
-                    binding.btnDlgNegative.visibility = View.VISIBLE
-                    binding.btnDlgNegative.setOnClickListener {
+                    binding.alertNegativeButton.text = negativeText ?: "취소"
+                    binding.alertNegativeButton.visibility = View.VISIBLE
+                    binding.alertNegativeButton.setOnClickListener {
                         onCancel.invoke() // onCancel 콜백 실행
                         dialog.dismiss()
                     }
                 } else {
-                    binding.btnDlgNegative.visibility = View.GONE
+                    binding.alertNegativeButton.visibility = View.GONE
                 }
 
                 dialog.setOnShowListener {
@@ -205,20 +206,20 @@ abstract class BaseActivity : AppCompatActivity() {
                 val dialog = builder.create()
 
                 title?.let {
-                    binding.llDlgTitleLayout.visibility = View.VISIBLE
-                    binding.txvDlgTitle.text = it
+                    binding.alertTitleLayout.visibility = View.VISIBLE
+                    binding.alertTitleTextView.text = it
                 }
 
-                binding.txvDlgContent.text = "앱을 종료하시겠습니까?"
-                binding.btnDlgPositive.text = "종료"
-                binding.btnDlgNegative.text = "취소"
+                binding.alertMessageTextView.text = "앱을 종료하시겠습니까?"
+                binding.alertPositiveButton.text = "종료"
+                binding.alertNegativeButton.text = "취소"
 
-                binding.btnDlgPositive.setOnClickListener {
+                binding.alertPositiveButton.setOnClickListener {
                     dialog.dismiss()
                     finish()
                 }
 
-                binding.btnDlgNegative.setOnClickListener {
+                binding.alertNegativeButton.setOnClickListener {
                     dialog.dismiss()
                 }
 
@@ -257,6 +258,7 @@ abstract class BaseActivity : AppCompatActivity() {
 //    }
 
     // 커스텀 스넥바 메시지
+    @SuppressLint("RestrictedApi")
     fun showSnackBar(
         message: String,
         buttonText: String? = null,
@@ -277,9 +279,9 @@ abstract class BaseActivity : AppCompatActivity() {
                 snackbar.view.findViewById<View>(com.google.android.material.R.id.snackbar_action).visibility =
                     View.INVISIBLE
 
-                binding.txSnackbarMessage.text = message
-                binding.btnSnackbar.text = buttonText ?: "확인"
-                binding.btnSnackbar.setOnClickListener {
+                binding.snackbarMessageTextView.text = message
+                binding.snackbarButton.text = buttonText ?: "확인"
+                binding.snackbarButton.setOnClickListener {
                     snackbar.dismiss()
                     onPress?.invoke()
                 }
@@ -326,14 +328,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showRegionPopup() {
         // 팝업 내부에 동적으로 콘텐츠를 추가하는 예제
-        val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame)
+        val contentFrame: FrameLayout = bottomSheetView.findViewById(R.id.content_frame_layout)
         val customView =
             LayoutInflater.from(this).inflate(R.layout.custom_view_positioning_recomend, null)
         contentFrame.addView(customView)
 
         val positiveButton: AppCompatButton =
-            customView.findViewById(R.id.btn_move_setting_position)
-        val negativeButton: AppCompatButton = customView.findViewById(R.id.btn_hide_position_popup)
+            customView.findViewById(R.id.position_popup_button)
+        val negativeButton: AppCompatButton = customView.findViewById(R.id.position_popup_cancel_button)
 
         positiveButton.setOnClickListener {
             startActivity(Intent(this, LocationSearchActivity::class.java))
@@ -355,7 +357,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected fun clearPositionPopupContent() {
-        val contentFrame: FrameLayout? = bottomSheetView.findViewById(R.id.content_frame)
+        val contentFrame: FrameLayout? = bottomSheetView.findViewById(R.id.content_frame_layout)
         contentFrame?.removeAllViews()
     }
 

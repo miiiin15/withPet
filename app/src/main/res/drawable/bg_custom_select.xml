@@ -6,7 +6,7 @@
         </shape>
     </item>
     <item
-        android:id="@+id/underLine"
+        android:id="@+id/underline"
         android:left="-10dp"
         android:right="-10dp"
         android:top="47.5dp">
