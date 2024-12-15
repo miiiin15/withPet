@@ -13,7 +13,7 @@ import com.withpet.mobile.data.enums.InputState
 import com.withpet.mobile.databinding.ActivitySignupBinding
 import com.withpet.mobile.ui.custom.IsValidListener
 import com.withpet.mobile.utils.ValidationUtils
-import com.withpet.mobile.viewmodel.SignupViewModel
+import com.withpet.mobile.presentation.viewmodel.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

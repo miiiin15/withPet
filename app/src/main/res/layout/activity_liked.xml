@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.withpet.mobile.viewmodel.LikedViewModel" />
+            type="com.withpet.mobile.presentation.viewmodel.LikedViewModel" />
     </data>
 
     <LinearLayout

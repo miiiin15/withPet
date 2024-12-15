@@ -19,7 +19,7 @@ import com.withpet.mobile.databinding.FragmentMatchBinding
 import com.withpet.mobile.ui.activity.liked.LikedListActivity
 import com.withpet.mobile.ui.custom.MatchedList
 import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
-import com.withpet.mobile.viewmodel.MainViewModel
+import com.withpet.mobile.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

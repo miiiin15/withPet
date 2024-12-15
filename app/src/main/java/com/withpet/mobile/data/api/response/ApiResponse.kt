@@ -1,18 +1,23 @@
 package com.withpet.mobile.data.api.response
 
+import com.google.gson.annotations.SerializedName
+
 data class ApiResponse<T>(
-    // 응답 상태
-    var result: Result,
 
-    // 오류
-    var error: ApiError?,
+    @SerializedName("result")
+    var result: ResultResponse, // 응답 상태
 
-    // 응답 데이터
-    var payload: T
+
+    var error: ApiError?, // 오류
+
+    @SerializedName("payload")
+    var payload: T // 응답 데이터
 )
 
-// 응답 상태를 나타내는 Result 클래스
-data class Result(
+data class ResultResponse(
+    @SerializedName("code")
     val code: Int,
+
+    @SerializedName("message")
     val message: String
 )

@@ -14,7 +14,7 @@ import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.R
 import com.withpet.mobile.data.api.response.MemberInfo
 import com.withpet.mobile.data.enums.Category
-import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.repository.MainRepo
 import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivityMainBinding
 import com.withpet.mobile.ui.activity.signup.PetInfoActivity
@@ -98,7 +98,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getMemberInfo() {
-        CommonRepo.getMemberInfo(
+        MainRepo.getMemberInfo(
             success = {
                 if (it.result.code == 200) {
                     checkRole(it.payload)

@@ -8,7 +8,7 @@ import com.withpet.mobile.databinding.ActivityLoginBinding
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.custom.IsValidListener
 import com.withpet.mobile.utils.SharedPreferencesUtil
-import com.withpet.mobile.viewmodel.LoginViewModel
+import com.withpet.mobile.presentation.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

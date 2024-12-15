@@ -12,7 +12,7 @@ import com.withpet.mobile.R
 import com.withpet.mobile.databinding.ActivityLikedBinding
 import com.withpet.mobile.ui.custom.LikedList
 import com.withpet.mobile.utils.NavigationClickHandler
-import com.withpet.mobile.viewmodel.LikedViewModel
+import com.withpet.mobile.presentation.viewmodel.LikedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

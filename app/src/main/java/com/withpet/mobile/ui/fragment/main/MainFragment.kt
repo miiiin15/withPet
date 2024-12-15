@@ -15,7 +15,7 @@ import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.FragmentMainBinding
 import com.withpet.mobile.ui.activity.main.SomeoneList
 import com.withpet.mobile.ui.custom.SomeoneInfoBottomSheet
-import com.withpet.mobile.viewmodel.MainViewModel
+import com.withpet.mobile.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

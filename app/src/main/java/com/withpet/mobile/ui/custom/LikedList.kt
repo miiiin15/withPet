@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
-import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.repository.MainRepo
 import com.withpet.mobile.utils.Constants
 import java.lang.Exception
 
@@ -127,7 +127,7 @@ class LikedList @JvmOverloads constructor(
 
         fun requestDislike(memberId: String, requestSuccess: (isSuccess: Boolean) -> Unit?) {
             try {
-                CommonRepo.requestDislike(
+                MainRepo.requestDislike(
                     memberId,
                     success = {
                         requestSuccess(true)

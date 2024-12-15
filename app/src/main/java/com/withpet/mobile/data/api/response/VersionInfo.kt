@@ -1,6 +1,6 @@
 package com.withpet.mobile.data.api.response
 
-data class VersionPayload(
+data class VersionInfo(
     val id: Number,
     val version: String
 )

@@ -18,27 +18,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/img_logo_name_white" />
-    <TextView
-        android:id="@+id/tv_app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/app_icon_image_view"
-        android:paddingVertical="12dp"
-        android:layout_centerHorizontal="true"
-        android:text="마음에 맞는 산책 친구를 찾다"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:textSize="16dp" />
 
-    <TextView
-        android:id="@+id/version_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_app_name"
-        android:layout_centerHorizontal="true"
-        android:text="버전"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_icon_image_view"
+            android:layout_centerHorizontal="true"
+            android:paddingVertical="12dp"
+            android:text="마음에 맞는 산책 친구를 찾다"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/version_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_app_name"
+            android:layout_centerHorizontal="true"
+            android:text="버전"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
     </LinearLayout>
 
 
@@ -46,9 +47,9 @@
         android:id="@+id/big_logo_image_view"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginLeft="-48dp"
         android:layout_below="@+id/app_icon_image_view"
         android:layout_alignParentStart="true"
+        android:layout_marginLeft="-48dp"
         android:rotation="45"
         android:src="@drawable/img_logo" />
 
@@ -56,7 +57,7 @@
         android:id="@+id/small_logo_image_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:rotation="-45"
         android:layout_below="@+id/big_logo_image_view"
+        android:rotation="-45"
         android:src="@drawable/img_logo" />
 </RelativeLayout>

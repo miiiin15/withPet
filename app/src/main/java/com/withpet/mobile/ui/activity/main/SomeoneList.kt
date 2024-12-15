@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.withpet.mobile.R
 import com.withpet.mobile.data.model.Someone
-import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.repository.MainRepo
 import com.withpet.mobile.ui.custom.CustomLikeButton
 import com.withpet.mobile.utils.Constants.IMAGE_URL
 import java.lang.Exception
@@ -179,7 +179,7 @@ class SomeoneList @JvmOverloads constructor(
             fun requestLike(memberId: String, requestSuccess: (isSuccess: Boolean) -> Unit?) {
                 try {
                     if (!actionButton.isLike) {
-                        CommonRepo.sendLike(
+                        MainRepo.sendLike(
                             memberId,
                             success = {
                                 requestSuccess(true)
@@ -193,7 +193,7 @@ class SomeoneList @JvmOverloads constructor(
                             }
                         )
                     } else {
-                        CommonRepo.requestDislike(
+                        MainRepo.requestDislike(
                             memberId,
                             success = {
                                 requestSuccess(true)

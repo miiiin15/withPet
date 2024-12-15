@@ -7,20 +7,25 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.withpet.mobile.BaseActivity
 import com.withpet.mobile.BuildConfig
-import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.DiApplication.Companion.appModule
+import com.withpet.mobile.data.repository.MainRepo
 import com.withpet.mobile.data.session.UserSession
 import com.withpet.mobile.databinding.ActivitySplashBinding
+import com.withpet.mobile.presentation.viewmodel.CommonViewModel
 import com.withpet.mobile.ui.activity.MainActivity
 import com.withpet.mobile.ui.activity.start.StartActivity
 import com.withpet.mobile.utils.Logcat
 import com.withpet.mobile.utils.PermissionUtils
-import com.withpet.mobile.viewmodel.LoginViewModel
+import com.withpet.mobile.presentation.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
+    private val diViewModel : CommonViewModel by lazy { appModule.commonViewModel }
+
     companion object {
         const val PERMISSION_REQUEST_ID = 11
         private var requestPermissionGranted = false
@@ -40,7 +45,7 @@ class SplashActivity : BaseActivity() {
         binding.versionTextView.text = "버전 ${BuildConfig.VERSION_NAME}"
         setViewModel()
 
-        checkVersionAndNavigate()
+        observeUIState()
 
         // TODO : 서버 문제시 뚫기 위한 테스트 코드
         binding.appIconImageView.setOnClickListener {
@@ -62,32 +67,20 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private fun checkVersionAndNavigate() {
-        loadingDialog.show(supportFragmentManager, "")
-        try {
-            CommonRepo.getVersion(
-                success = {
-                    if (it.result.code == 200) {
-                        // sharedPreferences를 검사하고 이후 로직을 진행
-                        Toast.makeText(this, "버전 : ${it.payload.version}", Toast.LENGTH_SHORT)
-                            .show()
-                        checkSharedPreferences()
-                    } else {
-                        showAlert("${it.error?.message.toString()}")
-                    }
-                },
-                networkFail = {
-                    showAlert(it)
-                },
-                failure = {
-                    showAlert(it.message ?: "fail")
-                }
-            )
-        } catch (e: Exception) {
-        } finally {
-            loadingDialog.dismiss()
-        }
-    }
+   private fun observeUIState(){
+       lifecycleScope.launchWhenCreated {
+           diViewModel.uiState.collect{state->
+               when{
+                   state.error != null -> showAlert(state.error.message?:"메시지 없음")
+                   state.versionInfo != null -> {
+                       Toast.makeText(applicationContext, "버전 : ${state.versionInfo.version}", Toast.LENGTH_SHORT)
+                           .show()
+                       checkSharedPreferences()
+                   }
+               }
+           }
+       }
+   }
 
     private fun checkSharedPreferences() {
         // 유저 정보 전역값 초기화

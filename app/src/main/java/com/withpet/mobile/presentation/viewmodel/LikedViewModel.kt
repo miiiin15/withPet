@@ -1,4 +1,4 @@
-package com.withpet.mobile.viewmodel
+package com.withpet.mobile.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

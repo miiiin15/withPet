@@ -1,6 +1,6 @@
 package com.withpet.mobile.di
 
-import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.repository.MainRepo
 import com.withpet.mobile.data.repository.SignInRepo
 import dagger.Module
 import dagger.Provides
@@ -17,8 +17,8 @@ object RepositoryModule {
 //    필요할 때 Hilt가 자동으로 이 함수에서 해당 객체를 가져와 주입합니다.
     @Provides
     @Singleton
-    fun provideCommonRepo(): CommonRepo {
-        return CommonRepo
+    fun provideCommonRepo(): MainRepo {
+        return MainRepo
     }
 
     @Provides

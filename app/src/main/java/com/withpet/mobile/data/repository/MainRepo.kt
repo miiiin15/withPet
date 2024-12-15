@@ -11,32 +11,32 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object CommonRepo {
+object MainRepo {
 
-    fun getVersion(
-        networkFail: (String) -> Unit,
-        success: (ApiResponse<VersionInfo>) -> Unit,
-        failure: (Throwable) -> Unit
-    ) {
-        NetworkService.getService().getVersion()
-            .enqueue(object : Callback<ApiResponse<VersionInfo>> {
-                override fun onResponse(
-                    call: Call<ApiResponse<VersionInfo>>,
-                    response: Response<ApiResponse<VersionInfo>>
-                ) {
-                    if (response.isSuccessful) {
-                        val data = response.body() ?: return
-                        success(data)
-                    } else {
-                        networkFail(response.code().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<ApiResponse<VersionInfo>>, t: Throwable) {
-                    failure(t)
-                }
-            })
-    }
+//    fun getVersion(
+//        networkFail: (String) -> Unit,
+//        success: (ApiResponse<VersionInfo>) -> Unit,
+//        failure: (Throwable) -> Unit
+//    ) {
+//        NetworkService.getService().getVersion()
+//            .enqueue(object : Callback<ApiResponse<VersionInfo>> {
+//                override fun onResponse(
+//                    call: Call<ApiResponse<VersionInfo>>,
+//                    response: Response<ApiResponse<VersionInfo>>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        val data = response.body() ?: return
+//                        success(data)
+//                    } else {
+//                        networkFail(response.code().toString())
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<ApiResponse<VersionInfo>>, t: Throwable) {
+//                    failure(t)
+//                }
+//            })
+//    }
 
     fun getMemberInfo(
         networkFail: (String) -> Unit,

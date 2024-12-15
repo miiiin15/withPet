@@ -1,4 +1,4 @@
-package com.withpet.mobile.viewmodel
+package com.withpet.mobile.presentation.viewmodel
 
 import com.withpet.mobile.BaseViewModel
 import com.withpet.mobile.data.repository.SignInRepo

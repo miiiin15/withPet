@@ -16,7 +16,7 @@ interface ApiService {
 
     // 버전 조회
     @GET("api/v1/version")
-    fun getVersion(): Call<ApiResponse<VersionPayload>>
+    fun getVersion(): ApiResponse<VersionInfo>
 
     // 내정보 조회
     @GET("api/v1/member")
