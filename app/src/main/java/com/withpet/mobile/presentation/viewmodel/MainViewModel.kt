@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.withpet.mobile.BaseViewModel
 import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.model.Someone
-import com.withpet.mobile.data.repository.CommonRepo
+import com.withpet.mobile.data.repository.MainRepo
 import com.withpet.mobile.data.session.UserSession
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val commonRepo: CommonRepo
+    private val commonRepo: MainRepo
 ) : BaseViewModel() {
 
     private val _matchedList = MutableLiveData<ApiResponse<List<Someone>>>()

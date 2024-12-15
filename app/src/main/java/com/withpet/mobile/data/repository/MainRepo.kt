@@ -3,7 +3,7 @@ package com.withpet.mobile.data.repository
 import com.withpet.mobile.data.api.NetworkService
 import com.withpet.mobile.data.api.response.ApiResponse
 import com.withpet.mobile.data.api.response.MemberInfo
-import com.withpet.mobile.data.api.response.VersionPayload
+import com.withpet.mobile.data.api.response.VersionInfo
 import com.withpet.mobile.data.model.Someone
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -15,14 +15,14 @@ object CommonRepo {
 
     fun getVersion(
         networkFail: (String) -> Unit,
-        success: (ApiResponse<VersionPayload>) -> Unit,
+        success: (ApiResponse<VersionInfo>) -> Unit,
         failure: (Throwable) -> Unit
     ) {
         NetworkService.getService().getVersion()
-            .enqueue(object : Callback<ApiResponse<VersionPayload>> {
+            .enqueue(object : Callback<ApiResponse<VersionInfo>> {
                 override fun onResponse(
-                    call: Call<ApiResponse<VersionPayload>>,
-                    response: Response<ApiResponse<VersionPayload>>
+                    call: Call<ApiResponse<VersionInfo>>,
+                    response: Response<ApiResponse<VersionInfo>>
                 ) {
                     if (response.isSuccessful) {
                         val data = response.body() ?: return
@@ -32,7 +32,7 @@ object CommonRepo {
                     }
                 }
 
-                override fun onFailure(call: Call<ApiResponse<VersionPayload>>, t: Throwable) {
+                override fun onFailure(call: Call<ApiResponse<VersionInfo>>, t: Throwable) {
                     failure(t)
                 }
             })
