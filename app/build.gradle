@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.withpet.mobile"
-        minSdk 21
+        minSdk 23
         targetSdk 34
         versionCode 1
         versionName "1.3.1"
@@ -96,6 +96,8 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    implementation "androidx.security:security-crypto:1.1.0-alpha06"
 
 }
 
