@@ -1,70 +1,110 @@
-
-# 🐾 프로젝트 소개 ![Watchers](https://img.shields.io/github/watchers/miiiin15/withPet?style=social)
+# 🐾 프로젝트 소개 ![Watchers](https://img.shields.io/github/watchers/miiiin15/withPet?style=social) ![Repository Size](https://img.shields.io/github/repo-size/miiiin15/withPet?color=%23FCC419)
 ![헤더](https://capsule-render.vercel.app/api?type=rect&height=100&color=FCC419&text=위드펫%20🐾&fontColor=ffffff&animation=fadeIn&fontSize=45&desc=마음에%20맞는%20산책%20친구를%20찾다&descAlignY=80&fontAlignY=40&descSize=20&textBg=false)
-
-
-
-
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/miiiin15/withPet?color=%23FCC419&label=Monthly%20Commit)
-![Weekly Commits](https://img.shields.io/github/commit-activity/w/miiiin15/withPet?color=%23FCC419&label=Weekly%20Commits)
-![GitHub last commit](https://img.shields.io/github/last-commit/miiiin15/withPet?color=%23FCC419&label=Last%20Commit)
-![Repository Size](https://img.shields.io/github/repo-size/miiiin15/withPet?color=%23FCC419) 
-
-이 프로젝트는 사용자의 편의성을 높이고 반려동물과의 삶을 더욱 풍요롭게 만드는 것을 목표로 합니다.
-
-# 📧 연락처
-
-문의사항이 있을 경우 이메일로 연락 부탁드립니다:
-
-이메일 문의: gg04253@gmail.com
-
-# 📝 관련 블로그 게시글
 
 이 프로젝트에 대한 더 많은 정보는 아래 블로그 게시글에서 확인하실 수 있습니다:
 - [블로그 게시글 링크](https://velog.io/@gg04253/series/withPet)
 
-# 🛠️ 기술 스택
+# 기술 스택
 
-- **언어**: Kotlin
-- **아키텍처 패턴**: [📝MVVM](https://velog.io/@gg04253/withPet9) (Model-View-ViewModel)
-- **의존성 주입**: [📝Hilt](https://velog.io/@gg04253/withPet8) (DI)
-- **Jetpack 라이브러리**: ViewModel, LiveData, Navigation 등
-- **네트워킹**: retrofit2
-- **이미지 로딩**: Glide
-- **테스트 앱 배포**: Firebase App Distribution
+- **구조**: MVVM
+- **기본**: Kotlin, AAC(ViewModel, LiveData, Navigation), retrofit2
+- **이미지**: Glide
+- **테스트**: Firebase App Distribution
 
-# ✨ 주요 기능
+# 특징
 
-1. **로그인 / 회원가입**: 간편하게 가입하고 로그인할 수 있습니다.
-- [🚀 LoginActivity](./app/src/main/java/com/withpet/mobile/ui/activity/login/LoginActivity.kt)
-- [🚀 SignupActivity](./app/src/main/java/com/withpet/mobile/ui/activity/signup/SignupActivity.kt)
+### RESTful API 통신 / JWT 기반 인증 처리
+`Interceptor`와 토큰 보안을 위해 `EncryptedSharedPreferences`를 활용한 암호화 처리
 
-![위드펫_회원가입](https://github.com/user-attachments/assets/e9005624-65f9-4840-856d-17f1d787142e)
+- **OkHttpClient 설정**: [Network.kt](app/src/main/java/com/withpet/mobile/data/api/Network.kt)
+   ```kotlin
+      val tokenRepository = TokenRepository(context)
+      val okHttpClient = OkHttpClient.Builder().apply {
+         addInterceptor(AddInterceptor(tokenRepository)) // 요청 인터셉터
+         addInterceptor(ReceiveInterceptor(tokenRepository)) // 응답 인터셉터
+         addInterceptor(LoggingInterceptor.create()) // 로깅 인터셉터
+         ...생략
+      }.build()
+   ```
+- **응답 헤더에서 약속된 토큰값 추출**: [ReceiveInterceptor.kt](app/src/main/java/com/withpet/mobile/data/api/ReceiveInterceptor.kt)
+   ```kotlin
+   class ReceiveInterceptor(private val tokenRepository: TokenRepository) : Interceptor {
+       override fun intercept(chain: Interceptor.Chain): Response {
+           val response = chain.proceed(chain.request())
+           response.headers("X-ACCESS-TOKEN").firstOrNull()
+               ?.let { tokenRepository.saveAccessToken(it) }
+           ...생략
+           return response
+       }
+   }
+   ```
 
+- **추출한 토큰값을 AES256으로 암호화해 EncryptedSharedPreferences에 저장**: [TokenRepository.kt](app/src/main/java/com/withpet/mobile/data/api/TokenRepository.kt)
+   ```kotlin
+   class TokenRepository(private val context: Context) {
+		private val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 
-2. **메인 화면 구성**: 로그인 후 메인 화면에서 다양한 기능을 사용할 수 있습니다. 매칭 유저 리스트와 좋아요 기능을 제공합니다. 
-- [🚀 MainFragment](./app/src/main/java/com/withpet/mobile/ui/fragment/main/MainFragment.kt)
-- [🚀 MainViewModel](./app/src/main/java/com/withpet/mobile/viewmodel/MainViewModel.kt)
-- [🚀 MatchedList](./app/src/main/java/com/withpet/mobile/ui/custom/MatchedList.kt)
+       private val preferences = EncryptedSharedPreferences.create(
+        context,
+        "encryptedDataPreferences",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+   
+       fun saveAccessToken(token: String) {
+           preferences.edit().putString("access-token", token).apply()
+       }
+       fun getAccessToken(): String? = preferences.getString("access-token", null)
+       ...생략
+   }
+   ```
 
-![위드펫_로그인](https://github.com/user-attachments/assets/13ce08aa-ddc7-4e91-8cc1-2bcd58dd1d8b)
+- **요청시 다시 꺼내서 헤더에 첨부**: [AddInterceptor.kt](app/src/main/java/com/withpet/mobile/data/api/AddInterceptor.kt)
+   ```kotlin
+   class AddInterceptor(private val tokenRepository: TokenRepository) : Interceptor {
+       override fun intercept(chain: Interceptor.Chain): Response {
+           val builder = chain.request().newBuilder()
+   
+           val accessToken = tokenRepository.getAccessToken()
+           accessToken?.let { builder.addHeader("X-ACCESS-TOKEN", it) }
+           ...생략
+           return chain.proceed(builder.build())
+       }
+   }
+   ```
+### **Custom UI Components**
+사용자 경험을 향상시키기 위해 제작한 커스텀 뷰
+- **[CustomEditText](./app/src/main/java/com/withpet/mobile/ui/custom/CustomEditText.kt) ↔ [CustomInput](./app/src/main/java/com/withpet/mobile/ui/custom/CustomInput.kt)**: 사용자 입력을 위한 커스텀 위젯 [ [게시글 링크](https://velog.io/@gg04253/withPet3) ]
+- **[CustomOption](./app/src/main/java/com/withpet/mobile/ui/custom/CustomOption.kt) ↔ [CustomSelect](./app/src/main/java/com/withpet/mobile/ui/custom/CustomSelect.kt)**: 콤보 박스 역할을 하는 커스텀 선택 위젯 [ [게시글 링크](https://velog.io/@gg04253/withPet5) ]
+- **CustomAlert**, **CustomSnackBar**: Dialog, Snackbar에 UI요소를 확장한 커스텀 위젯 [ [게시글 링크](https://velog.io/@gg04253/withPet6) ]
 
+<table border="1" style="text-align: center; width: 100%; margin-bottom: 40px;">
+  <tr>
+    <th>1. 로그인</th>
+    <th>2. 홈화면</th>
+    <th>3. 매칭 및 좋아요</th>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/e9005624-65f9-4840-856d-17f1d787142e" alt="로그인" height="500"></td>
+    <td><img src="https://github.com/user-attachments/assets/13ce08aa-ddc7-4e91-8cc1-2bcd58dd1d8b" alt="홈화면" height="500"></td>
+    <td><img src="https://velog.velcdn.com/images/gg04253/post/f678c328-bf0c-46bb-af5b-52d222680a7d/image.gif" alt="매칭 및 좋아요" height="500"></td>
+  </tr>
+</table>
 
-3. **매칭 및 좋아요 관리**: 매칭 탭에서 더 긴 추천 유저 리스트를 제공하며, 좋아요 목록을 관리할 수 있습니다. 
-- [🚀 LikedListActivity](./app/src/main/java/com/withpet/mobile/ui/activity/liked/LikedListActivity.kt)
-- [🚀 LikedViewModel](./app/src/main/java/com/withpet/mobile/viewmodel/LikedViewModel.kt)
+# 실행 방법
 
-![](https://velog.velcdn.com/images/gg04253/post/f678c328-bf0c-46bb-af5b-52d222680a7d/image.gif)
+서버 담당자 개인 사정으로 서버 상시운영은 하고있지 않습니다.
 
-# 📲 실행 방법
-
-~서버 담당자 개인 사정으로 서버 상시운영은 하고있지 않습니다.~
+해당 브랜치는 Hilt/Koin 없이 수동 DI 구현을 작업중인 브랜치입니다. 원할한 실행을 위해서 `develop`브랜치를 clone 하시길 바랍니다.
 
 1. **환경 요구 사항**
-   - **Java Development Kit (JDK)**: 1.8 이상
-   - **Gradle**: 프로젝트에 포함된 `gradle-wrapper.properties` 파일에서 버전을 확인하십시오.
-   - **Android SDK**: 최소 SDK 21 이상, 타겟 SDK 30 이상
-   - **Kotlin**: 버전 1.5 이상
+    - **Java Development Kit (JDK)**: 1.8 이상
+    - **Gradle**: 프로젝트에 포함된 `gradle-wrapper.properties` 파일에서 버전을 확인하십시오.
+    - **Android SDK**: 최소 SDK 23 이상, 타겟 SDK 30 이상
+    - **Kotlin**: 버전 1.5 이상
 
 2. **프로젝트 클론 및 설정**
    ```bash
@@ -73,29 +113,16 @@
    ```
 
 3. **Android Studio에서 프로젝트 열기**
-   - Android Studio를 열고 `File > Open`을 통해 클론한 프로젝트를 선택합니다.
-   - 필요한 Gradle 종속성 파일이 자동으로 다운로드됩니다.
+    - Android Studio를 열고 `File > Open`을 통해 클론한 프로젝트를 선택합니다.
+    - 필요한 Gradle 종속성 파일이 자동으로 다운로드됩니다.
 
 4. **Gradle 파일 동기화**
-   - `build.gradle` 파일과 함께 필요한 플러그인 및 종속성을 동기화합니다.
-   - 동기화 과정에서 문제가 발생하면 Android SDK와 JDK 버전을 확인하고, 요구 사항에 맞게 설정합니다.
+    - `build.gradle` 파일과 함께 필요한 플러그인 및 종속성을 동기화합니다.
+    - 동기화 과정에서 문제가 발생하면 Android SDK와 JDK 버전을 확인하고, 요구 사항에 맞게 설정합니다.
 
 5. **프로젝트 빌드 및 실행**
-   - Android Studio의 `Run` 버튼을 클릭하여 프로젝트를 빌드하고 실행합니다.
-   - **에뮬레이터** 또는 **실제 기기**에서 테스트할 수 있습니다.
-
-# 🗂️ 프로젝트 구조
-
-프로젝트는 다음과 같은 구조로 구성되어 있습니다:
-
-- **ViewModel**: 비즈니스 로직을 처리하고 UI와 데이터를 연결하는 역할을 합니다.
-- **UI (Activity/Fragment)**: 사용자 인터페이스를 담당하며, 사용자의 상호작용을 처리합니다.
-- **Repository**: 데이터 관리를 책임지며, **[🚀 네트워크 요청](./app/src/main/java/com/withpet/mobile/data/api/NetworkService.kt)** 및 로컬 데이터 접근을 통합합니다.
-- **Custom UI Components**: 사용자 경험을 향상시키기 위해 직접 제작한 커스텀 뷰들이 포함되어 있습니다. 주요 커스텀 요소는 다음과 같습니다:
-  - **[🚀 CustomEditText](./app/src/main/java/com/withpet/mobile/ui/custom/CustomEditText.kt) ↔ [🚀 CustomInput](./app/src/main/java/com/withpet/mobile/ui/custom/CustomInput.kt)**: 사용자 입력을 위한 커스텀 위젯
-  - **[🚀 CustomOption](./app/src/main/java/com/withpet/mobile/ui/custom/CustomOption.kt) ↔ [🚀 CustomSelect](./app/src/main/java/com/withpet/mobile/ui/custom/CustomSelect.kt)**: 콤보 박스 역할을 하는 커스텀 선택 위젯
-  - **CustomAlert**, **CustomSnackBar**: 사용자에게 알림을 제공하는 커스텀 컴포넌트
-  - **LoadingDialog** : 사용자에게 로딩 상태를 표시하는 다이얼로그
+    - Android Studio의 `Run` 버튼을 클릭하여 프로젝트를 빌드하고 실행합니다.
+    - **에뮬레이터** 또는 **실제 기기**에서 테스트할 수 있습니다.
 
 
 # 🚧 기획되었지만 구현되지 않은 기능들
